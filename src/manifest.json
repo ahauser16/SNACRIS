@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Notarious Chrome Extension",
+  "name": "snACRIS",
   "description": "A chrome extension built with React 17, Webpack 5, and Webpack Dev Server 4",
   "options_page": "options.html",
   "background": {
@@ -45,5 +45,7 @@
       "matches": []
     }
   ],
-  "permissions": ["sidePanel"]
+  "permissions": [
+    "sidePanel"
+  ]
 }

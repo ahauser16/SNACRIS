@@ -1,6 +1,11 @@
 ## Table of Contents
 
-- [Notarious Chrome Extension](#notarious-chrome-extension)
+- [SNACRIS Chrome Extension](#snacris-chrome-extension)
+  - [NYC OPENDATA: ACRIS DATASETS](#nyc-opendata-acris-datasets)
+    - [I. Real Property Records comprise of the following five datasets:](#i-real-property-records-comprise-of-the-following-five-datasets)
+    - [II. Personal Property Records comprise of the following five datasets:](#ii-personal-property-records-comprise-of-the-following-five-datasets)
+    - [III. CODE MAPPINGS](#iii-code-mappings)
+    - [NYC OpenData API Key, Token and Making Requests](#nyc-opendata-api-key-token-and-making-requests)
 - [Project Overview](#project-overview)
   - [Working with React and Chrome Extension Architecture](#working-with-react-and-chrome-extension-architecture)
   - [Working with Webpack and `webpack.config.js`](#working-with-webpack-and-webpackconfigjs)
@@ -19,9 +24,220 @@
   - [Development Workflow](#development-workflow)
 - [IV `src/containers/`](#iv-srccontainers)
 
-# Notarious Chrome Extension
+# SNACRIS Chrome Extension
 
 This project uses the template provided by lxieyang which is located here: (https://github.com/lxieyang/chrome-extension-boilerplate-react)[https://github.com/lxieyang/chrome-extension-boilerplate-react]
+
+## NYC OPENDATA: ACRIS DATASETS
+
+**ACRIS has two types of documents:**
+Real Property Records:- include documents in the Deeds and Other Conveyances, Mortgages & Instruments and Other Documents classes in ACRIS. These documents typically impact rights to real property and as such follow the real property rather than an individual.
+
+**Personal Property Records:**
+Includes documents in the UCC and Federal Liens class in ACRIS. These documents typically impact rights to personal property associated with real property and as such follow the individual party rather than the real property.
+
+**Each Real Property Record or Personal Property Record contains:**
+  - A master record 
+  - Zero or more lot(property) records
+  - Zero or more party records
+  - Zero or more cross-reference records
+  - Zero or more remarks records
+
+The “Document ID” in the master record is used to link all other record types to a master record.  To find all of the lot (property) records associated with a master record, simply retrieve all records in the property dataset with the same “Document ID” as the selected master record.  The same process should be repeated for Party, Cross Reference and Remark records.
+
+![ACRIS ERD](src/assets/readme_assets/ACRIS-ERD.png)
+
+- The "1" indicates that each instance of the parent entity is related to exactly one instance of the child entity.  
+- The "0...n" indicates that each instance of the child entity can be related to zero or more instances of the parent entity.
+- In summary, the relationship is a one-to-many relationship where:
+  - One instance of the parent entity can be associated with zero or more instances of the child entities.
+  - Each instance of the child entity is associated with exactly one instance of the parent entity.
+  - This means that the parent entity is the "one" side of the relationship, and the child entities are on the "many" side.
+
+### I. Real Property Records comprise of the following five datasets:
+
+| Record Type            | Dataset Title                   | Dataset URL                                                                 | Dataset Description                                                        |
+|------------------------|---------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| Master record          | ACRIS - Real Property Master    | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Master/bnx9-e6tj](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Master/bnx9-e6tj) | Document Details for Real Property Related Documents Recorded in ACRIS     |
+| Lot(property) record   | ACRIS - Real Property Legals    | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Legals/8h5j-fqxa](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Legals/8h5j-fqxa) | Property Details for Real Property Related Documents Recorded in ACRIS     |
+| Party record           | ACRIS - Real Property Parties   | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Parties/636b-3b5g](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Parties/636b-3b5g) | Party Names for Real Property Related Documents Recorded in ACRIS          |
+| Cross-reference record | ACRIS - Real Property References| [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-References/pwkr-dpni](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-References/pwkr-dpni) | Document Cross References for Real Property Related Documents Recorded in ACRIS |
+| Remarks record         | ACRIS - Real Property Remarks   | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Remarks/9p4w-7npp](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Remarks/9p4w-7npp) | Document Remarks for Real Property Related Documents Recorded in ACRIS     |
+
+### II. Personal Property Records comprise of the following five datasets:
+
+| Record Type            | Dataset Title                   | Dataset URL                                                                 | Dataset Description                                                        |
+|------------------------|---------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| Master record          | ACRIS - Personal Property Master| [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Master/sv7x-dduq](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Master/sv7x-dduq) | Document Details for Personal Property Related Documents Recorded in ACRIS |
+| Lot(property) record   | ACRIS - Personal Property Legals| [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Legals/uqqa-hym2](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Legals/uqqa-hym2) | Property Details for Personal Property Related Documents Recorded in ACRIS |
+| Party record           | ACRIS - Personal Property Parties| [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Parties/nbbg-wtuz](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Parties/nbbg-wtuz) | Party Names for Personal Property Related Documents Recorded in ACRIS      |
+| Cross-reference record | ACRIS - Personal Property References| [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-References/6y3e-jcrc](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-References/6y3e-jcrc) | Document Cross References for Personal Property Related Documents Recorded in ACRIS |
+| Remarks record         | ACRIS - Personal Property Remarks| [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Remarks/fuzi-5ks9](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Remarks/fuzi-5ks9) | Document Remarks for Personal Property Related Documents Recorded in ACRIS |
+
+### III. CODE MAPPINGS
+In ACRIS, documents are stored with codes representing longer descriptions that are displayed on images generated by ACRIS and in Document Search. The translation from these codes is done via the following code datasets:
+
+| Dataset Title                   | Dataset URL                                                                 | Dataset Description                                                                                           |
+|---------------------------------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| ACRIS - Document Control Codes  | [http://data.cityofnewyork.us/City-Government/ACRIS-Document-Control-Codes/7isb-wh4c](http://data.cityofnewyork.us/City-Government/ACRIS-Document-Control-Codes/7isb-wh4c) | ACRIS Document Type and Class Code mappings for Codes in the ACRIS Real and Personal Property Master Datasets |
+| ACRIS - UCC Collateral Codes    | [http://data.cityofnewyork.us/City-Government/ACRIS-Country-Codes/j2iz-mwzu](http://data.cityofnewyork.us/City-Government/ACRIS-Country-Codes/j2iz-mwzu) | ACRIS Collateral Type mapping for Codes in the ACRIS Personal Property Master Dataset                         |
+| ACRIS - Property Types Codes    | [http://data.cityofnewyork.us/City-Government/ACRIS-Property-Types-Codes/94g4-w6xz](http://data.cityofnewyork.us/City-Government/ACRIS-Property-Types-Codes/94g4-w6xz) | ACRIS State mapping for Codes in the ACRIS Real and Personal Property Legals Datasets                         |
+| ACRIS - States Codes            | [http://data.cityofnewyork.us/City-Government/ACRIS-States-Codes/5c9e-33xj](http://data.cityofnewyork.us/City-Government/ACRIS-States-Codes/5c9e-33xj) | ACRIS State mapping for Codes in the ACRIS Real and Personal Parties Property Datasets                        |
+| ACRIS - Country Codes           | [http://data.cityofnewyork.us/City-Government/ACRIS-UCC-Collateral-Codes/q9kp-jvxv](http://data.cityofnewyork.us/City-Government/ACRIS-UCC-Collateral-Codes/q9kp-jvxv) | ACRIS Countries mapping for Codes in the ACRIS Real and Personal Parties Property Datasets                    |
+
+### NYC OpenData API Key, Token and Making Requests
+
+To structure your API requests in a Google Chrome Extension built with React JS, you can use the `fetch` API to make HTTP requests. Since you have an App token, you can include it in the request headers using the `X-App-Token` HTTP header. Below is a sample API `GET` request using the `fetch` API:
+
+1. Create a utility function for the API request:
+   - This function will handle the API request and include the necessary headers.
+
+2. Use the utility function in your React component:
+   - Call the utility function from your React component to fetch data from the API.
+
+Here is an example implementation:
+
+**Utility Function `(src/utils/api.js)`**
+```
+import secrets from 'secrets';
+
+// Define the API endpoint using the secret endpoint URL
+const API_ENDPOINT = `${secrets.REAL_PROPERTY_MASTER_ENDPOINT}.json`;
+
+// Define the application token using the secret app token
+const APP_TOKEN = secrets.appToken;
+
+// Function to build query parameters from an object
+const buildQueryParams = (params) => {
+  return Object.keys(params)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+    .join('&');
+};
+
+// Function to fetch Real Property Master Data
+export const fetchRealPropertyMasterData = async () => {
+  try {
+    // Build the query string from filters
+    const queryString = buildQueryParams(filters);
+    const url = `${API_ENDPOINT}?${queryString}`;
+
+    // Make a fetch request to the API endpoint with the app token in the headers
+    const response = await fetch(API_ENDPOINT, {
+      headers: {
+        'X-App-Token': APP_TOKEN,
+      },
+    });
+
+    // Check if the response is not OK, throw an error
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Parse the response data as JSON
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    // Log and throw the error if any occurs during the fetch
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+```
+
+**Usage Example**
+To fetch data with specific filters:
+```
+const filters = {
+  document_id: '2024061800496001',
+  record_type: 'A',
+  crfn: '2024000156993',
+  recorded_borough: 1,
+  doc_type: 'TL&R',
+  document_date: '2024-06-13T00:00:00.000',
+  document_amt: 0,
+  recorded_datetime: '2024-06-04T00:00:00.000',
+  modified_date: '2024-06-04T00:00:00.000',
+  reel_yr: 0,
+  reel_nbr: 0,
+  reel_pg: 0,
+  percent_trans: 0,
+  good_through_date: '2024-06-30T00:00:00.000'
+};
+
+fetchRealPropertyMasterData(filters)
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+```
+
+
+
+**React Component `(src/containers/ACRIS/RealPropertyMaster.jsx)`**
+```
+// src/containers/ACRIS/RealPropertyMaster.jsx
+
+import React, { useEffect, useState } from 'react';
+import { fetchRealPropertyMasterData } from '../../utils/api';
+
+const Greetings = () => {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const result = await fetchRealPropertyMasterData();
+        setData(result);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    getData();
+  }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  return (
+    <div>
+      <h1>Real Property Master Data</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+};
+
+export default Greetings;
+```
+
+**Environment Variables (.env)**
+Make sure your `.env` file contains the App token:
+```
+NYC_OPEN_DATA_SNACRIS_APP_TOKEN=HG0hmpHWykh5j0YvyITclU2wp
+```
+
+**Webpack Configuration (`webpack.config.js`)**
+Ensure your Webpack configuration is set up to handle environment variables:
+```
+// webpack.config.js
+
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+module.exports = {
+  // ... other configurations
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env),
+    }),
+  ],
+};
+```
+
+
+
 
 # Project Overview
 
@@ -494,7 +710,7 @@ This file defines the structure and permissions of your Chrome extension. It inc
 ```
 {
   "manifest_version": 3,
-  "name": "Notarious Chrome Extension",
+  "name": "SNACRIS Chrome Extension",
   "description": "A chrome extension built with React 18, Webpack 5, and Webpack Dev Server 4",
   "options_page": "options.html",
   "background": { "service_worker": "background.bundle.js" },
@@ -771,7 +987,7 @@ In this example, the background script listens for messages of type `GREETINGS` 
 
 By following these guidelines and best practices, you can effectively utilize background scripts to enhance the functionality and performance of your Chrome extension.
 
-**Notarious implementations:**
+**SNACRIS implementations:**
 
 In the context of your Chrome extension for enhancing video conference web applications, the `Background` scripts will play a crucial role in handling events and maintaining persistent tasks. Here are some types of background scripts you might consider implementing in the `Background` subfolder within the `pages` folder:
 
@@ -959,7 +1175,7 @@ document.getElementById("toggle-dark-mode").addEventListener("click", () => {
 
 Content scripts are a powerful feature of Chrome extensions that allow you to interact with and modify web pages. By following best practices and using efficient techniques, you can enhance the functionality and user experience of web pages while maintaining performance and security.
 
-**Notarious implementations:**
+**SNACRIS implementations:**
 
 For your Chrome extension that enhances video conference web applications, you should consider implementing the following types of content scripts in the `Content` subfolder within the `pages` folder:
 
@@ -1099,7 +1315,7 @@ chrome.devtools.panels.create(
 
 4. Security: Be mindful of security implications, especially if your custom panels interact with sensitive data or perform network requests.
 
-**Notarious Implementation for DevTools Related Features**
+**SNACRIS Implementation for DevTools Related Features**
 
 1. Custom Logging Panel: Create a panel that logs specific events or actions from the video conference web applications, such as user join/leave events, screen sharing status, etc.
 

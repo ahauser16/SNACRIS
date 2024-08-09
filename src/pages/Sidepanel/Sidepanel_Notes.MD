@@ -15,7 +15,7 @@ The first instruction from the docs is to add the "sidePanel" permission to the 
 ```
 {
   "manifest_version": 3,
-  "name": "Notarious Chrome Extension",
+  "name": "SNACRIS Chrome Extension",
   "description": "A chrome extension built with React 17, Webpack 5, and Webpack Dev Server 4",
   "options_page": "options.html",
   "background": {
