@@ -11,10 +11,10 @@ const API_ENDPOINTS = {
     personalPropertyReferences: 'https://data.cityofnewyork.us/resource/6y3e-jcrc.json',
     personalPropertyRemarks: 'https://data.cityofnewyork.us/resource/fuzi-5ks9.json',
     documentControlCodes: 'https://data.cityofnewyork.us/resource/7isb-wh4c.json',
-    uccCollateralCodes: 'https://data.cityofnewyork.us/resource/j2iz-mwzu.json',
+    uccCollateralCodes: 'https://data.cityofnewyork.us/resource/q9kp-jvxv.json',
     propertyTypesCodes: 'https://data.cityofnewyork.us/resource/94g4-w6xz.json',
     statesCodes: 'https://data.cityofnewyork.us/resource/5c9e-33xj.json',
-    countryCodes: 'https://data.cityofnewyork.us/resource/q9kp-jvxv.json',
+    countryCodes: 'https://data.cityofnewyork.us/resource/j2iz-mwzu.json',
   };
   
   export default API_ENDPOINTS;

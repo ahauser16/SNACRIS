@@ -1,16 +1,19 @@
 /* src/pages/Popup/Popup.css */
 .popup-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* padding: 10px; */
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  text-align: center;
+  padding: 10px;
+  height: 100%;
   background-color: whitesmoke;
   color: #282c34;
-  width: 100%;
-  height: auto;
 }
 
 .popup-header {
+  height: 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,18 +21,15 @@
   font-size: calc(10px + 2vmin);
   color: whitesmoke;
   background-color: #282c34;
-  width: 100%;
-  /* padding: 10px; */
+
 }
 
 .popup-body{
+  height: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  /* padding: .25rem;
-  margin: .25rem; */
 }
 
 .App-link {

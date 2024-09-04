@@ -10,7 +10,7 @@ const personalPropertyMasterFields = {
     ucc_collateral: 'text',
     fedtax_serial_nbr: 'text',
     fedtax_assessment_date: 'floating_timestamp',
-    rpttl_nbr: 'text',
+    rpttl_nbr: 'number',
     modified_date: 'floating_timestamp',
     reel_yr: 'number',
     reel_nbr: 'number',

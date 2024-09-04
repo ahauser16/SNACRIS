@@ -1,5 +1,5 @@
-// src/api/realPropertyLegalFields.js
-const realPropertyLegalFields = {
+// src/api/personalPropertyLegalsFields.js
+const personalPropertyLegalsFields = {
     document_id: 'text',
     record_type: 'text',
     borough: 'number',
@@ -12,12 +12,8 @@ const realPropertyLegalFields = {
     property_type: 'text',
     street_number: 'text',
     street_name: 'text',
-    unit: 'text',
+    addr_unit: 'text',
     good_through_date: 'floating_timestamp',
+};
 
-  };
-  
-
-
-  
-  export default realPropertyLegalFields;
+export default personalPropertyLegalsFields;

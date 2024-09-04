@@ -1,0 +1,64 @@
+/* src/components/DisplayApiDataTable/DisplayApiDataTable.css */
+/* color: whitesmoke;
+background-color: #282c34; */
+.api-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    /* border: 1px solid red;
+    background-color: blue;
+    color: red; */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-align: left;
+    margin: 20px 0;
+    table-layout: auto;
+    caption-side: top;
+    empty-cells: show;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.api-table thead {
+    background-color: #282c34;
+    color: whitesmoke;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 2px solid #0e1013;
+}
+
+.api-table tr {
+    border-bottom: 1px solid red;
+    background-color: #282c34;
+    color: whitesmoke;
+    transition: background-color 0.3s ease;
+}
+
+.api-table tr:hover {
+    background-color: red;
+    color: blue;
+}
+
+.api-table th, .api-table td {
+    padding: 10px;
+    border: 1px solid #282c34;
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.api-table th {
+    background-color: #282c34;
+    color: whitesmoke;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.api-table td {
+    background-color: whitesmoke ;
+    color: #282c34;
+    font-weight: normal;
+}

@@ -1,0 +1,38 @@
+form-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: .25rem;
+    margin: .25rem;
+}
+
+h2{
+    margin-left: .25rem;
+}
+
+h3{
+    margin-left: .25rem;
+}
+
+label{
+    margin-left: .25rem;
+    margin-right: .25rem;
+    font-size: .85rem;
+}
+
+button{
+    margin: .75rem;
+    padding: .25rem;
+    border-radius: 5px;
+    background-color: #282c34;
+    color: whitesmoke;
+    font-size: .85rem;
+}
