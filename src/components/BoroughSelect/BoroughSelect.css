@@ -1,0 +1,8 @@
+.borough-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .borough-checkboxes > div {
+    margin-right: 10px;
+  }

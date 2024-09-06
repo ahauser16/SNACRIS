@@ -1,8 +1,6 @@
 // src/pages/Popup/Popup.jsx
 import React from 'react';
-// import SearchByDocIdForm from '../../components/SearchByDocIdForm/SearchByDocIdForm';
-// import SearchByPartyNameForm from '../../components/SearchByPartyNameForm/SearchByPartyNameForm';
-import FormTableContainer from '../../components/FormTableContainer/FormTableContainer';
+import SidePanelBtn from '../../components/Buttons/SidePanelBtn';
 import './Popup.css';
 
 const Popup = () => {
@@ -12,9 +10,7 @@ const Popup = () => {
         <h1>Welcome to SNACRIS</h1>
       </header>
       <body className="popup-body">
-        {/* <SearchByDocIdForm />
-        <SearchByPartyNameForm /> */}
-        <FormTableContainer />
+        <SidePanelBtn />
       </body>
     </div>
   );

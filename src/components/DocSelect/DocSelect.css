@@ -1,0 +1,48 @@
+.doc-select-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Allow it to grow and take available space */
+    overflow: auto; /* Make it scrollable if content overflows */
+}
+
+.doc-group {
+    margin-bottom: 20px;
+}
+
+.doc-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.doc-group-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.doc-group-table th,
+.doc-group-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.doc-checkbox {
+    margin: 5px;
+}
+
+.doc-details {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .doc-group-table .party1,
+    .doc-group-table .party2 {
+        display: none;
+    }
+}

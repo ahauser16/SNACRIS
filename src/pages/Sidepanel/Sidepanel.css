@@ -1,5 +1,6 @@
 .SidepanelContainer {
-  background-color: lightblue;
-  height: 100vh;
   display: flex;
+  flex-direction: column;
+  height: auto;
+  overflow: auto;
 }

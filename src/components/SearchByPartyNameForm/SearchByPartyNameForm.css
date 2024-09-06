@@ -1,0 +1,15 @@
+.form-container{
+    background-color: var(--color1);
+    border: 1px solid whitesmoke;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.form-container form {
+    position: relative;
+    display:flex;
+    flex-direction: column;
+    background-color: cornflowerblue;
+}

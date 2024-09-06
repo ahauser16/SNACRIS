@@ -1,6 +1,7 @@
 // src/pages/Sidepanel/Sidepanel.tsx
 import React from 'react';
 import './Sidepanel.css';
+import SidepanelMenu from '../../components/SidepanelMenu/SidepanelMenu';
 
 
 interface Props {
@@ -10,7 +11,8 @@ interface Props {
 const Sidepanel: React.FC<Props> = ({ title }: Props) => {
   return (
     <div className="SidepanelContainer">
-      <h1>{title} Page</h1>
+      {/* <h1>SNACRIS {title}</h1> */}
+      <SidepanelMenu />
     </div>
   );
 };

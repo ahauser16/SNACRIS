@@ -36,6 +36,10 @@ const buildSoQLQuery = (soql, fields, searchType) => {
       if (searchType === 'partial') {
         return `UPPER(${key}) LIKE UPPER('%${soql[key]}%')`;
       }
+      if (key === 'document_date_start' || key === 'document_date_end') {
+        const dateField = key === 'document_date_start' ? 'document_date >= ' : 'document_date <= ';
+        return `${dateField}'${soql[key]}'`;
+      }
       return `UPPER(${key})=UPPER('${soql[key]}')`;
     })
     .join(' AND ');

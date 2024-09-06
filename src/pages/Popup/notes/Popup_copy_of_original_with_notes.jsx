@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../../assets/img/logo.svg';
-import SidePanelBtn from '../Sidepanel/SidePanelBtn';
-import SearchByDocIdForm from '../../components/SearchByDocIdForm/SearchByDocIdForm';
+import SidePanelBtn from '../../Sidepanel/SidePanelBtn';
+import SearchByDocIdForm from '../../../components/SearchByDocIdForm/SearchByDocIdForm';
 
 import './Popup.css';
 

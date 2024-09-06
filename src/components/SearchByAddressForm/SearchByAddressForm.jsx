@@ -1,8 +1,8 @@
-// src/components/SearchByDocIdForm/SearchByDocIdForm.jsx
+// src/components/SearchByAddressForm/SearchByAddressForm.jsx
 import React, { useState } from 'react';
 import { fetchRealPropertyMasterData } from '../../api/api';
 
-const SearchByDocIdForm = ({ setData, setError, colorClass }) => {
+const SearchByAddressForm = ({ setData, setError, colorClass }) => {
   const [soql, setSoql] = useState({
     document_id: '',
   });
@@ -52,4 +52,4 @@ const SearchByDocIdForm = ({ setData, setError, colorClass }) => {
   );
 };
 
-export default SearchByDocIdForm;
+export default SearchByAddressForm;
