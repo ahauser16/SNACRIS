@@ -20,3 +20,6 @@ const PartySelect = ({ selectedPartyType, setSelectedPartyType }) => {
 };
 
 export default PartySelect;
+
+// This component handles the selection of the party type.
+// It updates the `selectedPartyType` state in `SearchByPartyNameForm` and subsequently updates the `soql` state via the `handlePartySelect` function.

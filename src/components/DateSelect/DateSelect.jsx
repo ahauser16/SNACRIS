@@ -97,3 +97,6 @@ const DateSelect = ({ soql, setSoql, handleChange }) => {
 };
 
 export default DateSelect;
+
+// This component handles the selection of date fields and date ranges.
+// It updates the `soql` state in `SearchByPartyNameForm` via the `handleChange` function.

@@ -29,22 +29,53 @@ const RPMqueryBuilder = (soql = {}, endpoint, fields, searchType = 'exact') => {
 };
 
 // Helper function to build SoQL query parameters
-const buildSoQLQuery = (soql, fields, searchType) => {
+const buildSoQLQuery = (soql, fields, searchTypes) => {
   const whereClauses = Object.keys(soql)
-    .filter(key => fields[key])
+    .filter(key => fields[key] && soql[key]) // Ensure the field is defined and not empty
     .map(key => {
-      if (searchType === 'partial') {
-        return `UPPER(${key}) LIKE UPPER('%${soql[key]}%')`;
+      if (key === 'name') {
+        return buildSoQLpartyName(soql[key], searchTypes);
       }
-      if (key === 'document_date_start' || key === 'document_date_end') {
-        const dateField = key === 'document_date_start' ? 'document_date >= ' : 'document_date <= ';
-        return `${dateField}'${soql[key]}'`;
-      }
-      return `UPPER(${key})=UPPER('${soql[key]}')`;
+      return buildSoQLFieldQuery(key, soql[key], searchTypes);
     })
     .join(' AND ');
 
   return `$where=${encodeURIComponent(whereClauses)}`;
+};
+
+// Function to build SoQL query for the party name field
+const buildSoQLpartyName = (value, searchTypes) => {
+  return searchTypes.map(searchType => buildSoQLFieldQuery('name', value, searchType)).join(' AND ');
+};
+
+// Function to build SoQL query for a generic field
+const buildSoQLFieldQuery = (key, value, searchTypes) => {
+  return searchTypes.map(searchType => {
+    switch (searchType) {
+      case 'partial':
+        return `UPPER(${key}) LIKE UPPER('%${value}%')`;
+      case 'startsWith':
+        return `UPPER(${key}) LIKE UPPER('${value}%')`;
+      case 'endsWith':
+        return `UPPER(${key}) LIKE UPPER('%${value}')`;
+      case 'wildcard':
+        return `UPPER(${key}) LIKE UPPER('${value}')`;
+      case 'boolean':
+        // Assuming value contains the boolean expression
+        return `UPPER(${key}) LIKE UPPER('${value}')`;
+      case 'proximity':
+        // Assuming value contains the proximity terms
+        return `UPPER(${key}) LIKE UPPER('%${value.split(' ').join('%')}%')`;
+      case 'exclude':
+        return `UPPER(${key}) NOT LIKE UPPER('%${value}%')`;
+      case 'document_date_start':
+        return `document_date >= '${value}'`;
+      case 'document_date_end':
+        return `document_date <= '${value}'`;
+      default:
+        return `UPPER(${key})=UPPER('${value}')`;
+    }
+  }).join(' AND ');
 };
 
 // Function to fetch data using the constructed query URL

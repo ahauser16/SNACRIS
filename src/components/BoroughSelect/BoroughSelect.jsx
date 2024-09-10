@@ -45,3 +45,6 @@ const BoroughSelect = ({ selectedBoroughs, setSelectedBoroughs }) => {
 };
 
 export default BoroughSelect;
+
+// This component handles the selection of boroughs.
+// It updates the `selectedBoroughs` state in `SearchByPartyNameForm` and subsequently updates the `soql` state via the `handleBoroughChange` function.

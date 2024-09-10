@@ -121,16 +121,11 @@ const DocSelect = ({ setSelectedDocTypes }) => {
                     )}
                 </div>
             ))}
-            {/* {docDetails && (
-                <div className="doc-details">
-                    <p>Doc Code: {docDetails.doc__type}</p>
-                    <p>Class Code Description: {docDetails.class_code_description}</p>
-                    <p>Party 1 Type: {docDetails.party1_type}</p>
-                    <p>Party 2 Type: {docDetails.party2_type}</p>
-                </div>
-            )} */}
         </div>
     );
 };
 
 export default DocSelect;
+
+// This component handles the selection of document types.
+// It updates the `selectedDocTypes` state in `SearchByPartyNameForm`.
