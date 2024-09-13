@@ -1,0 +1,60 @@
+/* src/components/PartyNameSearch/PartyNameSearch.css */
+.PartyNameSearch-container{
+    border: 1px solid red;
+    margin: 1rem;
+}
+
+.initial-query{
+    border: 1px solid green;
+    margin: 1rem;
+}
+
+.formatted-query-container {
+    display: inline-flex;
+    align-items: center;
+    margin: 1rem;
+    border: 1px solid lightblue;
+  }
+  
+  .formatted-query-label {
+    /* margin-right: 5px; */
+    font-weight: bold;
+  }
+  
+  .formatted-query {
+    margin: 1rem;
+  }
+  
+  .formatted-query-container button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+  }
+
+  .formatted-boolean-container {
+    display: inline-flex;
+    align-items: center;
+    margin: 1rem;
+    border: 1px solid yellow;
+  }
+  
+  .formatted-boolean-label {
+    /* margin-right: 5px; */
+    font-weight: bold;
+  }
+  
+  .formatted-boolean {
+    /* margin-right: 10px; */
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }

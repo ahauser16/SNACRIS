@@ -16,7 +16,7 @@ const sections = [
   { label: 'Document Type', colorClass: 'color3', letter: 'DT', component: SearchByDocTypeForm },
   { label: 'Doc ID & CRFN', colorClass: 'color4', letter: 'DC', component: SearchByDocId_CRFNform },
   { label: 'Transaction Num', colorClass: 'color5', letter: 'TN', component: SearchByTransNumForm },
-  { label: 'UCC & Fed Lien File Num', colorClass: 'color6', letter: 'FN', component: SearchByUCC_FedLienFileNumForm },
+  { label: 'UCC & Lien', colorClass: 'color6', letter: 'FN', component: SearchByUCC_FedLienFileNumForm },
   { label: 'Reel & Page', colorClass: 'color7', letter: 'RP', component: SearchByReelPageForm },
 ];
 

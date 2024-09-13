@@ -1,9 +1,9 @@
-// src/components/DisplayApiDataTable.jsx
 import React from 'react';
 import './DisplayApiDataTable.css';
 
 const DisplayApiDataTable = ({ data, error }) => {
     if (error) {
+        console.log(error);
         return <p>No data available</p>;
     }
 
@@ -17,18 +17,16 @@ const DisplayApiDataTable = ({ data, error }) => {
         <table className="api-table">
             <thead>
                 <tr>
-                    <th>Field Name</th>
-                    {data.map((_, index) => (
-                        <th key={index}>Field Value</th>
+                    {headers.map((header) => (
+                        <th key={header}>{header}</th>
                     ))}
                 </tr>
             </thead>
             <tbody>
-                {headers.map((header) => (
-                    <tr key={header}>
-                        <td>{header}</td>
-                        {data.map((row, index) => (
-                            <td key={index}>{row[header]}</td>
+                {data.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                        {headers.map((header) => (
+                            <td key={header}>{row[header]}</td>
                         ))}
                     </tr>
                 ))}

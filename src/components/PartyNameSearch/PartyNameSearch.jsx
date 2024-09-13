@@ -1,144 +1,103 @@
 // src/components/PartyNameSearch/PartyNameSearch.jsx
-// src/components/PartyNameSearch/PartyNameSearch.jsx
 import React, { useState } from 'react';
+import './PartyNameSearch.css';
 
-const PartyNameSearch = ({ searchTypes, setSearchTypes, soql, handlePartyName }) => {
-  const [queries, setQueries] = useState([]);
+const PartyNameSearch = ({ soql, queries = [], handlePartyName, handleAddQuery, handleResetQueries }) => {
   const [currentQuery, setCurrentQuery] = useState('');
-
-  const handleSearchTypeChange = (e) => {
-    const { value, checked } = e.target;
-    setSearchTypes((prevSearchTypes) =>
-      checked ? [...prevSearchTypes, value] : prevSearchTypes.filter((type) => type !== value)
-    );
-  };
-
-  const handleAddQuery = () => {
-    if (currentQuery) {
-      setQueries([...queries, currentQuery]);
-      setCurrentQuery('');
-    }
-  };
+  const [searchType, setSearchType] = useState('startsWith');
+  const [booleanOperator, setBooleanOperator] = useState('AND');
 
   const handleCurrentQueryChange = (e) => {
     setCurrentQuery(e.target.value);
   };
 
-  const isExactSelected = searchTypes.includes('exact');
+  const handleSearchTypeChange = (e) => {
+    setSearchType(e.target.value);
+  };
+
+  const handleBooleanOperatorChange = (e) => {
+    setBooleanOperator(e.target.value);
+  };
+
+  const handleAddCondition = () => {
+    if (currentQuery) {
+      const query = { searchType, query: currentQuery };
+      console.log('Adding query:', query); // Add this line
+      handleAddQuery({ query, booleanOperator });
+      setCurrentQuery('');
+    }
+  };
+
+  const handleRemoveQuery = (index) => {
+    const newQueries = queries.filter((_, i) => i !== index);
+    handleResetQueries(newQueries);
+  };
+
+  const formatQuery = (query) => {
+    const searchTypeMap = {
+      startsWith: 'Starts with',
+      endsWith: 'Ends with',
+      contains: 'Contains',
+      exclude: 'Exclude',
+    };
+    return `${searchTypeMap[query.query.searchType]} '${query.query.query}'`;
+  };
 
   return (
-    <div>
+    <div className="PartyNameSearch-container">
       <div>
-        <label>
-          <input
-            type="checkbox"
-            value="exact"
-            checked={isExactSelected}
-            onChange={handleSearchTypeChange}
-          />
-          Exact Text Search
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="partial"
-            checked={searchTypes.includes('partial')}
-            onChange={handleSearchTypeChange}
-            disabled={isExactSelected}
-          />
-          Partial Text Search
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="startsWith"
-            checked={searchTypes.includes('startsWith')}
-            onChange={handleSearchTypeChange}
-            disabled={isExactSelected}
-          />
-          Starts With
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="endsWith"
-            checked={searchTypes.includes('endsWith')}
-            onChange={handleSearchTypeChange}
-            disabled={isExactSelected}
-          />
-          Ends With
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="wildcard"
-            checked={searchTypes.includes('wildcard')}
-            onChange={handleSearchTypeChange}
-            disabled={isExactSelected}
-          />
-          Wildcard
-        </label>
-        <label>
-          <select
-            value={searchTypes.includes('boolean') ? 'boolean' : ''}
-            onChange={handleSearchTypeChange}
-            disabled={isExactSelected}
-          >
-            <option value="">Select Boolean</option>
-            <option value="AND">AND</option>
-            <option value="OR">OR</option>
-            <option value="NOT">NOT</option>
-          </select>
-          Boolean
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="proximity"
-            checked={searchTypes.includes('proximity')}
-            onChange={handleSearchTypeChange}
-            disabled={isExactSelected}
-          />
-          Proximity
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="exclude"
-            checked={searchTypes.includes('exclude')}
-            onChange={handleSearchTypeChange}
-            disabled={isExactSelected}
-          />
-          Exclude
-        </label>
+        <label>Search Type:</label>
+        <select value={searchType} onChange={handleSearchTypeChange}>
+          <option value="startsWith">Starts With</option>
+          <option value="endsWith">Ends With</option>
+          <option value="contains">Contains</option>
+          <option value="exclude">Exclude</option>
+        </select>
       </div>
       <div>
         <label>Party Name:</label>
         <input
           type="text"
           name="name"
-          value={soql.name}
-          onChange={handlePartyName}
+          value={currentQuery}
+          onChange={handleCurrentQueryChange}
         />
-        <button type="button" onClick={handleAddQuery}>ADD</button>
+        <button type="button" onClick={handleAddCondition}>ADD CONDITION</button>
+      </div>
+      <div>
+        <label>Boolean Operator:</label>
+        <select value={booleanOperator} onChange={handleBooleanOperatorChange}>
+          <option value="AND">AND</option>
+          <option value="OR">OR</option>
+        </select>
       </div>
       <div className="initial-query">
-        {queries.map((query, index) => (
-          <div key={index}>{query}</div>
+        {Array.isArray(queries) && queries.map((query, index) => (
+          <div key={index} className="formatted-query-container">
+            {index > 0 && (
+              <div className="formatted-boolean-container">
+                <label className="formatted-boolean-label visually-hidden" id={`boolean-label-${index}`}>
+                  Boolean Operator:
+                </label>
+                <p className="formatted-boolean" aria-labelledby={`boolean-label-${index}`}>
+                  {query.booleanOperator}
+                </p>
+              </div>
+            )}
+            <label className="formatted-query-label visually-hidden" id={`query-label-${index}`}>
+              Query:
+            </label>
+            <p className="formatted-query" aria-labelledby={`query-label-${index}`}>
+              {formatQuery(query)}
+            </p>
+            <button type="button" onClick={() => handleRemoveQuery(index)}>X</button>
+          </div>
         ))}
       </div>
+      <button type="button" onClick={() => handleResetQueries([])}>RESET</button>
+      <button type="button" onClick={() => handleResetQueries([])}>SAVE THIS Party Name SEARCH</button>
     </div>
   );
 };
 
 export default PartyNameSearch;
-
-// This component handles the input for the party name and search type (exact or partial).
-// It updates the `soql` state in `SearchByPartyNameForm` via the `handleChange` function.
-
-// Explanation:
-// Disabling Inputs: The isExactSelected variable checks if "exact" is selected. If it is, other input fields are disabled using the disabled attribute.
-// Dropdown for Boolean: The "boolean" input is changed to a select dropdown menu with options for "AND", "OR", and "NOT".
-// Initial Query Display: A div with className "initial-query" is added to display the user's search queries.
-// Add Button: An "ADD" button is added to append the current search query to the "initial-query" div. The handleAddQuery function handles this logic.
-// This refactor ensures that the component behaves as described, allowing users to construct complex search queries interactively.

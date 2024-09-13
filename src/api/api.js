@@ -17,68 +17,45 @@ import uccCollateralCodesFields from './uccCollateralCodesFields';
 import stateCodesFields from './stateCodesFields';
 import API_ENDPOINTS from './apiEndpoints';
 
-//Socrata's explanation of the App Token: https://dev.socrata.com/foundry/data.cityofnewyork.us/7isb-wh4c
 const APP_TOKEN = secrets.appToken;
 
-// Function to build the complete query URL
-const RPMqueryBuilder = (soql = {}, endpoint, fields, searchType = 'exact') => {
-  const soqlQuery = buildSoQLQuery(soql, fields, searchType);
+const RPMqueryBuilder = (soql = {}, endpoint, fields) => {
+  const soqlQuery = buildSoQLQuery(soql, fields);
   const url = `${endpoint}?${soqlQuery}`;
-  console.log('Constructed URL:', url); // Log the constructed URL
+  console.log('Constructed URL:', url);
   return url;
 };
 
-// Helper function to build SoQL query parameters
-const buildSoQLQuery = (soql, fields, searchTypes) => {
-  const whereClauses = Object.keys(soql)
-    .filter(key => fields[key] && soql[key]) // Ensure the field is defined and not empty
-    .map(key => {
-      if (key === 'name') {
-        return buildSoQLpartyName(soql[key], searchTypes);
-      }
-      return buildSoQLFieldQuery(key, soql[key], searchTypes);
-    })
-    .join(' AND ');
+const buildSoQLQuery = (soql, fields) => {
+  if (!soql.queries || soql.queries.length === 0) {
+    return '';
+  }
+
+  const whereClauses = soql.queries.map((query, index) => {
+    const { query: condition, booleanOperator } = query;
+    const clause = `${index > 0 ? booleanOperator : ''} ${buildSoQLFieldQuery('name', condition)}`;
+    console.log('Constructed clause:', clause);
+    return clause.trim();
+  }).join(' ');
 
   return `$where=${encodeURIComponent(whereClauses)}`;
 };
 
-// Function to build SoQL query for the party name field
-const buildSoQLpartyName = (value, searchTypes) => {
-  return searchTypes.map(searchType => buildSoQLFieldQuery('name', value, searchType)).join(' AND ');
+const buildSoQLFieldQuery = (key, value) => {
+  switch (value.searchType) {
+    case 'startsWith':
+      return `UPPER(${key}) LIKE UPPER('${value.query}%')`;
+    case 'endsWith':
+      return `UPPER(${key}) LIKE UPPER('%${value.query}')`;
+    case 'contains':
+      return `UPPER(${key}) LIKE UPPER('%${value.query}%')`;
+    case 'exclude':
+      return `UPPER(${key}) NOT LIKE UPPER('%${value.query}%')`;
+    default:
+      return `UPPER(${key})=UPPER('${value.query}')`;
+  }
 };
 
-// Function to build SoQL query for a generic field
-const buildSoQLFieldQuery = (key, value, searchTypes) => {
-  return searchTypes.map(searchType => {
-    switch (searchType) {
-      case 'partial':
-        return `UPPER(${key}) LIKE UPPER('%${value}%')`;
-      case 'startsWith':
-        return `UPPER(${key}) LIKE UPPER('${value}%')`;
-      case 'endsWith':
-        return `UPPER(${key}) LIKE UPPER('%${value}')`;
-      case 'wildcard':
-        return `UPPER(${key}) LIKE UPPER('${value}')`;
-      case 'boolean':
-        // Assuming value contains the boolean expression
-        return `UPPER(${key}) LIKE UPPER('${value}')`;
-      case 'proximity':
-        // Assuming value contains the proximity terms
-        return `UPPER(${key}) LIKE UPPER('%${value.split(' ').join('%')}%')`;
-      case 'exclude':
-        return `UPPER(${key}) NOT LIKE UPPER('%${value}%')`;
-      case 'document_date_start':
-        return `document_date >= '${value}'`;
-      case 'document_date_end':
-        return `document_date <= '${value}'`;
-      default:
-        return `UPPER(${key})=UPPER('${value}')`;
-    }
-  }).join(' AND ');
-};
-
-// Function to fetch data using the constructed query URL
 const fetchData = async (url) => {
   try {
     const response = await axios.get(url, {
@@ -87,27 +64,29 @@ const fetchData = async (url) => {
         'X-App-Token': APP_TOKEN,
       },
     });
-    console.log('API response:', response); // Log the API response
+    console.log('API response:', response);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error); // Log the error object
+    console.error('Error fetching data:', error);
     throw error;
   }
 };
 
-
-export const fetchRealPropertyMasterData = (soql, searchType) => {
-  const url = RPMqueryBuilder(soql, API_ENDPOINTS.realPropertyMaster, realPropertyMasterFields, searchType);
+// refactor in progress BELOW!
+export const fetchRealPropertyMasterData = (soql) => {
+  const url = RPMqueryBuilder(soql, API_ENDPOINTS.realPropertyMaster, realPropertyMasterFields);
   return fetchData(url);
 };
+
+export const fetchRealPropertyPartiesData = (soql) => {
+  const url = RPMqueryBuilder(soql, API_ENDPOINTS.realPropertyParties, realPropertyPartiesFields);
+  return fetchData(url);
+};
+// refactor in progress ABOVE!
+
 
 export const fetchRealPropertyLegalsData = (soql, searchType) => {
   const url = RPMqueryBuilder(soql, API_ENDPOINTS.realPropertyLegals, realPropertyLegalFields, searchType);
-  return fetchData(url);
-};
-
-export const fetchRealPropertyPartiesData = (soql, searchType) => {
-  const url = RPMqueryBuilder(soql, API_ENDPOINTS.realPropertyParties, realPropertyPartiesFields, searchType);
   return fetchData(url);
 };
 

@@ -1,4 +1,3 @@
-// src/components/SearchByPartyNameForm/SearchByPartyNameForm.jsx
 import React, { useState } from 'react';
 import {
   fetchRealPropertyPartiesData,
@@ -16,7 +15,6 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
   const [selectedBoroughs, setSelectedBoroughs] = useState([]);
   const [selectedPartyType, setSelectedPartyType] = useState('');
   const [selectedDocTypes, setSelectedDocTypes] = useState([]);
-
   const [soql, setSoql] = useState({
     name: '',
     party_type: '',
@@ -25,7 +23,7 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
     borough: [],
     doc_type: '',
   });
-  const [searchTypes, setSearchTypes] = useState(['exact']);
+  const [queries, setQueries] = useState([]);
 
   const handlePartyName = (e) => {
     const { name, value } = e.target;
@@ -41,10 +39,6 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
       ...prevSoql,
       borough: selectedBoroughs,
     }));
-  };
-
-  const handleSearchTypeChange = (e) => {
-    setSearchTypes(e.target.value);
   };
 
   const handlePartySelect = (value) => {
@@ -63,43 +57,37 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
     }));
   };
 
+  const handleAddQuery = (query) => {
+    setQueries((prevQueries) => [...prevQueries, query]);
+  };
+
+  const handleResetQueries = (newQueries = []) => {
+    setQueries(newQueries);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting with SoQL:', soql, 'Search Types:', searchTypes); // Log the SoQL object and search types
-    
-    const fetchFunctions = [];
-
-    if (soql.name) {
-      fetchFunctions.push(fetchRealPropertyPartiesData(soql, searchTypes));
-    }
-    //`party_type` is a field in the `real_property_parties` table
-    if (soql.party_type) {
-      fetchFunctions.push(fetchRealPropertyPartiesData(soql, searchTypes));
-    }
-    //`document_date_start` and `document_date_end` can be chosen by the user to represent `document_date`, `recorded_datetime`, or `modified_datetime` fields which are in the `real_property_master` table.
-    if (soql.document_date_start || soql.document_date_end) {
-      fetchFunctions.push(fetchRealPropertyMasterData(soql, searchTypes));
-    }
-    //`borough` is a field in the `real_property_master` table represented by `recorded_borough`.  `borough` is also a field in the `real_property_legals` table represented by `borough`.
-    if (soql.borough.length > 0) {
-      fetchFunctions.push(fetchRealPropertyMasterData(soql, searchTypes));
-    }
+    console.log('Submitting with SoQL:', soql, 'Queries:', queries);
 
     try {
-      const results = await Promise.all(fetchFunctions);
-      setData(results.flat());
+      const response = await fetchRealPropertyPartiesData({ ...soql, queries });
+      setData(response);
+      setError(null); // Reset error state on successful fetch
     } catch (error) {
-      setError(error);
+      console.error('Error fetching data:', error); // Log the error
+      setError(error.message);
+      setData([]); // Clear data on error
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <PartyNameSearch
-        searchTypes={searchTypes}
-        setSearchTypes={setSearchTypes}
         soql={soql}
+        queries={queries}
         handlePartyName={handlePartyName}
+        handleAddQuery={handleAddQuery}
+        handleResetQueries={handleResetQueries}
       />
       <PartySelect
         selectedPartyType={selectedPartyType}
@@ -123,9 +111,3 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
 };
 
 export default SearchByPartyNameForm;
-
-// Current refactor of the custom form related elements: PartyNameSearch, PartySelect, DateSelect, BoroughSelect, and DocSelect components involve the following issues & improvements. 
-
-//State Updates: (1) Ensure that all components correctly update the `soql` state in `SearchByPartyNameForm` and (2) For `DocSelect`, ensure that the selected document types are reflected in the `soql` state.
-
-//Conditional Fetch Functions: Ensure that the fetch functions are conditionally included based on the filled-out fields.
