@@ -2,6 +2,7 @@
 .PartyNameSearch-container{
     border: 1px solid red;
     margin: 1rem;
+    padding: 1rem;
 }
 
 .initial-query{

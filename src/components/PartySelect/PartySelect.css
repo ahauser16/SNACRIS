@@ -1,39 +1,47 @@
-/* src/components/DocSelect/DocSelect.css */
-.doc-select-container {
+/* src/components/PartySelect/PartySelect.css */
+/* src/components/PartySelect/PartySelect.css */
+.party-select-container {
     display: flex;
     flex-direction: column;
     flex: 1; /* Allow it to grow and take available space */
     overflow: auto; /* Make it scrollable if content overflows */
+    border: 1px solid red;
+    margin: 1rem;
+    padding: 1rem;
 }
 
-.doc-group {
+.party-group {
     margin-bottom: 20px;
 }
 
-.doc-group-header {
+.party-group-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
 }
 
-.doc-group-table {
+.party-group-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.doc-group-table th,
-.doc-group-table td {
+.party-group-table > thead > tr > th {
+    font-size: 1.15rem;
+}
+
+.party-group-table th,
+.party-group-table td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
 }
 
-.doc-checkbox {
+.party-checkbox {
     margin: 5px;
 }
 
-.doc-details {
+.party-details {
     margin-top: 20px;
     border: 1px solid #ccc;
     padding: 10px;
@@ -42,8 +50,8 @@
 
 /* Responsive styles */
 @media (max-width: 600px) {
-    .doc-group-table .party1,
-    .doc-group-table .party2 {
+    .party-group-table .party1,
+    .party-group-table .party2 {
         display: none;
     }
 }

@@ -45,6 +45,7 @@ const PartyNameSearch = ({ soql, queries = [], handlePartyName, handleAddQuery, 
 
   return (
     <div className="PartyNameSearch-container">
+      <h2>Search By Party Name</h2>
       <div>
         <label>Search Type:</label>
         <select value={searchType} onChange={handleSearchTypeChange}>

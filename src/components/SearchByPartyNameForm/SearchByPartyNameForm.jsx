@@ -13,7 +13,7 @@ import './SearchByPartyNameForm.css';
 
 const SearchByPartyNameForm = ({ setData, setError }) => {
   const [selectedBoroughs, setSelectedBoroughs] = useState([]);
-  const [selectedPartyType, setSelectedPartyType] = useState('');
+  const [selectedPartyType, setSelectedPartyType] = useState([]);
   const [selectedDocTypes, setSelectedDocTypes] = useState([]);
   const [soql, setSoql] = useState({
     name: '',
@@ -91,7 +91,7 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
       />
       <PartySelect
         selectedPartyType={selectedPartyType}
-        handlePartySelect={handlePartySelect}
+        setSelectedPartyType={handlePartySelect}
       />
       <DateSelect
         soql={soql}
