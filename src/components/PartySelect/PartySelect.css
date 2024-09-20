@@ -1,61 +1,202 @@
-/* src/components/PartySelect/PartySelect.css */
-/* src/components/PartySelect/PartySelect.css */
+/* CHECKBOX RELATED CODE BELOW */
+
+/* resetting the native checkbox styling BEGINS here */
+:root {
+    --form-control-disabled: #959495;
+    --checkbox-frame-color: black;
+    --checkbox-check-color: antiquewhite;
+    --checkbox-focus-outline-color: orangered;
+    --checkbox-label-text-color: black;
+    --legend-text-color: darkred;
+    --legend-background-color: var(--legend-text-color);
+}
+
+input[type="checkbox"] {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: var(--legend-background-color);
+    /* Not removed via appearance */
+    margin: 0;
+
+    font: inherit;
+    color: var(--checkbox-frame-color);
+    /* original width & height is 1.15em */
+    width: 1.15em;
+    height: 1.15em;
+    /* width: 1.35em;
+    height: 1.85em; */
+    border: 0.15em solid var(--checkbox-frame-color);
+    /* original border-radius is .15em */
+    border-radius: 0.15em;
+
+    /* SHIELD EMBLEM border-radius: 0em 0em 0.65em 0.65em; */
+    /* top-left | top-right | bottom-right | bottom-left */
+    transform: translateY(-0.075em);
+
+    display: grid;
+    place-content: center;
+}
+
+.custom-checkbox-label {
+    margin-bottom: 1em;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    /* original width & height is 1.15em */
+    width: 0.65em;
+    height: 0.65em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--checkbox-check-color);
+    /* Windows High Contrast Mode */
+    background-color: CanvasText;
+    /* custom check mark shape below*/
+    transform-origin: bottom left;
+    /* shape of a regular CHECK within checkbox*/
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+
+    /* Crusader cross shape */
+    /* top horizontal bar */
+    /* right horizontal bar */
+    /* bottom horizontal bar */
+    /* bottom vertical bar */
+    /* left horizontal bar */
+    /* top vertical bar */
+    /* clip-path: polygon(35% 0%, 65% 0%,
+            65% 35%, 100% 35%,
+            100% 65%, 65% 65%,
+            65% 100%, 35% 100%,
+            35% 65%, 0% 65%,
+            0% 35%, 35% 35%); */
+}
+
+input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+input[type="checkbox"]:focus {
+    outline: max(2px, 0.15em) solid var(--checkbox-focus-outline-color);
+    outline-offset: max(2px, 0.15em);
+}
+
+input[type="checkbox"]:disabled {
+    /* --form-control-color: var(--form-control-disabled); */
+
+    color: var(--form-control-disabled);
+    cursor: not-allowed;
+}
+
+/* resetting the native checkbox styling ENDS here */
+
 .party-select-container {
+    background-color: lightblue;
+}
+
+/* .party-group {
     display: flex;
     flex-direction: column;
-    flex: 1; /* Allow it to grow and take available space */
-    overflow: auto; /* Make it scrollable if content overflows */
-    border: 1px solid red;
-    margin: 1rem;
-    padding: 1rem;
+  } */
+
+legend {
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--legend-text-color);
 }
 
-.party-group {
-    margin-bottom: 20px;
+.mortgages-instruments-grp {
+    border: 2px solid darkmagenta;
 }
 
-.mortgages-instruments{
-    
+.mortgages-instruments-grp legend {
+    color: darkmagenta;
 }
 
-.party-group-header {
+.ucc-fed-liens-grp {
+    border: 2px solid darkgreen;
+}
+
+.ucc-fed-liens-grp legend {
+    color: darkgreen;
+}
+
+.deeds-other-conveyances-grp {
+    border: 2px solid darkblue;
+}
+
+.deeds-other-conveyances-grp legend {
+    color: darkblue;
+}
+
+.other-documents-grp {
+    border: 2px solid darkred;
+}
+
+.other-documents-grp legend {
+    color: darkred;
+}
+
+/* .doc-and-party-container,
+  .master-checkbox-row {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+    justify-content: space-evenly;
+    font-size: 1rem;
+    border: 1px solid orangered;
+  } */
 
-.party-group-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.party-group-table > thead > tr > th {
+.master-checkbox-row {
     font-size: 1.15rem;
+    font-weight: bold;
 }
 
-.party-group-table th,
-.party-group-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
+/* custom styling BEGINS here */
+
+.custom-checkbox-label {
+    font-family: system-ui, sans-serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    line-height: 1.1;
+
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+    color: var(--checkbox-label-text-color);
 }
 
-.party-checkbox {
-    margin: 5px;
+.group-checkbox-controller-label {}
+
+.party1-checkbox-controller-label,
+.party2-checkbox-controller-label,
+.party3-checkbox-controller-label {}
+
+.doc-type-checkbox-controller-label {}
+
+.party1-checkbox-controlled-label,
+.party2-checkbox-controlled-label,
+.party3-checkbox-controlled-label {}
+
+.checkbox-controller-label {
+    width: 150px;
+    /* Set an appropriate max-width */
+    word-wrap: break-word;
+    /* Allow text to wrap onto the next line */
+    white-space: normal;
+    /* Allow normal text wrapping */
+    font-size: 0.9rem;
 }
 
-.party-details {
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
+.checkbox-controlled-label {
+    width: 150px;
+    /* Set an appropriate max-width */
+    word-wrap: break-word;
+    /* Allow text to wrap onto the next line */
+    white-space: normal;
+    /* Allow normal text wrapping */
+    font-size: 0.75rem;
 }
 
-/* Responsive styles */
-@media (max-width: 600px) {
-    .party-group-table .party1,
-    .party-group-table .party2 {
-        display: none;
-    }
-}
+/* custom styling ENDS here */

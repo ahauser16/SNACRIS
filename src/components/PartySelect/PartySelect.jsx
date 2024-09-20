@@ -1,415 +1,328 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import './PartySelect.css';
-import MortgagesInstrumentsRows from './MortgagesInstrumentsRows';
-import UccFedLiensRows from './UccFedLiensRows';
-import DeedsOtherConveyancesRows from './DeedsOtherConveyancesRows';
-import OtherDocumentsRows from './OtherDocumentsRows';
+import partyMap from "./partyMap.json";
+import { groupByClassCodeDescription } from "./utils/groupByClassCodeDescription";
+import { checkboxGenerator } from "./utils/checkboxGenerator"; // Import checkboxGenerator
+import { toCamelCase } from "./utils/toCamelCase"; // Import checkboxGenerator
 
 const PartySelect = () => {
-  const [visibleGroups, setVisibleGroups] = useState({
-    mortgagesInstruments: false,
-    uccFederalLiens: false,
-    deedsOtherConveyances: false,
-    otherDocuments: false,
-  });
+  const [selectedIds, setSelectedIds] = useState([]);
 
-  const toggleGroupVisibility = (group) => {
-    setVisibleGroups((prevVisibleGroups) => ({
-      ...prevVisibleGroups,
-      [group]: !prevVisibleGroups[group],
-    }));
-  };
+  // Handle individual checkbox change for party1_type, party2_type, and party3_type
+  const handleCheckboxChange = (
+    event,
+    docTypeId,
+    party1Id,
+    party2Id,
+    party3Id
+  ) => {
+    const checkedId = event.target.id;
+    const isChecked = event.target.checked;
 
-  const toggleCheckboxes = (selector) => {
-    const checkboxes = document.querySelectorAll(selector);
-    const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-    checkboxes.forEach(checkbox => {
-      checkbox.checked = !allChecked;
+    setSelectedIds((prevSelectedIds) => {
+      let updatedSelectedIds = [...prevSelectedIds];
+
+      if (isChecked) {
+        updatedSelectedIds.push(checkedId);
+      } else {
+        updatedSelectedIds = updatedSelectedIds.filter(
+          (id) => id !== checkedId
+        );
+      }
+
+      const allParties = [party1Id, party2Id, party3Id].filter(Boolean);
+      const isAnyPartySelected = allParties.some((id) =>
+        updatedSelectedIds.includes(id)
+      );
+
+      if (isAnyPartySelected && !updatedSelectedIds.includes(docTypeId)) {
+        updatedSelectedIds.push(docTypeId); // Check parent doc__type checkbox
+      } else if (
+        !isAnyPartySelected &&
+        updatedSelectedIds.includes(docTypeId)
+      ) {
+        updatedSelectedIds = updatedSelectedIds.filter(
+          (id) => id !== docTypeId
+        ); // Uncheck parent doc__type checkbox
+      }
+
+      return updatedSelectedIds;
     });
   };
 
-  const handleToggleAllDocCheckboxes = (classCodeDescription) => {
-    toggleCheckboxes(`input[data-class-code-description="${classCodeDescription}"][data-column="doc_type"]`);
-    const rows = document.querySelectorAll(`input[data-class-code-description="${classCodeDescription}"][data-column="doc_type"]`);
-    rows.forEach(row => {
-      const rowValue = row.getAttribute('data-row');
-      toggleCheckboxes(`input[data-row="${rowValue}"]`);
+  // Handle master checkbox change for doc__type and associated parties
+  const handleDocAndPartiesCheckboxChange = (
+    event,
+    docTypeId,
+    party1Id,
+    party2Id,
+    party3Id
+  ) => {
+    const isChecked = event.target.checked;
+
+    const allParties = [docTypeId, party1Id, party2Id, party3Id].filter(
+      Boolean
+    );
+
+    setSelectedIds((prevSelectedIds) => {
+      if (isChecked) {
+        return [...new Set([...prevSelectedIds, ...allParties])];
+      } else {
+        return prevSelectedIds.filter((id) => !allParties.includes(id));
+      }
     });
   };
 
-  const handleToggleColumnCheckboxes = (classCodeDescription, column) => {
-    toggleCheckboxes(`input[data-class-code-description="${classCodeDescription}"][data-column="${column}"]`);
+  // Handle master checkbox change for class_code_description (toggle all)
+  const handleDocClassCheckboxChange = (event, group) => {
+    const isChecked = event.target.checked;
+
+    const allIds = group
+      .flatMap((item) => [
+        `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+          item.doc__type
+        )}`,
+        item.party1_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party1_type)}`
+          : null,
+        item.party2_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party2_type)}`
+          : null,
+        item.party3_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party3_type)}`
+          : null,
+      ])
+      .filter(Boolean); // Remove null values
+
+    setSelectedIds((prevSelectedIds) =>
+      isChecked
+        ? [...new Set([...prevSelectedIds, ...allIds])]
+        : prevSelectedIds.filter((id) => !allIds.includes(id))
+    );
   };
+
+  // Check if any item in the group has a party3_type
+  const hasParty3Type = (group) => group.some((item) => !!item.party3_type);
+
+  // Check if the doc__type checkbox should be checked if **any** of its child checkboxes are toggled
+  const isDocTypeChecked = (docTypeId, party1Id, party2Id, party3Id) => {
+    const allParties = [party1Id, party2Id, party3Id].filter(Boolean);
+    return (
+      allParties.some((id) => selectedIds.includes(id)) ||
+      selectedIds.includes(docTypeId)
+    );
+  };
+
+  // Check if all checkboxes within a class_code_description are selected
+  const areAllDocsSelected = (group) => {
+    const allIds = group
+      .flatMap((item) => [
+        `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+          item.doc__type
+        )}`,
+        item.party1_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party1_type)}`
+          : null,
+        item.party2_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party2_type)}`
+          : null,
+        item.party3_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party3_type)}`
+          : null,
+      ])
+      .filter(Boolean); // Remove null values
+
+    // Ensure all checkboxes are selected
+    return allIds.every((id) => selectedIds.includes(id));
+  };
+
+  // Handle master checkbox change for party1_type
+  const handleParty1CheckboxChange = (event, group) => {
+    const isChecked = event.target.checked;
+    const allParty1Ids = group
+      .map((item) =>
+        item.party1_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party1_type)}`
+          : null
+      )
+      .filter(Boolean); // Filter out null values
+
+    setSelectedIds((prevSelectedIds) =>
+      isChecked
+        ? [...new Set([...prevSelectedIds, ...allParty1Ids])]
+        : prevSelectedIds.filter((id) => !allParty1Ids.includes(id))
+    );
+  };
+
+  // Check if all party1 checkboxes within a class_code_description are selected
+  const areAllParty1Selected = (group) => {
+    const allParty1Ids = group
+      .map((item) =>
+        item.party1_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party1_type)}`
+          : null
+      )
+      .filter(Boolean); // Filter out null values
+    return allParty1Ids.every((id) => selectedIds.includes(id));
+  };
+
+  // Handle master checkbox change for party2_type
+  const handleParty2CheckboxChange = (event, group) => {
+    const isChecked = event.target.checked;
+    const allParty2Ids = group
+      .map((item) =>
+        item.party2_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party2_type)}`
+          : null
+      )
+      .filter(Boolean); // Filter out null values
+
+    setSelectedIds((prevSelectedIds) =>
+      isChecked
+        ? [...new Set([...prevSelectedIds, ...allParty2Ids])]
+        : prevSelectedIds.filter((id) => !allParty2Ids.includes(id))
+    );
+  };
+
+  // Check if all party2 checkboxes within a class_code_description are selected
+  const areAllParty2Selected = (group) => {
+    const allParty2Ids = group
+      .map((item) =>
+        item.party2_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party2_type)}`
+          : null
+      )
+      .filter(Boolean); // Filter out null values
+    return allParty2Ids.every((id) => selectedIds.includes(id));
+  };
+
+  // Handle master checkbox change for party3_type
+  const handleParty3CheckboxChange = (event, group) => {
+    const isChecked = event.target.checked;
+    const allParty3Ids = group
+      .map((item) =>
+        item.party3_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party3_type)}`
+          : null
+      )
+      .filter(Boolean); // Filter out null values
+
+    setSelectedIds((prevSelectedIds) =>
+      isChecked
+        ? [...new Set([...prevSelectedIds, ...allParty3Ids])]
+        : prevSelectedIds.filter((id) => !allParty3Ids.includes(id))
+    );
+  };
+
+  // Check if all party3 checkboxes within a class_code_description are selected
+  const areAllParty3Selected = (group) => {
+    const allParty3Ids = group
+      .map((item) =>
+        item.party3_type
+          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
+              item.doc__type
+            )}${toCamelCase(item.party3_type)}`
+          : null
+      )
+      .filter(Boolean); // Filter out null values
+    return allParty3Ids.every((id) => selectedIds.includes(id));
+  };
+
+  const groupedData = groupByClassCodeDescription(partyMap);
 
   return (
     <div className="party-select-container">
-      <div className="party-group mortgages-instruments-group">
-        <h2>Filter by Document Type or by Party Type</h2>
-        <div className="party-group-header">
-          <h3>MORTGAGES & INSTRUMENTS</h3>
-          <button className="show-hide-grp--btn" onClick={() => toggleGroupVisibility('mortgagesInstruments')}>
-            {visibleGroups.mortgagesInstruments ? 'Hide' : 'Show'}
-          </button>
-        </div>
-        {visibleGroups.mortgagesInstruments && (
-          <table className="party-group-table mortg-inst-tbl-bdy">
-            <thead>
-              <tr>
-                <th>Document Name
-                  <input
-                    type="checkbox"
-                    className="toggle-all-doc-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleAllDocCheckboxes('MORTGAGES & INSTRUMENTS')}
-                    data-class-code-description="MORTGAGES & INSTRUMENTS"
-                  />
-                </th>
-                <th>
-                  Party 1
-                  <input
-                    type="checkbox"
-                    className="toggle-all-party1-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleColumnCheckboxes('MORTGAGES & INSTRUMENTS', 'party1_type')}
-                    data-class-code-description="MORTGAGES & INSTRUMENTS"
-                  />
-                </th>
-                <th>
-                  Party 2
-                  <input
-                    className="toggle-all-party2-checkboxes-in-same-column-and-group"
-                    type="checkbox"
-                    onChange={() => handleToggleColumnCheckboxes('MORTGAGES & INSTRUMENTS', 'party2_type')}
-                    data-class-code-description="MORTGAGES & INSTRUMENTS"
-                  />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="docRow">
-                <td className="docName">AGREEMENT (AGMT)
-                  <input
-                    type="checkbox"
-                    className="toggle-all-checkboxes-in-row"
-                    value="AGMT"
-                    checked={false}
-                    onChange={() => toggleCheckboxes('input[data-row="AGMT"]')}
-                    data-row="AGMT"
-                    data-column="doc_type"
-                    data-doc-type="AGMT"
-                    data-class-code-description="MORTGAGES & INSTRUMENTS"
-                  />
-                </td>
-                <td className="party1">
-                  PARTY 1
-                  <input
-                    type="checkbox"
-                    className="toggle-self"
-                    value="PARTY 1"
-                    checked={false}
-                    onChange={() => { }}
-                    data-row="AGMT"
-                    data-column="party1_type"
-                    data-doc-type="AGMT"
-                    data-class-code-description="MORTGAGES & INSTRUMENTS"
-                  />
-                </td>
-                <td className="party2">
-                  PARTY 2
-                  <input
-                    type="checkbox"
-                    className="toggle-self"
-                    value="PARTY 2"
-                    checked={false}
-                    onChange={() => { }}
-                    data-row="AGMT"
-                    data-column="party2_type"
-                    data-doc-type="AGMT"
-                    data-class-code-description="MORTGAGES & INSTRUMENTS"
-                  />
-                </td>
-              </tr>
-              <MortgagesInstrumentsRows />
-            </tbody>
-          </table>
-        )}
-      </div>
-      <div className="party-group">
-        <div className="party-group-header">
-          <h3>UCC AND FEDERAL LIENS</h3>
-          <button onClick={() => toggleGroupVisibility('uccFederalLiens')}>
-            {visibleGroups.uccFederalLiens ? 'Hide' : 'Show'}
-          </button>
-        </div>
-        {visibleGroups.uccFederalLiens && (
-          <table className="party-group-table ucc-fed-lien-tbl-bdy">
-            <thead>
-              <tr>
-                <th>Document Name
-                  <input
-                    type="checkbox"
-                    className="toggle-all-doc-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleAllDocCheckboxes('UCC AND FEDERAL LIENS')}
-                    data-class-code-description="UCC AND FEDERAL LIENS"
-                  />
-                </th>
-                <th>
-                  Party 1
-                  <input
-                    type="checkbox"
-                    className="toggle-all-party1-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleColumnCheckboxes('UCC AND FEDERAL LIENS', 'party1_type')}
-                    data-class-code-description="UCC AND FEDERAL LIENS"
-                  />
-                </th>
-                <th>
-                  Party 2
-                  <input
-                    className="toggle-all-party2-checkboxes-in-same-column-and-group"
-                    type="checkbox"
-                    onChange={() => handleToggleColumnCheckboxes('UCC AND FEDERAL LIENS', 'party2_type')}
-                    data-class-code-description="UCC AND FEDERAL LIENS"
-                  />
-                </th>
-                <th>
-                  Party 3
-                  <input
-                    type="checkbox"
-                    className="toggle-all-party3-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleColumnCheckboxes('UCC AND FEDERAL LIENS', 'party3_type')}
-                    data-class-code-description="UCC AND FEDERAL LIENS"
-                  />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>AMENDMENT OF FEDERAL LIEN (AMFL)
-                  <input
-                    type="checkbox"
-                    value="AMFL"
-                    checked={false}
-                    onChange={() => toggleCheckboxes('input[data-row="AMFL"]')}
-                    data-column="doc_type"
-                    data-doc-type="AMFL"
-                    data-class-code-description="UCC AND FEDERAL LIENS"
-                  />
-                </td>
-                <td className="party1">
-                  DEBTOR
-                  <input
-                    type="checkbox"
-                    value="DEBTOR"
-                    checked={false}
-                    onChange={() => { }}
-                    data-column="party1_type"
-                    data-doc-type="AMFL"
-                    data-class-code-description="UCC AND FEDERAL LIENS"
-                  />
-                </td>
-                <td className="party2">
-                  SECURED PARTY
-                  <input
-                    type="checkbox"
-                    value="SECURED PARTY"
-                    checked={false}
-                    onChange={() => { }}
-                    data-column="party2_type"
-                    data-doc-type="AMFL"
-                    data-class-code-description="UCC AND FEDERAL LIENS"
-                  />
-                </td>
-              </tr>
-              <UccFedLiensRows />
-            </tbody>
-          </table>
-        )}
-      </div>
-      <div className="party-group">
-        <div className="party-group-header">
-          <h3>DEEDS AND OTHER CONVEYANCES</h3>
-          <button onClick={() => toggleGroupVisibility('deedsOtherConveyances')}>
-            {visibleGroups.deedsOtherConveyances ? 'Hide' : 'Show'}
-          </button>
-        </div>
-        {visibleGroups.deedsOtherConveyances && (
-          <table className="party-group-table deeds-othr-cnvyncs-tbl-bdy">
-            <thead>
-              <tr>
-                <th>Document Name
-                  <input
-                    type="checkbox"
-                    className="toggle-all-doc-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleAllDocCheckboxes('DEEDS AND OTHER CONVEYANCES')}
-                    data-class-code-description="DEEDS AND OTHER CONVEYANCES"
-                  />
-                </th>
-                <th>
-                  Party 1
-                  <input
-                    type="checkbox"
-                    className="toggle-all-party1-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleColumnCheckboxes('DEEDS AND OTHER CONVEYANCES', 'party1_type')}
-                    data-class-code-description="DEEDS AND OTHER CONVEYANCES"
-                  />
-                </th>
-                <th>
-                  Party 2
-                  <input
-                    className="toggle-all-party2-checkboxes-in-same-column-and-group"
-                    type="checkbox"
-                    onChange={() => handleToggleColumnCheckboxes('DEEDS AND OTHER CONVEYANCES', 'party2_type')}
-                    data-class-code-description="DEEDS AND OTHER CONVEYANCES"
-                  />
-                </th>
-                <th>
-                  Party 3
-                  <input
-                    type="checkbox"
-                    className="toggle-all-party3-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleColumnCheckboxes('DEEDS AND OTHER CONVEYANCES', 'party3_type')}
-                    data-class-code-description="DEEDS AND OTHER CONVEYANCES"
-                  />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>UNIT ASSIGNMENT (ASTU)
-                  <input
-                    type="checkbox"
-                    value="ASTU"
-                    checked={false}
-                    onChange={() => toggleCheckboxes('input[data-row="ASTU"]')}
-                    data-column="doc_type"
-                    data-doc-type="ASTU"
-                    data-class-code-description="DEEDS AND OTHER CONVEYANCES"
-                  />
-                </td>
-                <td className="party1">
-                  GRANTOR/SELLER
-                  <input
-                    type="checkbox"
-                    value="GRANTOR/SELLER"
-                    checked={false}
-                    onChange={() => { }}
-                    data-column="party1_type"
-                    data-doc-type="ASTU"
-                    data-class-code-description="DEEDS AND OTHER CONVEYANCES"
-                  />
-                </td>
-                <td className="party2">
-                  GRANTEE/BUYER
-                  <input
-                    type="checkbox"
-                    value="GRANTEE/BUYER"
-                    checked={false}
-                    onChange={() => { }}
-                    data-column="party2_type"
-                    data-doc-type="ASTU"
-                    data-class-code-description="DEEDS AND OTHER CONVEYANCES"
-                  />
-                </td>
-              </tr>
-              <DeedsOtherConveyancesRows />
-            </tbody>
-          </table>
-        )}
-      </div>
-      <div className="party-group">
-        <div className="party-group-header">
-          <h3>OTHER DOCUMENTS</h3>
-          <button onClick={() => toggleGroupVisibility('otherDocuments')}>
-            {visibleGroups.otherDocuments ? 'Hide' : 'Show'}
-          </button>
-        </div>
-        {visibleGroups.otherDocuments && (
-          <table className="party-group-table other-docs-tbl-bdy">
-            <thead>
-              <tr>
-                <th>Document Name
-                  <input
-                    type="checkbox"
-                    className="toggle-all-doc-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleAllDocCheckboxes('OTHER DOCUMENTS')}
-                    data-class-code-description="OTHER DOCUMENTS"
-                  />
-                </th>
-                <th>
-                  Party 1
-                  <input
-                    type="checkbox"
-                    className="toggle-all-party1-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleColumnCheckboxes('OTHER DOCUMENTS', 'party1_type')}
-                    data-class-code-description="OTHER DOCUMENTS"
-                  />
-                </th>
-                <th>
-                  Party 2
-                  <input
-                    className="toggle-all-party2-checkboxes-in-same-column-and-group"
-                    type="checkbox"
-                    onChange={() => handleToggleColumnCheckboxes('OTHER DOCUMENTS', 'party2_type')}
-                    data-class-code-description="OTHER DOCUMENTS"
-                  />
-                </th>
-                <th>
-                  Party 3
-                  <input
-                    type="checkbox"
-                    className="toggle-all-party3-checkboxes-in-same-column-and-group"
-                    onChange={() => handleToggleColumnCheckboxes('OTHER DOCUMENTS', 'party3_type')}
-                    data-class-code-description="OTHER DOCUMENTS"
-                  />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>BOND (BOND)
-                  <input
-                    type="checkbox"
-                    value="BOND"
-                    checked={false}
-                    onChange={() => toggleCheckboxes('input[data-row="BOND"]')}
-                    data-row="BOND"
-                    data-column="doc_type"
-                    data-doc-type="BOND"
-                    data-class-code-description="OTHER DOCUMENTS"
-                  />
-                </td>
-                <td className="party1">
-                  DEBTOR
-                  <input
-                    type="checkbox"
-                    value="DEBTOR"
-                    checked={false}
-                    onChange={() => { }}
-                    data-row="BOND"
-                    data-column="party1_type"
-                    data-doc-type="BOND"
-                    data-class-code-description="OTHER DOCUMENTS"
-                    className="toggle-self"
-                  />
-                </td>
-                <td className="party2">
-                  SECURED PARTY
-                  <input
-                    type="checkbox"
-                    value="SECURED PARTY"
-                    checked={false}
-                    onChange={() => { }}
-                    data-row="BOND"
-                    data-column="party2_type"
-                    data-doc-type="BOND"
-                    data-class-code-description="OTHER DOCUMENTS"
-                    className="toggle-self"
-                  />
-                </td>
-              </tr>
-              <OtherDocumentsRows />
-            </tbody>
-          </table>
-        )}
-      </div>
+      {Object.entries(groupedData).map(([groupTitle, groupData]) => (
+        <fieldset key={groupTitle} className={`party-group ${groupTitle}`}>
+          <legend>Filter By {groupTitle}</legend>
+
+          <div className="master-checkbox-row">
+            {/* Master checkbox for entire doc group */}
+            <label className="checkbox-controller-label custom-checkbox-label">
+              <input
+                className="checkbox-controller-input"
+                type="checkbox"
+                onChange={(event) =>
+                  handleDocClassCheckboxChange(event, groupData)
+                }
+                checked={areAllDocsSelected(groupData)} // Update to reflect all checkboxes
+              />
+              Select All {groupTitle}
+            </label>
+
+            {/* Master checkbox for party1_type */}
+            <label className="checkbox-controller-label custom-checkbox-label">
+              <input
+                className="checkbox-controller-input"
+                type="checkbox"
+                onChange={(event) =>
+                  handleParty1CheckboxChange(event, groupData)
+                }
+                checked={areAllParty1Selected(groupData)}
+              />
+              Select All Party1
+            </label>
+
+            {/* Master checkbox for party2_type */}
+            <label className="checkbox-controller-label custom-checkbox-label">
+              <input
+                className="checkbox-controller-input"
+                type="checkbox"
+                onChange={(event) =>
+                  handleParty2CheckboxChange(event, groupData)
+                }
+                checked={areAllParty2Selected(groupData)}
+              />
+              Select All Party2
+            </label>
+
+            {/* Only render master checkbox for party3_type if it exists in the group */}
+            {hasParty3Type(groupData) && (
+              <label className="checkbox-controller-label custom-checkbox-label">
+                <input
+                  className="checkbox-controller-input"
+                  type="checkbox"
+                  onChange={(event) =>
+                    handleParty3CheckboxChange(event, groupData)
+                  }
+                  checked={areAllParty3Selected(groupData)}
+                />
+                Select All Party3
+              </label>
+            )}
+          </div>
+
+          {checkboxGenerator(
+            groupData,
+            handleCheckboxChange,
+            handleDocAndPartiesCheckboxChange,
+            isDocTypeChecked,
+            selectedIds
+          )}
+        </fieldset>
+      ))}
     </div>
   );
 };
