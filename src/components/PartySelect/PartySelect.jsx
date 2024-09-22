@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import './PartySelect.css';
+import "./PartySelect.css";
 import partyMap from "./partyMap.json";
 import { groupByClassCodeDescription } from "./utils/groupByClassCodeDescription";
-import { checkboxGenerator } from "./utils/checkboxGenerator"; // Import checkboxGenerator
-import { toCamelCase } from "./utils/toCamelCase"; // Import checkboxGenerator
+import { checkboxGenerator } from "./utils/checkboxGenerator";
+import { toCamelCase } from "./utils/toCamelCase";
+import { toKebabCase } from "./utils/toKebabCase";
 
 const PartySelect = () => {
   const [selectedIds, setSelectedIds] = useState([]);
+  const [visibleGroups, setVisibleGroups] = useState({});
 
   // Handle individual checkbox change for party1_type, party2_type, and party3_type
   const handleCheckboxChange = (
@@ -252,75 +254,96 @@ const PartySelect = () => {
 
   const groupedData = groupByClassCodeDescription(partyMap);
 
+  const toggleVisibility = (groupTitle) => {
+    setVisibleGroups((prevVisibleGroups) => ({
+      ...prevVisibleGroups,
+      [groupTitle]: !prevVisibleGroups[groupTitle],
+    }));
+  };
+
   return (
     <div className="party-select-container">
       {Object.entries(groupedData).map(([groupTitle, groupData]) => (
-        <fieldset key={groupTitle} className={`party-group ${groupTitle}`}>
+        <fieldset
+          key={groupTitle}
+          className={`party-group ${toKebabCase(groupTitle)}-grp`}
+        >
           <legend>Filter By {groupTitle}</legend>
+          <button
+            className="toggle-button"
+            onClick={() => toggleVisibility(groupTitle)}
+          >
+            {visibleGroups[groupTitle] ? "Hide" : "Show"}
+          </button>
 
-          <div className="master-checkbox-row">
-            {/* Master checkbox for entire doc group */}
-            <label className="checkbox-controller-label custom-checkbox-label">
-              <input
-                className="checkbox-controller-input"
-                type="checkbox"
-                onChange={(event) =>
-                  handleDocClassCheckboxChange(event, groupData)
-                }
-                checked={areAllDocsSelected(groupData)} // Update to reflect all checkboxes
-              />
-              Select All {groupTitle}
-            </label>
-
-            {/* Master checkbox for party1_type */}
-            <label className="checkbox-controller-label custom-checkbox-label">
-              <input
-                className="checkbox-controller-input"
-                type="checkbox"
-                onChange={(event) =>
-                  handleParty1CheckboxChange(event, groupData)
-                }
-                checked={areAllParty1Selected(groupData)}
-              />
-              Select All Party1
-            </label>
-
-            {/* Master checkbox for party2_type */}
-            <label className="checkbox-controller-label custom-checkbox-label">
-              <input
-                className="checkbox-controller-input"
-                type="checkbox"
-                onChange={(event) =>
-                  handleParty2CheckboxChange(event, groupData)
-                }
-                checked={areAllParty2Selected(groupData)}
-              />
-              Select All Party2
-            </label>
-
-            {/* Only render master checkbox for party3_type if it exists in the group */}
-            {hasParty3Type(groupData) && (
-              <label className="checkbox-controller-label custom-checkbox-label">
+          <div
+            className="fieldset-content"
+            style={{ display: visibleGroups[groupTitle] ? "block" : "none" }}
+          >
+            <div className="master-checkbox-row">
+              {/* Master checkbox for entire doc group */}
+              <label className="doc-group-checkbox-controller-label custom-checkbox-label">
                 <input
-                  className="checkbox-controller-input"
+                  className="doc-group-checkbox-controller-input"
                   type="checkbox"
                   onChange={(event) =>
-                    handleParty3CheckboxChange(event, groupData)
+                    handleDocClassCheckboxChange(event, groupData)
                   }
-                  checked={areAllParty3Selected(groupData)}
+                  checked={areAllDocsSelected(groupData)} // Update to reflect all checkboxes
                 />
-                Select All Party3
+                All {groupTitle}
               </label>
+
+              {/* Master checkbox for party1_type */}
+              <label className="all-party1-in-group-checkbox-controller-label custom-checkbox-label">
+                <input
+                  className="all-party1-in-group-checkbox-controller-input custom-checkbox"
+                  type="checkbox"
+                  onChange={(event) =>
+                    handleParty1CheckboxChange(event, groupData)
+                  }
+                  checked={areAllParty1Selected(groupData)}
+                />
+                All Party One
+              </label>
+
+              {/* Master checkbox for party2_type */}
+              <label className="all-party2-in-group-checkbox-controller-label custom-checkbox-label">
+                <input
+                  className="all-party2-in-group-checkbox-controller-input custom-checkbox"
+                  type="checkbox"
+                  onChange={(event) =>
+                    handleParty2CheckboxChange(event, groupData)
+                  }
+                  checked={areAllParty2Selected(groupData)}
+                />
+                All Party Two
+              </label>
+
+              {/* Only render master checkbox for party3_type if it exists in the group */}
+              {hasParty3Type(groupData) && (
+                <label className="all-party3-in-group-checkbox-controller-label custom-checkbox-label">
+                  <input
+                    className="all-party3-in-group-checkbox-controller-input custom-checkbox"
+                    type="checkbox"
+                    onChange={(event) =>
+                      handleParty3CheckboxChange(event, groupData)
+                    }
+                    checked={areAllParty3Selected(groupData)}
+                  />
+                  All Party Three
+                </label>
+              )}
+            </div>
+
+            {checkboxGenerator(
+              groupData,
+              handleCheckboxChange,
+              handleDocAndPartiesCheckboxChange,
+              isDocTypeChecked,
+              selectedIds
             )}
           </div>
-
-          {checkboxGenerator(
-            groupData,
-            handleCheckboxChange,
-            handleDocAndPartiesCheckboxChange,
-            isDocTypeChecked,
-            selectedIds
-          )}
         </fieldset>
       ))}
     </div>

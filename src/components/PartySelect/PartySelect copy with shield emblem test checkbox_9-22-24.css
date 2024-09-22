@@ -22,29 +22,27 @@ input[type="checkbox"] {
     /* Add if not using autoprefixer */
     -webkit-appearance: none;
     appearance: none;
-    /* For iOS < 15 to remove gradient background.  Removed because it interfered with the checkbox classes below */
-    /* background-color: var(--legend-background-color); */
-
-
+    /* For iOS < 15 to remove gradient background */
+    background-color: var(--legend-background-color);
     /* Not removed via appearance */
     margin: 0;
 
     font: inherit;
-
-    /* the original color was a global variable named `--checkbox-frame-color` */
-    /* color: var(--checkbox-frame-color); */
-
+    color: var(--checkbox-frame-color);
     /* original width & height is 1.15em but I removed width and height rules so I could have more control over the size of regular checkboxes, controller checkboxes, party_type controller checkboxes and group controller checkboxes*/
     /* width: 1.15em;
     height: 1.15em; */
 
-    /* original border is 0.15em solid var(--checkbox-frame-color) */
-    /* border: 0.15em solid var(--checkbox-frame-color); */
-
+    /* shield emblem width and height is 1.35em and 1.85 em (respectively) */
+    /* width: 1.35em;
+    height: 1.85em; */
+    border: 0.15em solid var(--checkbox-frame-color);
     /* original border-radius is .15em */
     border-radius: 0.15em;
 
-    /* transform: translateY(-0.075em); */
+    /* SHIELD EMBLEM border-radius: 0em 0em 0.65em 0.65em; */
+    /* top-left | top-right | bottom-right | bottom-left */
+    transform: translateY(-0.075em);
 
     display: grid;
     place-content: center;
@@ -68,6 +66,20 @@ input[type="checkbox"]::before {
     transform-origin: bottom left;
     /* shape of a regular CHECK within checkbox*/
     clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+
+    /* Crusader cross shape */
+    /* top horizontal bar */
+    /* right horizontal bar */
+    /* bottom horizontal bar */
+    /* bottom vertical bar */
+    /* left horizontal bar */
+    /* top vertical bar */
+    /* clip-path: polygon(35% 0%, 65% 0%,
+            65% 35%, 100% 35%,
+            100% 65%, 65% 65%,
+            65% 100%, 35% 100%,
+            35% 65%, 0% 65%,
+            0% 35%, 35% 35%); */
 }
 
 input[type="checkbox"]:checked::before {
@@ -100,8 +112,6 @@ legend {
     font-size: 1.25rem;
 }
 
-/* MORTGAGES & INSTRUMENTS */
-
 .mortgages-and-instruments-grp {
     border: 2px solid var(--mortgages-instruments-grp-color);
 }
@@ -109,32 +119,6 @@ legend {
 .mortgages-and-instruments-grp legend {
     color: var(--mortgages-instruments-grp-color);
 }
-
-.mortgages-and-instruments-grp input[type="checkbox"] {
-    background-color: var(--mortgages-instruments-grp-color);
-    color: black;
-    /*this needs to match the border color or the checkbox will look weird*/
-    border: 0.15em solid black;
-}
-
-.mortgages-and-instruments-grp .master-checkbox-row {
-    background-color: var(--mortgages-instruments-grp-color);
-}
-
-
-.master-checkbox-row label {
-    color: white;
-}
-
-.mortgages-and-instruments-grp .party1-type-checkbox-controlled-label {}
-
-.mortgages-and-instruments-grp .party2-type-checkbox-controlled-label {}
-
-.mortgages-and-instruments-grp .party3-type-checkbox-controlled-label {}
-
-
-
-/* UCC AND FEDERAL LIENS */
 
 .ucc-and-federal-liens-grp {
     border: 2px solid var(--ucc-fed-liens-grp-color);
@@ -144,19 +128,6 @@ legend {
     color: var(--ucc-fed-liens-grp-color);
 }
 
-.ucc-and-federal-liens-grp input[type="checkbox"] {
-    background-color: var(--ucc-fed-liens-grp-color);
-    color: black;
-    /*this needs to match the border color or the checkbox will look weird*/
-    border: 0.15em solid black;
-}
-
-.ucc-and-federal-liens-grp .master-checkbox-row {
-    background-color: var(--ucc-fed-liens-grp-color);
-}
-
-/* DEEDS AND OTHER CONVEYANCES */
-
 .deeds-and-other-conveyances-grp {
     border: 2px solid var(--deeds-other-conveyances-grp-color);
 }
@@ -165,41 +136,13 @@ legend {
     color: var(--deeds-other-conveyances-grp-color);
 }
 
-.deeds-and-other-conveyances-grp input[type="checkbox"] {
-    background-color: var(--deeds-other-conveyances-grp-color);
-    color: black;
-    /*this needs to match the border color or the checkbox will look weird*/
-    border: 0.15em solid black;
-}
-
-.deeds-and-other-conveyances-grp .master-checkbox-row {
-    background-color: var(--deeds-other-conveyances-grp-color);
-}
-
-/* OTHER DOCUMENTS */
-.other-documents-grp {
+.other-and-documents-grp {
     border: 2px solid var(--other-and-documents-grp);
 }
 
-.other-documents-grp legend {
+.other-and-documents-grp legend {
     color: var(--other-and-documents-grp);
 }
-
-.other-documents-grp input[type="checkbox"] {
-    background-color: var(--other-and-documents-grp);
-    color: black;
-    /*this needs to match the border color or the checkbox will look weird*/
-    border: 0.15em solid black;
-}
-
-.other-documents-grp .master-checkbox-row {
-    background-color: var(--other-and-documents-grp);
-}
-
-/* END OF COLOR SECTION */
-
-
-
 
 .master-checkbox-row,
 .doc-and-party-container {
@@ -229,38 +172,31 @@ legend {
     color: var(--checkbox-label-text-color);
 }
 
-.doc-group-checkbox-controller-label {}
+.doc-group-checkbox-controller-label {
+
+}
 
 .doc-group-checkbox-controller-input {
     width: 1.9em;
     height: 1.9em;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .all-party1-in-group-checkbox-controller-input,
 .all-party2-in-group-checkbox-controller-input,
-.all-party3-in-group-checkbox-controller-input {
+.all-party3-in-group-checkbox-controller-input{
     width: 1.5em;
     height: 1.5em;
 }
 
 .party1-type-checkbox-controlled-label,
 .party2-type-checkbox-controlled-label,
-.party3-type-checkbox-controlled-label {}
+.party3-type-checkbox-controlled-label{
+
+}
 
 .party1-type-checkbox-controlled-input,
 .party2-type-checkbox-controlled-input,
-.party3-type-checkbox-controlled-input {
+.party3-type-checkbox-controlled-input{
     width: 1.15em;
     height: 1.15em;
 }
@@ -269,7 +205,9 @@ legend {
 
 .all-party1-in-group-checkbox-controller-label,
 .all-party2-in-group-checkbox-controller-label,
-.all-party3-in-group-checkbox-controller-label {}
+.all-party3-in-group-checkbox-controller-label {
+
+}
 
 .doc-type-with-parties-checkbox-controller-input {
     width: 1.15em;
@@ -306,77 +244,3 @@ legend {
 }
 
 /* custom styling ENDS here */
-
-
-/* TOGGLE CHECKBOX BUTTONS BY GROUP */
-.party-group {
-    position: relative;
-}
-
-.toggle-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-.toggle-button:hover {
-    background-color: #e0e0e0;
-}
-
-.fieldset-content {
-    margin-top: 20px;
-}
-/* TOGGLE CHECKBOX BUTTONS BY GROUP */
-
-
-
-
-
-
-/* Make the body element behave like a container */
-body {
-    container-type: inline-size;
-    container-name: sidepanel-body;
-}
-
-/* Default layout for larger side panels */
-.doc-and-party-container {
-    display: flex;
-    /* Default layout */
-    flex-wrap: wrap;
-}
-
-/* Container query for when the side panel body width is 350px or less */
-@container sidepanel-body (max-width: 350px) {
-    .doc-and-party-container {
-        display: grid;
-        grid-template-rows: auto auto;
-        /* Two rows */
-        grid-gap: 10px;
-        /* Optional gap between rows */
-        border: 1.75px solid black;
-        border-radius: 5px;
-        padding: .125em;
-        width: 300px;
-    }
-
-    /* First row: the doc-type label */
-    .doc-type-checkbox-controller-label {
-        grid-row: 1 / 2;
-    }
-
-    /* Second row: party labels inline */
-    .party1-type-checkbox-controlled-label,
-    .party2-type-checkbox-controlled-label,
-    .party3-type-checkbox-controlled-label {
-        grid-row: 2 / 3;
-        display: inline-block;
-        /* Align the party labels side by side */
-        margin-right: 10px;
-        /* Optional space between the party labels */
-    }
-}

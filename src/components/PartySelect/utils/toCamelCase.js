@@ -9,3 +9,5 @@ export const toCamelCase = (str) => {
     .replace(/\s+/g, "") // Remove spaces
     .replace(/[^a-zA-Z0-9]/g, ""); // Remove special characters
 };
+
+

@@ -51,7 +51,7 @@ export const checkboxGenerator = (
               )
             }
             aria-label={`Filter results by ${item.doc__type_description}`}
-            className="checkbox-controller-input"
+            className="doc-type-with-parties-checkbox-controller-input"
           />
           {item.doc__type_description}
           {/* <span style={{ display: "block" }}>with parties</span> */}
@@ -60,12 +60,12 @@ export const checkboxGenerator = (
         {/* Checkbox for party1_type */}
         {party1Id ? (
           <label
-            className="party1-checkbox-controlled-label custom-checkbox-label"
+            className="party1-type-checkbox-controlled-label custom-checkbox-label"
             htmlFor={party1Id}
           >
             <input
               value={item.party1_type}
-              className="checkbox-controlled-input"
+              className="party1-type-checkbox-controlled-input"
               type="checkbox"
               id={party1Id}
               checked={selectedIds.includes(party1Id)}
@@ -89,12 +89,12 @@ export const checkboxGenerator = (
         {/* Checkbox for party2_type */}
         {party2Id ? (
           <label
-            className="party2-checkbox-controlled-label custom-checkbox-label"
+            className="party2-type-checkbox-controlled-label custom-checkbox-label"
             htmlFor={party2Id}
           >
             <input
               value={item.party2_type}
-              className="checkbox-controlled-input"
+              className="party2-type-checkbox-controlled-input"
               type="checkbox"
               id={party2Id}
               checked={selectedIds.includes(party2Id)}
@@ -119,12 +119,12 @@ export const checkboxGenerator = (
         {
           party3Id ? (
             <label
-              className="party3-checkbox-controlled-label custom-checkbox-label"
+              className="party3-type-checkbox-controlled-label custom-checkbox-label"
               htmlFor={party3Id}
             >
               <input
                 value={item.party3_type}
-                className="checkbox-controlled-input"
+                className="party3-type-checkbox-controlled-input"
                 type="checkbox"
                 id={party3Id}
                 checked={selectedIds.includes(party3Id)}
@@ -147,4 +147,3 @@ export const checkboxGenerator = (
     );
   });
 };
-

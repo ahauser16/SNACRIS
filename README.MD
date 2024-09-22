@@ -1,5 +1,8 @@
 ## Table of Contents
 
+- [My ToDos:](#my-todos)
+  - [FORMAT](#format)
+  - [Controller Checkbox Component update needed](#controller-checkbox-component-update-needed)
 - [SNACRIS Chrome Extension](#snacris-chrome-extension)
   - [NYC OPENDATA: ACRIS DATASETS](#nyc-opendata-acris-datasets)
     - [I. Real Property Records comprise of the following five datasets:](#i-real-property-records-comprise-of-the-following-five-datasets)
@@ -24,6 +27,26 @@
   - [Development Workflow](#development-workflow)
 - [IV `src/containers/`](#iv-srccontainers)
 
+# My ToDos:
+
+## FORMAT
+
+- file-name / component name / sub-component name (if applicable)
+- date added
+- ToDo description
+
+## Controller Checkbox Component update needed
+
+- file name: `PartyNameSearch.jsx` / component name: `PartySelect.jsx` / sub-component name: `checkboxGenerator.jsx`
+- 9/22/24
+- the master checkboxes need an update...
+  - the master checkboxes, which are the `input` elements with class `checkbox-controller-label` and `custom-checkbox-label` associated with "Select ALL MORTGAGES & INSTRUMENTS", "Select All Party1", "Select All Party2" and "Select All Party3", should have an `id` attribute that is used to identify and control this `input` with the following criteria below.
+  -  The `label` elements associated with the aformentioned `input` elements should all have corresponding `htmlFor` attributes with the same value as their associated `input` element's `id` attribute.
+  - All `label`, and associated `input`, elements with the class name `custom-checkbox-label` should have their `htmlFor`, and `id` values (respectively), be in camelcase. For example, currently the checkbox with `label` class "doc-type-checkbox-controller-label", and its associated `input`, have a `htmlFor` and `id` value of "checkboxMORTAGESINSTRUMENTSASPM" which should be corrected to "checkboxMortgagesInstrumentsAspm" which represents (i) the type of `input` it is (e.g. "checkbox"), (ii) the class of document it refers to (e.g. "MortgagesInstruments" which I renamed from the original "MORTGAGES & INSTRUMENTS") and (iii) the name of the document it refers to (e.g. "ASPM" which the ACRIS API uses as the unique identiying value assigned to the `doc__type` field. Coincidentally, this is the value I want this `input` field to pass on when the form is submitted).  
+  - The same update needs to be made to checkboxes with `label` class "party1-type-checkbox-controller-label", "party2-type-checkbox-controller-label" and "party3-type-checkbox-controller-label".
+  - [x] The `fieldset` with class "party-group" needs its other class to be kebab case.
+  - **NB--> The issue holding up the refactor above is that if all the `id` values for the inputs are changed to kebab case it will break the "controller" functionality of the "controller checkboxes".**
+
 # SNACRIS Chrome Extension
 
 This project uses the template provided by lxieyang which is located here: (https://github.com/lxieyang/chrome-extension-boilerplate-react)[https://github.com/lxieyang/chrome-extension-boilerplate-react]
@@ -37,17 +60,18 @@ Real Property Records:- include documents in the Deeds and Other Conveyances, Mo
 Includes documents in the UCC and Federal Liens class in ACRIS. These documents typically impact rights to personal property associated with real property and as such follow the individual party rather than the real property.
 
 **Each Real Property Record or Personal Property Record contains:**
-  - A master record 
-  - Zero or more lot(property) records
-  - Zero or more party records
-  - Zero or more cross-reference records
-  - Zero or more remarks records
 
-The “Document ID” in the master record is used to link all other record types to a master record.  To find all of the lot (property) records associated with a master record, simply retrieve all records in the property dataset with the same “Document ID” as the selected master record.  The same process should be repeated for Party, Cross Reference and Remark records.
+- A master record
+- Zero or more lot(property) records
+- Zero or more party records
+- Zero or more cross-reference records
+- Zero or more remarks records
+
+The “Document ID” in the master record is used to link all other record types to a master record. To find all of the lot (property) records associated with a master record, simply retrieve all records in the property dataset with the same “Document ID” as the selected master record. The same process should be repeated for Party, Cross Reference and Remark records.
 
 ![ACRIS ERD](src/assets/readme_assets/ACRIS-ERD.png)
 
-- The "1" indicates that each instance of the parent entity is related to exactly one instance of the child entity.  
+- The "1" indicates that each instance of the parent entity is related to exactly one instance of the child entity.
 - The "0...n" indicates that each instance of the child entity can be related to zero or more instances of the parent entity.
 - In summary, the relationship is a one-to-many relationship where:
   - One instance of the parent entity can be associated with zero or more instances of the child entities.
@@ -56,40 +80,42 @@ The “Document ID” in the master record is used to link all other record type
 
 ### I. Real Property Records comprise of the following five datasets:
 
-| Record Type            | Dataset Title                   | Dataset URL                                                                 | Dataset Description                                                        |
-|------------------------|---------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| Master record          | ACRIS - Real Property Master    | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Master/bnx9-e6tj](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Master/bnx9-e6tj) | Document Details for Real Property Related Documents Recorded in ACRIS     |
-| Lot(property) record   | ACRIS - Real Property Legals    | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Legals/8h5j-fqxa](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Legals/8h5j-fqxa) | Property Details for Real Property Related Documents Recorded in ACRIS     |
-| Party record           | ACRIS - Real Property Parties   | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Parties/636b-3b5g](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Parties/636b-3b5g) | Party Names for Real Property Related Documents Recorded in ACRIS          |
-| Cross-reference record | ACRIS - Real Property References| [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-References/pwkr-dpni](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-References/pwkr-dpni) | Document Cross References for Real Property Related Documents Recorded in ACRIS |
-| Remarks record         | ACRIS - Real Property Remarks   | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Remarks/9p4w-7npp](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Remarks/9p4w-7npp) | Document Remarks for Real Property Related Documents Recorded in ACRIS     |
+| Record Type            | Dataset Title                    | Dataset URL                                                                                                                                                                    | Dataset Description                                                             |
+| ---------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| Master record          | ACRIS - Real Property Master     | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Master/bnx9-e6tj](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Master/bnx9-e6tj)         | Document Details for Real Property Related Documents Recorded in ACRIS          |
+| Lot(property) record   | ACRIS - Real Property Legals     | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Legals/8h5j-fqxa](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Legals/8h5j-fqxa)         | Property Details for Real Property Related Documents Recorded in ACRIS          |
+| Party record           | ACRIS - Real Property Parties    | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Parties/636b-3b5g](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Parties/636b-3b5g)       | Party Names for Real Property Related Documents Recorded in ACRIS               |
+| Cross-reference record | ACRIS - Real Property References | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-References/pwkr-dpni](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-References/pwkr-dpni) | Document Cross References for Real Property Related Documents Recorded in ACRIS |
+| Remarks record         | ACRIS - Real Property Remarks    | [http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Remarks/9p4w-7npp](http://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Remarks/9p4w-7npp)       | Document Remarks for Real Property Related Documents Recorded in ACRIS          |
 
 ### II. Personal Property Records comprise of the following five datasets:
 
-| Record Type            | Dataset Title                   | Dataset URL                                                                 | Dataset Description                                                        |
-|------------------------|---------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| Master record          | ACRIS - Personal Property Master| [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Master/sv7x-dduq](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Master/sv7x-dduq) | Document Details for Personal Property Related Documents Recorded in ACRIS |
-| Lot(property) record   | ACRIS - Personal Property Legals| [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Legals/uqqa-hym2](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Legals/uqqa-hym2) | Property Details for Personal Property Related Documents Recorded in ACRIS |
-| Party record           | ACRIS - Personal Property Parties| [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Parties/nbbg-wtuz](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Parties/nbbg-wtuz) | Party Names for Personal Property Related Documents Recorded in ACRIS      |
-| Cross-reference record | ACRIS - Personal Property References| [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-References/6y3e-jcrc](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-References/6y3e-jcrc) | Document Cross References for Personal Property Related Documents Recorded in ACRIS |
-| Remarks record         | ACRIS - Personal Property Remarks| [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Remarks/fuzi-5ks9](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Remarks/fuzi-5ks9) | Document Remarks for Personal Property Related Documents Recorded in ACRIS |
+| Record Type            | Dataset Title                        | Dataset URL                                                                                                                                                                            | Dataset Description                                                                 |
+| ---------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Master record          | ACRIS - Personal Property Master     | [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Master/sv7x-dduq](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Master/sv7x-dduq)         | Document Details for Personal Property Related Documents Recorded in ACRIS          |
+| Lot(property) record   | ACRIS - Personal Property Legals     | [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Legals/uqqa-hym2](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Legals/uqqa-hym2)         | Property Details for Personal Property Related Documents Recorded in ACRIS          |
+| Party record           | ACRIS - Personal Property Parties    | [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Parties/nbbg-wtuz](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Parties/nbbg-wtuz)       | Party Names for Personal Property Related Documents Recorded in ACRIS               |
+| Cross-reference record | ACRIS - Personal Property References | [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-References/6y3e-jcrc](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-References/6y3e-jcrc) | Document Cross References for Personal Property Related Documents Recorded in ACRIS |
+| Remarks record         | ACRIS - Personal Property Remarks    | [http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Remarks/fuzi-5ks9](http://data.cityofnewyork.us/City-Government/ACRIS-Personal-Property-Remarks/fuzi-5ks9)       | Document Remarks for Personal Property Related Documents Recorded in ACRIS          |
 
 ### III. CODE MAPPINGS
+
 In ACRIS, documents are stored with codes representing longer descriptions that are displayed on images generated by ACRIS and in Document Search. The translation from these codes is done via the following code datasets:
 
-| Dataset Title                   | Dataset URL                                                                 | Dataset Description                                                                                           |
-|---------------------------------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| ACRIS - Document Control Codes  | [http://data.cityofnewyork.us/City-Government/ACRIS-Document-Control-Codes/7isb-wh4c](http://data.cityofnewyork.us/City-Government/ACRIS-Document-Control-Codes/7isb-wh4c) | ACRIS Document Type and Class Code mappings for Codes in the ACRIS Real and Personal Property Master Datasets |
-| ACRIS - UCC Collateral Codes    | [http://data.cityofnewyork.us/City-Government/ACRIS-Country-Codes/j2iz-mwzu](http://data.cityofnewyork.us/City-Government/ACRIS-Country-Codes/j2iz-mwzu) | ACRIS Collateral Type mapping for Codes in the ACRIS Personal Property Master Dataset                         |
-| ACRIS - Property Types Codes    | [http://data.cityofnewyork.us/City-Government/ACRIS-Property-Types-Codes/94g4-w6xz](http://data.cityofnewyork.us/City-Government/ACRIS-Property-Types-Codes/94g4-w6xz) | ACRIS State mapping for Codes in the ACRIS Real and Personal Property Legals Datasets                         |
-| ACRIS - States Codes            | [http://data.cityofnewyork.us/City-Government/ACRIS-States-Codes/5c9e-33xj](http://data.cityofnewyork.us/City-Government/ACRIS-States-Codes/5c9e-33xj) | ACRIS State mapping for Codes in the ACRIS Real and Personal Parties Property Datasets                        |
-| ACRIS - Country Codes           | [http://data.cityofnewyork.us/City-Government/ACRIS-UCC-Collateral-Codes/q9kp-jvxv](http://data.cityofnewyork.us/City-Government/ACRIS-UCC-Collateral-Codes/q9kp-jvxv) | ACRIS Countries mapping for Codes in the ACRIS Real and Personal Parties Property Datasets                    |
+| Dataset Title                  | Dataset URL                                                                                                                                                                | Dataset Description                                                                                           |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| ACRIS - Document Control Codes | [http://data.cityofnewyork.us/City-Government/ACRIS-Document-Control-Codes/7isb-wh4c](http://data.cityofnewyork.us/City-Government/ACRIS-Document-Control-Codes/7isb-wh4c) | ACRIS Document Type and Class Code mappings for Codes in the ACRIS Real and Personal Property Master Datasets |
+| ACRIS - UCC Collateral Codes   | [http://data.cityofnewyork.us/City-Government/ACRIS-Country-Codes/j2iz-mwzu](http://data.cityofnewyork.us/City-Government/ACRIS-Country-Codes/j2iz-mwzu)                   | ACRIS Collateral Type mapping for Codes in the ACRIS Personal Property Master Dataset                         |
+| ACRIS - Property Types Codes   | [http://data.cityofnewyork.us/City-Government/ACRIS-Property-Types-Codes/94g4-w6xz](http://data.cityofnewyork.us/City-Government/ACRIS-Property-Types-Codes/94g4-w6xz)     | ACRIS State mapping for Codes in the ACRIS Real and Personal Property Legals Datasets                         |
+| ACRIS - States Codes           | [http://data.cityofnewyork.us/City-Government/ACRIS-States-Codes/5c9e-33xj](http://data.cityofnewyork.us/City-Government/ACRIS-States-Codes/5c9e-33xj)                     | ACRIS State mapping for Codes in the ACRIS Real and Personal Parties Property Datasets                        |
+| ACRIS - Country Codes          | [http://data.cityofnewyork.us/City-Government/ACRIS-UCC-Collateral-Codes/q9kp-jvxv](http://data.cityofnewyork.us/City-Government/ACRIS-UCC-Collateral-Codes/q9kp-jvxv)     | ACRIS Countries mapping for Codes in the ACRIS Real and Personal Parties Property Datasets                    |
 
 ### NYC OpenData API Key, Token and Making Requests
 
 To structure your API requests in a Google Chrome Extension built with React JS, you can use the `fetch` API to make HTTP requests. Since you have an App token, you can include it in the request headers using the `X-App-Token` HTTP header. Below is a sample API `GET` request using the `fetch` API:
 
 1. Create a utility function for the API request:
+
    - This function will handle the API request and include the necessary headers.
 
 2. Use the utility function in your React component:
@@ -98,6 +124,7 @@ To structure your API requests in a Google Chrome Extension built with React JS,
 Here is an example implementation:
 
 **Utility Function `(src/utils/api.js)`**
+
 ```
 import secrets from 'secrets';
 
@@ -146,6 +173,7 @@ export const fetchRealPropertyMasterData = async () => {
 
 **Usage Example**
 To fetch data with specific filters:
+
 ```
 const filters = {
   document_id: '2024061800496001',
@@ -169,9 +197,8 @@ fetchRealPropertyMasterData(filters)
   .catch(error => console.error(error));
 ```
 
-
-
 **React Component `(src/containers/ACRIS/RealPropertyMaster.jsx)`**
+
 ```
 // src/containers/ACRIS/RealPropertyMaster.jsx
 
@@ -212,12 +239,14 @@ export default Greetings;
 
 **Environment Variables (.env)**
 Make sure your `.env` file contains the App token:
+
 ```
 NYC_OPEN_DATA_SNACRIS_APP_TOKEN=HG0hmpHWykh5j0YvyITclU2wp
 ```
 
 **Webpack Configuration (`webpack.config.js`)**
 Ensure your Webpack configuration is set up to handle environment variables:
+
 ```
 // webpack.config.js
 
@@ -235,9 +264,6 @@ module.exports = {
   ],
 };
 ```
-
-
-
 
 # Project Overview
 
@@ -1380,6 +1406,7 @@ The `Newtab` subfolder within the `pages` folder of your Chrome extension projec
 
 1. JavaScript/JSX Files:
    - `index.jsx`: This is the entry point for the new tab page. It initializes the React component and renders it into the DOM.
+
 ```
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -1391,7 +1418,8 @@ const root = createRoot(container);
 root.render(<Newtab />);
 ```
 
-   - `Newtab.jsx`: This file contains the main React component for the new tab page.
+- `Newtab.jsx`: This file contains the main React component for the new tab page.
+
 ```
 import React from 'react';
 import logo from '../../assets/img/logo.svg';
@@ -1418,6 +1446,7 @@ export default Newtab;
 
 2. HTML Files:
    - `index.html`: This file serves as the HTML template for the new tab page. It includes a container div where the React component will be rendered.
+
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -1434,6 +1463,7 @@ export default Newtab;
 
 3. CSS/SCSS Files:
    - `Newtab.css`: Contains the CSS styles for the new tab page.
+
 ```
 .App {
   text-align: center;
@@ -1470,7 +1500,7 @@ export default Newtab;
 }
 ```
 
-   - `Newtab.scss`: Contains additional SASS styles for the new tab page.
+- `Newtab.scss`: Contains additional SASS styles for the new tab page.
 
 **How They Work in the Context of the Extension**
 
@@ -1505,6 +1535,7 @@ The `Options` subfolder within the `pages` folder of your Chrome extension proje
 
 1. HTML Files:
    - `index.html`: This is the main HTML file for the options page. It serves as the template that will be loaded when users open the options page.
+
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -1521,6 +1552,7 @@ The `Options` subfolder within the `pages` folder of your Chrome extension proje
 
 2. JavaScript/JSX Files:
    - `index.jsx`: This is the entry point for the options page. It initializes the React component and renders it into the DOM.
+
 ```
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -1532,7 +1564,8 @@ const root = createRoot(container);
 root.render(<Options title={'Settings'} />);
 ```
 
-   - `Options.jsx`: This file contains the main React component for the options page.
+- `Options.jsx`: This file contains the main React component for the options page.
+
 ```
 import React from 'react';
 import './Options.css';
@@ -1557,6 +1590,7 @@ export default Options;
 The options page is a standalone HTML page that users can access from the Chrome extension's settings. When users open the options page, the `index.html` file is loaded, which in turn loads the `index.jsx` file. The `index.jsx` file initializes the React component defined in `Options.jsx` and renders it into the DOM. This setup allows you to create a dynamic and interactive options page using React.
 
 **Common and Best Practices**
+
 1. User-Friendly Interface: Ensure that the options page is easy to navigate and understand. Use clear labels and provide helpful tooltips or descriptions for each setting.
 2. Save and Restore Settings: Implement functionality to save user settings to Chrome's storage and restore them when the options page is loaded.
 3. Validation: Validate user inputs to prevent invalid configurations.
@@ -1565,6 +1599,7 @@ The options page is a standalone HTML page that users can access from the Chrome
 
 **Options Related Features**
 Based on your project overview, here are some features you could implement for the options page:
+
 1. Video Conference Platform Preferences: Allow users to select their preferred video conference platforms (e.g., Google Meet, Zoom) and configure specific settings for each platform.
 2. Notification Settings: Provide options for users to customize notification settings, such as enabling/disabling notifications for upcoming meetings or messages.
 3. Theme Customization: Allow users to switch between different themes or customize the appearance of the options page.
@@ -1583,6 +1618,7 @@ The `Panel` subfolder within the `pages` folder of your Chrome extension project
 
 1. JavaScript/JSX/TSX Files:
    - `index.jsx` or `index.tsx`: This is the entry point for the panel. It initializes the React component and renders it into the DOM.
+
 ```
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -1594,7 +1630,8 @@ const root = createRoot(container);
 root.render(<Panel />);
 ```
 
-   - `Panel.jsx` or `Panel.tsx`: This file contains the main React component for the panel.
+- `Panel.jsx` or `Panel.tsx`: This file contains the main React component for the panel.
+
 ```
 import React from 'react';
 import './Panel.css';
@@ -1612,6 +1649,7 @@ export default Panel;
 
 2. HTML Files:
    - `panel.html`: This file defines the structure of the panel and includes a container for the React app.
+
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -1628,6 +1666,7 @@ export default Panel;
 
 3. CSS Files:
    - `Panel.css`: This file contains the styles for the panel.
+
 ```
 body {
   background-color: #242424;
@@ -1654,6 +1693,7 @@ Based on your project overview, here are some features you could implement in th
 
 1. Network Request Logging:
    - Log network requests related to video conference applications and display them in the panel.
+
 ```
 chrome.devtools.network.onRequestFinished.addListener(request => {
   console.log('Request URL:', request.request.url);
@@ -1661,19 +1701,21 @@ chrome.devtools.network.onRequestFinished.addListener(request => {
 ```
 
 2. Real-time Metrics:
+
    - Display real-time metrics such as bandwidth usage, latency, and packet loss for video conferences.
    - Use WebSockets to fetch real-time data from your NodeJS backend.
 
 3. Authentication Status:
+
    - Show the authentication status of the user, including whether they are logged in via Google or JWT.
    - Integrate with your NodeJS backend to fetch and display user information.
 
 4. Custom Controls:
+
    - Provide custom controls for video conference applications, such as muting/unmuting the microphone, turning the camera on/off, and screen sharing options.
 
 5. Debugging Tools:
    - Offer debugging tools specific to video conference applications, such as inspecting WebRTC connections and media streams.
-
 
 ## `src/pages/Popup/`
 
@@ -1683,6 +1725,7 @@ The `Popup` subfolder within the `pages` folder of your Chrome extension project
 
 1. JavaScript/JSX Files:
    - `index.jsx`: This is the entry point for the popup page. It initializes the React component and renders it into the DOM.
+
 ```
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -1694,10 +1737,11 @@ const root = createRoot(container);
 root.render(<Popup />);
 ```
 
-   - `Popup.jsx`: This file contains the main React component for the popup page. It defines the UI and behavior of the popup.
+- `Popup.jsx`: This file contains the main React component for the popup page. It defines the UI and behavior of the popup.
 
 2. HTML Files:
    - `index.html`: This is the HTML file for the popup page. It includes a container div where the React component will be rendered.
+
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -1714,6 +1758,7 @@ root.render(<Popup />);
 
 3. CSS Files:
    - `index.css`: This file contains the styles for the popup page. It ensures that the popup has a consistent look and feel.
+
 ```
 body {
   width: 300px;
@@ -1729,11 +1774,13 @@ body {
 ```
 
 **How They Work in the Context of the Extension**
+
 - Initialization: When the user clicks the extension icon, Chrome loads the index.html file specified in the manifest.json. This HTML file includes a container div where the React component is rendered.
 - Rendering: The index.jsx file initializes the React component (Popup.jsx) and renders it into the container div.
 - Styling: The index.css file provides the necessary styles to ensure the popup looks good and is user-friendly.
 
 **Common and Best Practices**
+
 - Modular Code: Keep your code modular by separating concerns. Use different files for different components and styles.
 - Performance: Ensure that the popup loads quickly by optimizing your code and assets.
 - User Experience: Design the popup to be intuitive and easy to use. Provide clear labels and instructions.
@@ -1743,14 +1790,17 @@ body {
 Based on your project overview, here are some features you could implement in the popup:
 
 1. Real-time Metrics:
+
    - Display real-time metrics such as bandwidth usage, latency, and packet loss for video conferences.
    - Use WebSockets to fetch real-time data from your NodeJS backend.
 
 2. Authentication Status:
+
    - Show the authentication status of the user, including whether they are logged in via Google or JWT.
    - Integrate with your NodeJS backend to fetch and display user information.
 
 3. Custom Controls:
+
    - Provide custom controls for video conference applications, such as muting/unmuting the microphone, turning the camera on/off, and screen sharing options.
 
 4. Debugging Tools:
@@ -1760,7 +1810,7 @@ By following these guidelines and best practices, you can effectively utilize th
 
 ## `src/pages/Sidepanel/` --> custom
 
-I created a custom `Sidepanel` component in the `pages` folder.  I followed the same pattern as the `Options` folder that was included in this template that remains unchanged as of 8/4/24.  Also, the `Options`, `Newtab`, `Panel`, and `Popup` features follow a consistent pattern where each feature has its own folder containing the necessary files (`index.html`, `index.jsx`, `index.css`, and component-specific files). The `webpack.config.js` file defines entry points for each feature, which Webpack uses to bundle the code.  I took the following steps to create the `Sidepanel` component.
+I created a custom `Sidepanel` component in the `pages` folder. I followed the same pattern as the `Options` folder that was included in this template that remains unchanged as of 8/4/24. Also, the `Options`, `Newtab`, `Panel`, and `Popup` features follow a consistent pattern where each feature has its own folder containing the necessary files (`index.html`, `index.jsx`, `index.css`, and component-specific files). The `webpack.config.js` file defines entry points for each feature, which Webpack uses to bundle the code. I took the following steps to create the `Sidepanel` component.
 
 1. Create the `Sidepanel` folder and necessary files:
    - `src/pages/Sidepanel/index.html`
@@ -1772,8 +1822,10 @@ I created a custom `Sidepanel` component in the `pages` folder.  I followed the 
 <br />
 <br />
 
-2. Add the following code to each file (respectively): 
-  - `src/pages/Sidepanel/index.html`
+2. Add the following code to each file (respectively):
+
+- `src/pages/Sidepanel/index.html`
+
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -1793,7 +1845,8 @@ I created a custom `Sidepanel` component in the `pages` folder.  I followed the 
 <br />
 <br />
 
-   - `src/pages/Sidepanel/index.jsx`
+- `src/pages/Sidepanel/index.jsx`
+
 ```
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -1811,7 +1864,8 @@ root.render(<Sidepanel title={'Sidepanel'} />);
 <br />
 <br />
 
-   - `src/pages/Sidepanel/index.css`
+- `src/pages/Sidepanel/index.css`
+
 ```
 /* for now this is a blank file */
 ```
@@ -1821,7 +1875,8 @@ root.render(<Sidepanel title={'Sidepanel'} />);
 <br />
 <br />
 
-  - `src/pages/Sidepanel/Sidepanel.css`
+- `src/pages/Sidepanel/Sidepanel.css`
+
 ```
 .SidepanelContainer {
   width: 100%;
@@ -1837,8 +1892,8 @@ root.render(<Sidepanel title={'Sidepanel'} />);
 <br />
 <br />
 
+- `src/pages/Sidepanel/Sidepanel.tsx`
 
-  - `src/pages/Sidepanel/Sidepanel.tsx`
 ```
 import React from 'react';
 import './Sidepanel.css';
@@ -1861,7 +1916,8 @@ export default Sidepanel;
 
 - `Sidepanel.tsx` vs `index.jsx`
 
-Purpose: `Sidepanel.tsx` defines the `Sidepanel` React component. This file is where you create the actual component that will be rendered in your application. It includes the component's structure, props, and any specific logic or state management that the component needs.  As you add more features, you might include additional props, state management, event handlers, and more complex JSX structures.  For example, see below:
+Purpose: `Sidepanel.tsx` defines the `Sidepanel` React component. This file is where you create the actual component that will be rendered in your application. It includes the component's structure, props, and any specific logic or state management that the component needs. As you add more features, you might include additional props, state management, event handlers, and more complex JSX structures. For example, see below:
+
 ```
 import React, { useState } from 'react';
 import './Sidepanel.css';
@@ -1891,9 +1947,11 @@ const Sidepanel: React.FC<Props> = ({ title, items }: Props) => {
 
 export default Sidepanel;
 ```
+
 <br />
 
-Purpose: `index.jsx` serves as the entry point for the `Sidepanel` component. It initializes the React application and renders the `Sidepanel` component into the DOM. This file is responsible for bootstrapping the React component and linking it to the HTML structure defined in `index.html`.  As your application grows, you might include additional setup logic, context providers, or higher-order components.  For example, see below:
+Purpose: `index.jsx` serves as the entry point for the `Sidepanel` component. It initializes the React application and renders the `Sidepanel` component into the DOM. This file is responsible for bootstrapping the React component and linking it to the HTML structure defined in `index.html`. As your application grows, you might include additional setup logic, context providers, or higher-order components. For example, see below:
+
 ```
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -1946,10 +2004,6 @@ var options = {
   ].filter(Boolean),
 };
 ```
-
-
-
-
 
 ## Development Workflow
 
@@ -2005,24 +2059,28 @@ Feel free to explore the existing code in the `src/pages` folder to see how diff
 The `containers` folder in your application is typically used to store React components that are connected to the application's state management system (e.g., Redux) or that manage complex state logic. These components are often referred to as "container components" or "smart components" because they handle data fetching, state updates, and other side effects, while "presentational components" (or "dumb components") focus on rendering the UI.
 
 **Purpose**
+
 - State Management: Container components often connect to the Redux store or other state management systems to fetch and update state.
 - Data Fetching: They handle data fetching from APIs or other sources.
 - Logic Handling: They manage complex state logic and side effects.
 - Passing Props: They pass data and callbacks to presentational components.
 
 **Types of Files to Keep in the containers Folder**
+
 - Container Components: These are React components that connect to the state management system and handle data fetching and state logic.
 - Higher-Order Components (HOCs): These are functions that take a component and return a new component with additional props or functionality.
 - Connected Components: Components that are connected to the Redux store using the connect function from react-redux.
 
 **How They Work in the Context of the Application**
+
 - Integration with State Management: Container components integrate with the state management system to ensure that the application state is correctly managed and updated.
 - Separation of Concerns: By separating container components from presentational components, the application maintains a clear separation of concerns, making the codebase easier to maintain and understand.
 - Efficient Data Flow: Container components ensure that data flows efficiently through the application, fetching data when needed and passing it down to presentational components.
 
 **Example**
 
-In your workspace, the `GreetingComponent` in `chrome-extension-boilerplate-react/src/containers/Greetings/Greetings.jsx` is an example of a container component. It manages its own state and renders the UI based on that state.  In this example, `GreetingComponent` manages its own state (`name`) and renders the UI accordingly. If this component needed to fetch data from an API or connect to a Redux store, it would do so within this file, making it a container component.
+In your workspace, the `GreetingComponent` in `chrome-extension-boilerplate-react/src/containers/Greetings/Greetings.jsx` is an example of a container component. It manages its own state and renders the UI based on that state. In this example, `GreetingComponent` manages its own state (`name`) and renders the UI accordingly. If this component needed to fetch data from an API or connect to a Redux store, it would do so within this file, making it a container component.
+
 ```
 import React, { Component } from 'react';
 import icon from '../../assets/img/icon-128.png';
