@@ -86,18 +86,18 @@ const PartySelect = () => {
         )}`,
         item.party1_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party1_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party1_type)}`
           : null,
         item.party2_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party2_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party2_type)}`
           : null,
         item.party3_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party3_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party3_type)}`
           : null,
       ])
       .filter(Boolean); // Remove null values
@@ -130,18 +130,18 @@ const PartySelect = () => {
         )}`,
         item.party1_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party1_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party1_type)}`
           : null,
         item.party2_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party2_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party2_type)}`
           : null,
         item.party3_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party3_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party3_type)}`
           : null,
       ])
       .filter(Boolean); // Remove null values
@@ -157,8 +157,8 @@ const PartySelect = () => {
       .map((item) =>
         item.party1_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party1_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party1_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -176,8 +176,8 @@ const PartySelect = () => {
       .map((item) =>
         item.party1_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party1_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party1_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -191,8 +191,8 @@ const PartySelect = () => {
       .map((item) =>
         item.party2_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party2_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party2_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -210,8 +210,8 @@ const PartySelect = () => {
       .map((item) =>
         item.party2_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party2_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party2_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -225,8 +225,8 @@ const PartySelect = () => {
       .map((item) =>
         item.party3_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party3_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party3_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -244,8 +244,8 @@ const PartySelect = () => {
       .map((item) =>
         item.party3_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party3_type)}`
+            item.doc__type
+          )}${toCamelCase(item.party3_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -268,20 +268,20 @@ const PartySelect = () => {
           key={groupTitle}
           className={`party-group ${toKebabCase(groupTitle)}-grp`}
         >
-          <legend>Filter By {groupTitle}</legend>
-          <button
-            className="toggle-button"
-            onClick={() => toggleVisibility(groupTitle)}
-          >
-            {visibleGroups[groupTitle] ? "Hide" : "Show"}
-          </button>
+          <legend><span className="hide-when-sidepanel-is-small">Filter By</span> {groupTitle}
+            <button
+              className="toggle-button"
+              onClick={() => toggleVisibility(groupTitle)}
+            >
+              {visibleGroups[groupTitle] ? "Hide" : "Show"}
+            </button>
+          </legend>
 
           <div
             className="fieldset-content"
             style={{ display: visibleGroups[groupTitle] ? "block" : "none" }}
           >
-            <div className="master-checkbox-row">
-              {/* Master checkbox for entire doc group */}
+            <div className="select-all-docs-container">
               <label className="doc-group-checkbox-controller-label custom-checkbox-label">
                 <input
                   className="doc-group-checkbox-controller-input"
@@ -291,8 +291,13 @@ const PartySelect = () => {
                   }
                   checked={areAllDocsSelected(groupData)} // Update to reflect all checkboxes
                 />
-                All {groupTitle}
+                {/* Select All {groupTitle} */}
+                All Documents
               </label>
+            </div>
+            <div className="master-checkbox-row">
+              {/* Master checkbox for entire doc group */}
+
 
               {/* Master checkbox for party1_type */}
               <label className="all-party1-in-group-checkbox-controller-label custom-checkbox-label">
@@ -304,7 +309,7 @@ const PartySelect = () => {
                   }
                   checked={areAllParty1Selected(groupData)}
                 />
-                All Party One
+                Party 1
               </label>
 
               {/* Master checkbox for party2_type */}
@@ -317,7 +322,7 @@ const PartySelect = () => {
                   }
                   checked={areAllParty2Selected(groupData)}
                 />
-                All Party Two
+                Party 2
               </label>
 
               {/* Only render master checkbox for party3_type if it exists in the group */}
@@ -331,7 +336,7 @@ const PartySelect = () => {
                     }
                     checked={areAllParty3Selected(groupData)}
                   />
-                  All Party Three
+                  Party 3
                 </label>
               )}
             </div>

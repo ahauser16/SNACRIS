@@ -101,10 +101,10 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
         selectedBoroughs={selectedBoroughs}
         handleBoroughChange={handleBoroughChange}
       />
-      <DocSelect
+      {/* <DocSelect
         selectedDocTypes={selectedDocTypes}
         handleDocSelect={handleDocSelect}
-      />
+      /> */}
       <button type="submit">Search</button>
     </form>
   );

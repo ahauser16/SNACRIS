@@ -1,6 +1,24 @@
 import React from "react";
 import { toCamelCase } from "./toCamelCase";
 
+// Function to render split text into two separate span tags
+const renderSplitText = (text) => {
+  const parts = text.split('/');
+  return (
+    <>
+      <span className="party-type-checkbox-controlled-label-text">
+        {parts[0]}
+        {parts.length > 1 && '/'}
+      </span>
+      {parts.slice(1).map((part, i) => (
+        <span key={i} className="party-type-checkbox-controlled-label-text">
+          {part}
+        </span>
+      ))}
+    </>
+  );
+};
+
 export const checkboxGenerator = (
   data,
   handleCheckboxChange,
@@ -33,7 +51,7 @@ export const checkboxGenerator = (
       <div key={index} className="doc-and-party-container">
         {/* Master checkbox for doc__type */}
         <label
-          className="doc-type-checkbox-controller-label custom-checkbox-label"
+          className="doc-type-with-parties-checkbox-controller-label custom-checkbox-label"
           htmlFor={docTypeId}
         >
           <input
@@ -80,10 +98,10 @@ export const checkboxGenerator = (
               }
               aria-label={`Filter results by ${item.party1_type}`}
             />
-            {item.party1_type}
+            {renderSplitText(item.party1_type)}
           </label>
         ) : (
-          <span>Not Applicable</span>
+          <span className="not-applicable">Not Applicable</span>
         )}
 
         {/* Checkbox for party2_type */}
@@ -109,10 +127,10 @@ export const checkboxGenerator = (
               }
               aria-label={`Filter results by ${item.party2_type}`}
             />
-            {item.party2_type}
+            {renderSplitText(item.party2_type)}
           </label>
         ) : (
-          <span>Not Applicable</span>
+          <span className="not-applicable">Not Applicable</span>
         )}
 
         {/* Checkbox for party3_type */}
@@ -139,7 +157,7 @@ export const checkboxGenerator = (
                 }
                 aria-label={`Filter results by ${item.party3_type}`}
               />
-              {item.party3_type}
+              {renderSplitText(item.party3_type)}
             </label>
           ) : null /* Skip rendering if no party3_type */
         }

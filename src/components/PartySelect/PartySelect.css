@@ -85,19 +85,17 @@ input[type="checkbox"]:disabled {
 }
 
 /* resetting the native checkbox styling ENDS here */
-
 .party-select-container {
     background-color: var(--party-select-bg-color);
 }
 
-/* .party-group {
-    display: flex;
-    flex-direction: column;
-  } */
-
 legend {
     font-weight: 600;
-    font-size: 1.25rem;
+    font-size: .95rem;
+}
+
+.master-checkbox-row label {
+    color: white;
 }
 
 /* MORTGAGES & INSTRUMENTS */
@@ -117,20 +115,34 @@ legend {
     border: 0.15em solid black;
 }
 
+/* More specific rule to override the above styles */
+.mortgages-and-instruments-grp input[type="checkbox"].all-party1-in-group-checkbox-controller-input,
+.mortgages-and-instruments-grp input[type="checkbox"].all-party2-in-group-checkbox-controller-input,
+.mortgages-and-instruments-grp input[type="checkbox"].all-party3-in-group-checkbox-controller-input,
+.mortgages-and-instruments-grp input[type="checkbox"].doc-group-checkbox-controller-input {
+    background-color: white;
+    color: var(--mortgages-instruments-grp-color);
+    border: 0.15em solid black;
+}
+
+.mortgages-and-instruments-grp input[type="checkbox"].doc-group-checkbox-controller-input::before {
+    width: 1.35em;
+    height: 1.35em;
+    box-shadow: inset 1em 1em var(--mortgages-instruments-grp-color);
+}
+
+.mortgages-and-instruments-grp input[type="checkbox"].all-party1-in-group-checkbox-controller-input::before,
+.mortgages-and-instruments-grp input[type="checkbox"].all-party2-in-group-checkbox-controller-input::before,
+.mortgages-and-instruments-grp input[type="checkbox"].all-party3-in-group-checkbox-controller-input::before {
+    width: 1em;
+    height: 1em;
+    box-shadow: inset 1em 1em var(--mortgages-instruments-grp-color);
+}
+
+.mortgages-and-instruments-grp .select-all-docs-container,
 .mortgages-and-instruments-grp .master-checkbox-row {
     background-color: var(--mortgages-instruments-grp-color);
 }
-
-
-.master-checkbox-row label {
-    color: white;
-}
-
-.mortgages-and-instruments-grp .party1-type-checkbox-controlled-label {}
-
-.mortgages-and-instruments-grp .party2-type-checkbox-controlled-label {}
-
-.mortgages-and-instruments-grp .party3-type-checkbox-controlled-label {}
 
 
 
@@ -151,6 +163,31 @@ legend {
     border: 0.15em solid black;
 }
 
+/* More specific rule to override the above styles */
+.ucc-and-federal-liens-grp input[type="checkbox"].all-party1-in-group-checkbox-controller-input,
+.ucc-and-federal-liens-grp input[type="checkbox"].all-party2-in-group-checkbox-controller-input,
+.ucc-and-federal-liens-grp input[type="checkbox"].all-party3-in-group-checkbox-controller-input,
+.ucc-and-federal-liens-grp input[type="checkbox"].doc-group-checkbox-controller-input {
+    background-color: white;
+    color: var(--ucc-fed-liens-grp-color);
+    border: 0.15em solid black;
+}
+
+.ucc-and-federal-liens-grp input[type="checkbox"].doc-group-checkbox-controller-input::before {
+    width: 1.35em;
+    height: 1.35em;
+    box-shadow: inset 1em 1em var(--ucc-fed-liens-grp-color);
+}
+
+.ucc-and-federal-liens-grp input[type="checkbox"].all-party1-in-group-checkbox-controller-input::before,
+.ucc-and-federal-liens-grp input[type="checkbox"].all-party2-in-group-checkbox-controller-input::before,
+.ucc-and-federal-liens-grp input[type="checkbox"].all-party3-in-group-checkbox-controller-input::before {
+    width: 1em;
+    height: 1em;
+    box-shadow: inset 1em 1em var(--ucc-fed-liens-grp-color);
+}
+
+.ucc-and-federal-liens-grp .select-all-docs-container,
 .ucc-and-federal-liens-grp .master-checkbox-row {
     background-color: var(--ucc-fed-liens-grp-color);
 }
@@ -172,6 +209,31 @@ legend {
     border: 0.15em solid black;
 }
 
+/* More specific rule to override the above styles */
+.deeds-and-other-conveyances-grp input[type="checkbox"].all-party1-in-group-checkbox-controller-input,
+.deeds-and-other-conveyances-grp input[type="checkbox"].all-party2-in-group-checkbox-controller-input,
+.deeds-and-other-conveyances-grp input[type="checkbox"].all-party3-in-group-checkbox-controller-input,
+.deeds-and-other-conveyances-grp input[type="checkbox"].doc-group-checkbox-controller-input {
+    background-color: white;
+    color: var(--deeds-other-conveyances-grp-color);
+    border: 0.15em solid black;
+}
+
+.deeds-and-other-conveyances-grp input[type="checkbox"].doc-group-checkbox-controller-input::before {
+    width: 1.35em;
+    height: 1.35em;
+    box-shadow: inset 1em 1em var(--deeds-other-conveyances-grp-color);
+}
+
+.deeds-and-other-conveyances-grp input[type="checkbox"].all-party1-in-group-checkbox-controller-input::before,
+.deeds-and-other-conveyances-grp input[type="checkbox"].all-party2-in-group-checkbox-controller-input::before,
+.deeds-and-other-conveyances-grp input[type="checkbox"].all-party3-in-group-checkbox-controller-input::before {
+    width: 1em;
+    height: 1em;
+    box-shadow: inset 1em 1em var(--deeds-other-conveyances-grp-color);
+}
+
+.deeds-and-other-conveyances-grp .select-all-docs-container,
 .deeds-and-other-conveyances-grp .master-checkbox-row {
     background-color: var(--deeds-other-conveyances-grp-color);
 }
@@ -192,22 +254,56 @@ legend {
     border: 0.15em solid black;
 }
 
+/* More specific rule to override the above styles */
+.other-documents-grp input[type="checkbox"].all-party1-in-group-checkbox-controller-input,
+.other-documents-grp input[type="checkbox"].all-party2-in-group-checkbox-controller-input,
+.other-documents-grp input[type="checkbox"].all-party3-in-group-checkbox-controller-input,
+.other-documents-grp input[type="checkbox"].doc-group-checkbox-controller-input {
+    background-color: white;
+    color: var(--other-and-documents-grp);
+    border: 0.15em solid black;
+}
+
+.other-documents-grp input[type="checkbox"].doc-group-checkbox-controller-input::before {
+    width: 1.35em;
+    height: 1.35em;
+    box-shadow: inset 1em 1em var(--other-and-documents-grp);
+}
+
+.other-documents-grp input[type="checkbox"].all-party1-in-group-checkbox-controller-input::before,
+.other-documents-grp input[type="checkbox"].all-party2-in-group-checkbox-controller-input::before,
+.other-documents-grp input[type="checkbox"].all-party3-in-group-checkbox-controller-input::before {
+    width: 1em;
+    height: 1em;
+    box-shadow: inset 1em 1em var(--other-and-documents-grp);
+}
+
+.other-documents-grp .select-all-docs-container,
 .other-documents-grp .master-checkbox-row {
     background-color: var(--other-and-documents-grp);
+}
+
+.not-applicable {
+    color: red;
+    font-weight: 800;
 }
 
 /* END OF COLOR SECTION */
 
 
-
+.select-all-docs-container{
+    display: grid;
+    justify-content: left;
+}
 
 .master-checkbox-row,
 .doc-and-party-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
     font-size: 1rem;
+    justify-content: right;
 }
 
 .master-checkbox-row {
@@ -225,38 +321,66 @@ legend {
 
     display: grid;
     grid-template-columns: 1em auto;
-    gap: 0.5em;
+    /* gap: 0.5em; */
     color: var(--checkbox-label-text-color);
 }
 
-.doc-group-checkbox-controller-label {}
-
-.doc-group-checkbox-controller-input {
-    width: 1.9em;
-    height: 1.9em;
+.doc-group-checkbox-controller-label {
+    gap: 1.25em;
+    margin: .4rem;
+    align-items: center;
+    color: white;
 }
 
+.doc-group-checkbox-controller-input {
+    width: 2em;
+    height: 2em;
+}
 
-
-
-
-
-
-
-
-
-
+.all-party1-in-group-checkbox-controller-label,
+.all-party2-in-group-checkbox-controller-label,
+.all-party3-in-group-checkbox-controller-label {
+    gap: 1.25em;
+    margin: .25em;
+    align-items: center;
+}
 
 .all-party1-in-group-checkbox-controller-input,
 .all-party2-in-group-checkbox-controller-input,
 .all-party3-in-group-checkbox-controller-input {
+    width: 1.65em;
+    height: 1.65em;
+}
+
+.doc-type-with-parties-checkbox-controller-label {
+    gap: .75em;
+}
+
+.doc-type-with-parties-checkbox-controller-input {
     width: 1.5em;
     height: 1.5em;
 }
 
+.mortgages-and-instruments-grp input[type="checkbox"].doc-type-with-parties-checkbox-controller-input::before,
+.ucc-and-federal-liens-grp input[type="checkbox"].doc-type-with-parties-checkbox-controller-input::before,
+.deeds-and-other-conveyances-grp input[type="checkbox"].doc-type-with-parties-checkbox-controller-input::before,
+.other-documents-grp input[type="checkbox"].doc-type-with-parties-checkbox-controller-input::before {
+    width: .9em;
+    height: .9em;
+    box-shadow: inset 1em 1em white;
+}
+
 .party1-type-checkbox-controlled-label,
 .party2-type-checkbox-controlled-label,
-.party3-type-checkbox-controlled-label {}
+.party3-type-checkbox-controlled-label {
+    gap: 0.5em;
+    /* border: 1px solid darkgoldenrod; */
+}
+
+.party-type-checkbox-controlled-label-text {
+    display: block;
+    /* border: 1px solid black; */
+}
 
 .party1-type-checkbox-controlled-input,
 .party2-type-checkbox-controlled-input,
@@ -267,18 +391,8 @@ legend {
 
 
 
-.all-party1-in-group-checkbox-controller-label,
-.all-party2-in-group-checkbox-controller-label,
-.all-party3-in-group-checkbox-controller-label {}
 
-.doc-type-with-parties-checkbox-controller-input {
-    width: 1.15em;
-    height: 1.15em;
-}
 
-.party1-checkbox-controlled-label,
-.party2-checkbox-controlled-label,
-.party3-checkbox-controlled-label {}
 
 .checkbox-controller-label {
     width: 150px;
@@ -311,15 +425,18 @@ legend {
 /* TOGGLE CHECKBOX BUTTONS BY GROUP */
 .party-group {
     position: relative;
+    margin-bottom: 1rem;
+    padding-top: 0rem;
 }
 
 .toggle-button {
+    min-width: 20px;
     position: absolute;
     top: 0;
-    right: 0;
+    right: 0rem;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
-    padding: 5px 10px;
+    padding: 5px 5px;
     cursor: pointer;
 }
 
@@ -330,6 +447,7 @@ legend {
 .fieldset-content {
     margin-top: 20px;
 }
+
 /* TOGGLE CHECKBOX BUTTONS BY GROUP */
 
 
@@ -365,8 +483,9 @@ body {
     }
 
     /* First row: the doc-type label */
-    .doc-type-checkbox-controller-label {
+    .doc-type-with-parties-checkbox-controller-label {
         grid-row: 1 / 2;
+
     }
 
     /* Second row: party labels inline */
@@ -374,9 +493,11 @@ body {
     .party2-type-checkbox-controlled-label,
     .party3-type-checkbox-controlled-label {
         grid-row: 2 / 3;
-        display: inline-block;
-        /* Align the party labels side by side */
-        margin-right: 10px;
-        /* Optional space between the party labels */
+        display: grid;
+        width: 100%;
+    }
+
+    .hide-when-sidepanel-is-small {
+        display: none;
     }
 }
