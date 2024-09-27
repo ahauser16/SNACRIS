@@ -1,3 +1,4 @@
+//src/components/SearchByPartyNameForm/SearchByPartyNameForm.jsx
 import React, { useState } from 'react';
 import {
   fetchRealPropertyPartiesData,
@@ -101,10 +102,6 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
         selectedBoroughs={selectedBoroughs}
         handleBoroughChange={handleBoroughChange}
       />
-      {/* <DocSelect
-        selectedDocTypes={selectedDocTypes}
-        handleDocSelect={handleDocSelect}
-      /> */}
       <button type="submit">Search</button>
     </form>
   );

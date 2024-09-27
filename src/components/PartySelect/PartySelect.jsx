@@ -268,19 +268,7 @@ const PartySelect = () => {
           key={groupTitle}
           className={`party-group ${toKebabCase(groupTitle)}-grp`}
         >
-          <legend><span className="hide-when-sidepanel-is-small">Filter By</span> {groupTitle}
-            <button
-              className="toggle-button"
-              onClick={() => toggleVisibility(groupTitle)}
-            >
-              {visibleGroups[groupTitle] ? "Hide" : "Show"}
-            </button>
-          </legend>
-
-          <div
-            className="fieldset-content"
-            style={{ display: visibleGroups[groupTitle] ? "block" : "none" }}
-          >
+          <div className="fieldset-toolbar">
             <div className="select-all-docs-container">
               <label className="doc-group-checkbox-controller-label custom-checkbox-label">
                 <input
@@ -292,9 +280,29 @@ const PartySelect = () => {
                   checked={areAllDocsSelected(groupData)} // Update to reflect all checkboxes
                 />
                 {/* Select All {groupTitle} */}
-                All Documents
+                Select All
               </label>
             </div>
+            <button
+              className="toggle-button"
+              onClick={() => toggleVisibility(groupTitle)}
+            >
+              {visibleGroups[groupTitle] ? "Hide All" : "Show All"}
+            </button>
+          </div>
+          <legend>
+            <span className="hide-when-sidepanel-is-small">Filter By</span>
+            {groupTitle}
+            
+          </legend>
+
+          <div
+            className="fieldset-content"
+            style={{ display: visibleGroups[groupTitle] ? "inline-block" : "none" }}
+          >
+
+
+
             <div className="master-checkbox-row">
               {/* Master checkbox for entire doc group */}
 

@@ -1,6 +1,6 @@
+/* src/components/SearchByPartyNameForm/SearchByPartyNameForm.css  */
 .form-container{
-    background-color: var(--color1);
-    border: 1px solid whitesmoke;
+    /* background-color: var(--color1); */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,5 +11,4 @@
     position: relative;
     display:flex;
     flex-direction: column;
-    background-color: cornflowerblue;
 }

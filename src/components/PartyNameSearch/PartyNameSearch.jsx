@@ -44,8 +44,8 @@ const PartyNameSearch = ({ soql, queries = [], handlePartyName, handleAddQuery, 
   };
 
   return (
-    <div className="PartyNameSearch-container">
-      <h2>Search By Party Name</h2>
+    <fieldset className="PartyNameSearch-container">
+      <legend className="party-name-search-legend">Search By Party Name</legend>
       <div>
         <label>Search Type:</label>
         <select value={searchType} onChange={handleSearchTypeChange}>
@@ -97,7 +97,7 @@ const PartyNameSearch = ({ soql, queries = [], handlePartyName, handleAddQuery, 
       </div>
       <button type="button" onClick={() => handleResetQueries([])}>RESET</button>
       <button type="button" onClick={() => handleResetQueries([])}>SAVE THIS Party Name SEARCH</button>
-    </div>
+    </fieldset>
   );
 };
 

@@ -2,7 +2,7 @@
 
 /* Define your colors */
 :root {
-  --color1: #1b1f25;
+  --color1: rgb(13, 17, 23);
   --color2: #e74c3c;
   --color3: #3498db;
   --color4: #9b59b6;
@@ -22,7 +22,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   color: #e0e0e0;
-  background: #1a1a1a;
+  background: var(--color1);
 }
 
 a {

@@ -9,13 +9,14 @@
     --checkbox-label-text-color: black;
     --legend-text-color: darkred;
     --legend-background-color: var(--legend-text-color);
-
-    --mortgages-instruments-grp-color: darkmagenta;
-    --ucc-fed-liens-grp-color: darkgreen;
-    --deeds-other-conveyances-grp-color: darkblue;
-    --other-and-documents-grp: darkred;
-
-    --party-select-bg-color: lightblue;
+    
+    
+    --mortgages-instruments-grp-color: lightcoral;
+    --ucc-fed-liens-grp-color: rgb(103, 237, 103);
+    --deeds-other-conveyances-grp-color: rgb(121, 230, 230);
+    --other-and-documents-grp: rgb(181, 171, 238);
+    
+    --toggle-background-color: lightslategrey;
 }
 
 input[type="checkbox"] {
@@ -28,7 +29,6 @@ input[type="checkbox"] {
 
     /* Not removed via appearance */
     margin: 0;
-
     font: inherit;
 
     /* the original color was a global variable named `--checkbox-frame-color` */
@@ -48,10 +48,6 @@ input[type="checkbox"] {
 
     display: grid;
     place-content: center;
-}
-
-.custom-checkbox-label {
-    margin-bottom: 1em;
 }
 
 input[type="checkbox"]::before {
@@ -85,23 +81,30 @@ input[type="checkbox"]:disabled {
 }
 
 /* resetting the native checkbox styling ENDS here */
-.party-select-container {
-    background-color: var(--party-select-bg-color);
-}
 
 legend {
     font-weight: 600;
     font-size: .95rem;
+    text-transform: lowercase; 
 }
+
+/* fieldset{
+    max-width: 300px;
+} */
 
 .master-checkbox-row label {
     color: white;
 }
 
 /* MORTGAGES & INSTRUMENTS */
-
 .mortgages-and-instruments-grp {
     border: 2px solid var(--mortgages-instruments-grp-color);
+}
+
+.mortgages-and-instruments-grp .toggle-button{
+    background-color: var(--mortgages-instruments-grp-color);
+    color: white;
+    border: 1px solid white;
 }
 
 .mortgages-and-instruments-grp legend {
@@ -142,14 +145,20 @@ legend {
 .mortgages-and-instruments-grp .select-all-docs-container,
 .mortgages-and-instruments-grp .master-checkbox-row {
     background-color: var(--mortgages-instruments-grp-color);
+    /* display: inline-block;
+    justify-content: left; */
 }
-
-
 
 /* UCC AND FEDERAL LIENS */
 
 .ucc-and-federal-liens-grp {
     border: 2px solid var(--ucc-fed-liens-grp-color);
+}
+
+.ucc-and-federal-liens-grp .toggle-button{
+    background-color: var(--ucc-fed-liens-grp-color);
+    color: white;
+    border: 1px solid white;
 }
 
 .ucc-and-federal-liens-grp legend {
@@ -190,12 +199,20 @@ legend {
 .ucc-and-federal-liens-grp .select-all-docs-container,
 .ucc-and-federal-liens-grp .master-checkbox-row {
     background-color: var(--ucc-fed-liens-grp-color);
+    /* display: inline-block; 
+    justify-content: left;*/
 }
 
 /* DEEDS AND OTHER CONVEYANCES */
 
 .deeds-and-other-conveyances-grp {
     border: 2px solid var(--deeds-other-conveyances-grp-color);
+}
+
+.deeds-and-other-conveyances-grp .toggle-button{
+    background-color: var(--deeds-other-conveyances-grp-color);
+    color: white;
+    border: 1px solid white;
 }
 
 .deeds-and-other-conveyances-grp legend {
@@ -236,11 +253,19 @@ legend {
 .deeds-and-other-conveyances-grp .select-all-docs-container,
 .deeds-and-other-conveyances-grp .master-checkbox-row {
     background-color: var(--deeds-other-conveyances-grp-color);
+    /* display: inline-block; 
+    justify-content: left;*/
 }
 
 /* OTHER DOCUMENTS */
 .other-documents-grp {
     border: 2px solid var(--other-and-documents-grp);
+}
+
+.other-documents-grp .toggle-button{
+    background-color: var(--other-and-documents-grp);
+    color: white;
+    border: 1px solid white;
 }
 
 .other-documents-grp legend {
@@ -281,6 +306,8 @@ legend {
 .other-documents-grp .select-all-docs-container,
 .other-documents-grp .master-checkbox-row {
     background-color: var(--other-and-documents-grp);
+    /* display: inline-block; 
+    justify-content: left;*/
 }
 
 .not-applicable {
@@ -291,12 +318,21 @@ legend {
 /* END OF COLOR SECTION */
 
 
-.select-all-docs-container{
+.fieldset-toolbar{
+    border: 1.5px solid whitesmoke;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+    /* align-items: center;  */
+}
+
+.select-all-docs-container {
     display: grid;
     justify-content: left;
 }
 
-.master-checkbox-row,
+
+
 .doc-and-party-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -306,7 +342,13 @@ legend {
     justify-content: right;
 }
 
+
 .master-checkbox-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    justify-content: right;
+    flex-direction: row;
     font-size: 1.15rem;
     font-weight: bold;
 }
@@ -322,14 +364,17 @@ legend {
     display: grid;
     grid-template-columns: 1em auto;
     /* gap: 0.5em; */
-    color: var(--checkbox-label-text-color);
+    /* color: var(--checkbox-label-text-color); */
 }
 
 .doc-group-checkbox-controller-label {
-    gap: 1.25em;
+    display: flex;
+    gap: .5em;
     margin: .4rem;
     align-items: center;
     color: white;
+    flex: 0 1 auto; /* Take up the minimum amount of space */
+    white-space: normal; /* Allow text to wrap */
 }
 
 .doc-group-checkbox-controller-input {
@@ -389,11 +434,6 @@ legend {
     height: 1.15em;
 }
 
-
-
-
-
-
 .checkbox-controller-label {
     width: 150px;
     /* Set an appropriate max-width */
@@ -414,46 +454,37 @@ legend {
     font-size: 0.75rem;
 }
 
-
 .placehold-for-missing-checkbox {
     color: orangered;
 }
-
 /* custom styling ENDS here */
-
 
 /* TOGGLE CHECKBOX BUTTONS BY GROUP */
 .party-group {
     position: relative;
-    margin-bottom: 1rem;
-    padding-top: 0rem;
+    margin: 1rem .25rem;
 }
 
 .toggle-button {
-    min-width: 20px;
-    position: absolute;
-    top: 0;
-    right: 0rem;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    width: 50px;
+    position: relative;
+    align-self:right;
+    /* background-color: #f0f0f0; */
+    
     padding: 5px 5px;
     cursor: pointer;
+    /* align-self: flex-end;  */
 }
 
-.toggle-button:hover {
-    background-color: #e0e0e0;
+.toggle-button:hover{
+    background-color: var(--toggle-background-color);
 }
 
 .fieldset-content {
-    margin-top: 20px;
+    margin-top: 1rem;
 }
 
 /* TOGGLE CHECKBOX BUTTONS BY GROUP */
-
-
-
-
-
 
 /* Make the body element behave like a container */
 body {
@@ -474,12 +505,12 @@ body {
         display: grid;
         grid-template-rows: auto auto;
         /* Two rows */
-        grid-gap: 10px;
+        grid-gap: .25em;
         /* Optional gap between rows */
-        border: 1.75px solid black;
+        border: 1.75px solid whitesmoke;
         border-radius: 5px;
         padding: .125em;
-        width: 300px;
+        /* width: 300px; */
     }
 
     /* First row: the doc-type label */

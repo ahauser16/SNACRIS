@@ -1,8 +1,23 @@
 /* src/components/PartyNameSearch/PartyNameSearch.css */
+
+:root{
+  --party-name-color: orangered;
+}
+
+body{
+  margin: 0;
+  padding: .4rem;
+}
+
 .PartyNameSearch-container{
-    border: 1px solid red;
-    margin: 1rem;
+    border: 2px solid var(--party-name-color);
+    margin: .25rem;
     padding: 1rem;
+}
+
+.party-name-search-legend{
+  color: var(--party-name-color); 
+  font-weight: bold;
 }
 
 .initial-query{

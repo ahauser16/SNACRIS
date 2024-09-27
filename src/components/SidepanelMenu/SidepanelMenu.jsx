@@ -28,6 +28,7 @@ const SidepanelMenu = () => {
   };
 
   const ActiveFormComponent = sections[activeIndex].component;
+  const activeColorClass = sections[activeIndex].colorClass;
 
   return (
     <div className="nav-form-container">
@@ -45,7 +46,7 @@ const SidepanelMenu = () => {
       </nav>
 
       <div className="pageViewer">
-        <FormTableContainer activeForm={ActiveFormComponent} />
+        <FormTableContainer activeForm={ActiveFormComponent} colorClass={activeColorClass} />
       </div>
     </div>
   );
