@@ -11,14 +11,14 @@ const DisplayApiDataTable = ({ data, error }) => {
         return null;
     }
 
-    const headers = Object.keys(data[0]);
+    const headers = Object.keys(data[0]).filter(header => header !== 'record_type' && header !== 'good_through_date' && header !== 'name');
 
     return (
         <table className="api-table">
             <thead>
                 <tr>
                     {headers.map((header) => (
-                        <th key={header}>{header}</th>
+                        <th key={header} className={header}>{header}</th>
                     ))}
                 </tr>
             </thead>
@@ -26,7 +26,7 @@ const DisplayApiDataTable = ({ data, error }) => {
                 {data.map((row, rowIndex) => (
                     <tr key={rowIndex}>
                         {headers.map((header) => (
-                            <td key={header}>{row[header]}</td>
+                            <td key={header} className={header}>{row[header]}</td>
                         ))}
                     </tr>
                 ))}

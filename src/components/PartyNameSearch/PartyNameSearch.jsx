@@ -1,102 +1,52 @@
 // src/components/PartyNameSearch/PartyNameSearch.jsx
 import React, { useState } from 'react';
+import StatesCheckboxes from '../StatesCheckboxes/StatesCheckboxes';
+import CountriesCheckboxes from '../CountriesCheckboxes/CountriesCheckboxes';
 import './PartyNameSearch.css';
 
-const PartyNameSearch = ({ soql, queries = [], handlePartyName, handleAddQuery, handleResetQueries }) => {
-  const [currentQuery, setCurrentQuery] = useState('');
-  const [searchType, setSearchType] = useState('startsWith');
-  const [booleanOperator, setBooleanOperator] = useState('AND');
+const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCountryChange }) => {
+  const [showStatesCheckboxes, setShowStatesCheckboxes] = useState(false);
+  const [showCountriesCheckboxes, setShowCountriesCheckboxes] = useState(false);
 
-  const handleCurrentQueryChange = (e) => {
-    setCurrentQuery(e.target.value);
+  const toggleStatesCheckboxes = () => {
+    setShowStatesCheckboxes((prevShowStatesCheckboxes) => !prevShowStatesCheckboxes);
   };
 
-  const handleSearchTypeChange = (e) => {
-    setSearchType(e.target.value);
-  };
-
-  const handleBooleanOperatorChange = (e) => {
-    setBooleanOperator(e.target.value);
-  };
-
-  const handleAddCondition = () => {
-    if (currentQuery) {
-      const query = { searchType, query: currentQuery };
-      console.log('Adding query:', query); // Add this line
-      handleAddQuery({ query, booleanOperator });
-      setCurrentQuery('');
-    }
-  };
-
-  const handleRemoveQuery = (index) => {
-    const newQueries = queries.filter((_, i) => i !== index);
-    handleResetQueries(newQueries);
-  };
-
-  const formatQuery = (query) => {
-    const searchTypeMap = {
-      startsWith: 'Starts with',
-      endsWith: 'Ends with',
-      contains: 'Contains',
-      exclude: 'Exclude',
-    };
-    return `${searchTypeMap[query.query.searchType]} '${query.query.query}'`;
+  const toggleCountriesCheckboxes = () => {
+    setShowCountriesCheckboxes((prevShowCountriesCheckboxes) => !prevShowCountriesCheckboxes);
   };
 
   return (
-    <fieldset className="PartyNameSearch-container">
+    <fieldset className="party-name-search-container">
       <legend className="party-name-search-legend">Search By Party Name</legend>
-      <div>
-        <label>Search Type:</label>
-        <select value={searchType} onChange={handleSearchTypeChange}>
-          <option value="startsWith">Starts With</option>
-          <option value="endsWith">Ends With</option>
-          <option value="contains">Contains</option>
-          <option value="exclude">Exclude</option>
-        </select>
-      </div>
-      <div>
-        <label>Party Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={currentQuery}
-          onChange={handleCurrentQueryChange}
-        />
-        <button type="button" onClick={handleAddCondition}>ADD CONDITION</button>
-      </div>
-      <div>
-        <label>Boolean Operator:</label>
-        <select value={booleanOperator} onChange={handleBooleanOperatorChange}>
-          <option value="AND">AND</option>
-          <option value="OR">OR</option>
-        </select>
-      </div>
-      <div className="initial-query">
-        {Array.isArray(queries) && queries.map((query, index) => (
-          <div key={index} className="formatted-query-container">
-            {index > 0 && (
-              <div className="formatted-boolean-container">
-                <label className="formatted-boolean-label visually-hidden" id={`boolean-label-${index}`}>
-                  Boolean Operator:
-                </label>
-                <p className="formatted-boolean" aria-labelledby={`boolean-label-${index}`}>
-                  {query.booleanOperator}
-                </p>
-              </div>
-            )}
-            <label className="formatted-query-label visually-hidden" id={`query-label-${index}`}>
-              Query:
-            </label>
-            <p className="formatted-query" aria-labelledby={`query-label-${index}`}>
-              {formatQuery(query)}
-            </p>
-            <button type="button" onClick={() => handleRemoveQuery(index)}>X</button>
-          </div>
-        ))}
-      </div>
-      <button type="button" onClick={() => handleResetQueries([])}>RESET</button>
-      <button type="button" onClick={() => handleResetQueries([])}>SAVE THIS Party Name SEARCH</button>
+      {['name', 'address_1', 'address_2', 'city', 'zip'].map((field) => (
+        <div key={field}>
+          <label>{field.replace('_', ' ')}:</label>
+          <input
+            type="text"
+            name={field}
+            value={soql[field]}
+            onChange={handleInputChange}
+          />
+        </div>
+      ))}
+      <button type="button" onClick={toggleStatesCheckboxes}>
+        {showStatesCheckboxes ? 'Hide States' : 'Show States'}
+      </button>
+
+      {/* Passing Handlers to `CountriesCheckboxes` and `StatesCheckboxes`: Inside the `PartyNameSearch` component, the `handleCountryChange` and `handleStateChange` functions are further passed down to the `CountriesCheckboxes` and `StatesCheckboxes` components */}
+
+      {showStatesCheckboxes && (
+        <StatesCheckboxes selectedStates={soql.state} handleStateChange={handleStateChange} />
+      )}
+
+      <button type="button" onClick={toggleCountriesCheckboxes}>
+        {showCountriesCheckboxes ? 'Hide Countries' : 'Show Countries'}
+      </button>
+
+      {showCountriesCheckboxes && (
+        <CountriesCheckboxes selectedCountries={soql.country} handleCountryChange={handleCountryChange} />
+      )}
     </fieldset>
   );
 };

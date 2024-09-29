@@ -1,14 +1,17 @@
 /* src/components/SearchByPartyNameForm/SearchByPartyNameForm.css  */
-.form-container{
+.search-by-party-name-form{
     /* background-color: var(--color1); */
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
+    width: 100%;
 }
 
-.form-container form {
-    position: relative;
-    display:flex;
-    flex-direction: column;
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
 }

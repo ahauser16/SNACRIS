@@ -27,16 +27,33 @@ const RPMqueryBuilder = (soql = {}, endpoint, fields) => {
 };
 
 const buildSoQLQuery = (soql, fields) => {
-  const whereClauses = Object.entries(soql)
-    .filter(([_, value]) => value && String(value).trim() !== '') // Ensure value is a string before trimming
-    .map(([key, value]) => buildSoQLFieldQuery(key, value))
-    .join(' AND ');
+  if (!soql.queries || soql.queries.length === 0) {
+    return '';
+  }
+
+  const whereClauses = soql.queries.map((query, index) => {
+    const { query: condition, booleanOperator } = query;
+    const clause = `${index > 0 ? booleanOperator : ''} ${buildSoQLFieldQuery('name', condition)}`;
+    console.log('Constructed clause:', clause);
+    return clause.trim();
+  }).join(' ');
 
   return `$where=${encodeURIComponent(whereClauses)}`;
 };
 
 const buildSoQLFieldQuery = (key, value) => {
-  return `UPPER(${key}) LIKE UPPER('%${value}%')`;
+  switch (value.searchType) {
+    case 'startsWith':
+      return `UPPER(${key}) LIKE UPPER('${value.query}%')`;
+    case 'endsWith':
+      return `UPPER(${key}) LIKE UPPER('%${value.query}')`;
+    case 'contains':
+      return `UPPER(${key}) LIKE UPPER('%${value.query}%')`;
+    case 'exclude':
+      return `UPPER(${key}) NOT LIKE UPPER('%${value.query}%')`;
+    default:
+      return `UPPER(${key})=UPPER('${value.query}')`;
+  }
 };
 
 const fetchData = async (url) => {
@@ -66,6 +83,7 @@ export const fetchRealPropertyPartiesData = (soql) => {
   return fetchData(url);
 };
 // refactor in progress ABOVE!
+
 
 export const fetchRealPropertyLegalsData = (soql, searchType) => {
   const url = RPMqueryBuilder(soql, API_ENDPOINTS.realPropertyLegals, realPropertyLegalFields, searchType);

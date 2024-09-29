@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import "./PartySelect.css";
+import "./DocAndPartyTypeSelect.css";
 import partyMap from "./partyMap.json";
 import { groupByClassCodeDescription } from "./utils/groupByClassCodeDescription";
 import { checkboxGenerator } from "./utils/checkboxGenerator";
 import { toCamelCase } from "./utils/toCamelCase";
 import { toKebabCase } from "./utils/toKebabCase";
 
-const PartySelect = () => {
+const DocAndPartyTypeSelect = () => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [visibleGroups, setVisibleGroups] = useState({});
 
@@ -293,7 +293,7 @@ const PartySelect = () => {
           <legend>
             <span className="hide-when-sidepanel-is-small">Filter By</span>
             {groupTitle}
-            
+
           </legend>
 
           <div
@@ -301,11 +301,8 @@ const PartySelect = () => {
             style={{ display: visibleGroups[groupTitle] ? "inline-block" : "none" }}
           >
 
-
-
             <div className="master-checkbox-row">
               {/* Master checkbox for entire doc group */}
-
 
               {/* Master checkbox for party1_type */}
               <label className="all-party1-in-group-checkbox-controller-label custom-checkbox-label">
@@ -363,4 +360,4 @@ const PartySelect = () => {
   );
 };
 
-export default PartySelect;
+export default DocAndPartyTypeSelect;

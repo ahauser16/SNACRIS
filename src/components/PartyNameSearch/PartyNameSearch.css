@@ -9,10 +9,11 @@ body{
   padding: .4rem;
 }
 
-.PartyNameSearch-container{
+.party-name-search-container{
     border: 2px solid var(--party-name-color);
-    margin: .25rem;
+    margin: .5rem;
     padding: 1rem;
+    width: 100%;
 }
 
 .party-name-search-legend{

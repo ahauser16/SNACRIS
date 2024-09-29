@@ -1,5 +1,5 @@
 // src/components/SidepanelMenu/SidepanelMenu.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormTableContainer from '../FormTableContainer/FormTableContainer';
 import SearchByPartyNameForm from '../SearchByPartyNameForm/SearchByPartyNameForm';
 import SearchByAddressForm from '../SearchByAddressForm/SearchByAddressForm';
@@ -30,6 +30,10 @@ const SidepanelMenu = () => {
   const ActiveFormComponent = sections[activeIndex].component;
   const activeColorClass = sections[activeIndex].colorClass;
 
+  useEffect(() => {
+    document.documentElement.className = activeColorClass;
+  }, [activeColorClass]);
+
   return (
     <div className="nav-form-container">
       <nav className="nav nav--active">
@@ -45,7 +49,7 @@ const SidepanelMenu = () => {
         </ul>
       </nav>
 
-      <div className="pageViewer">
+      <div className={`pageViewer ${activeColorClass}`}>
         <FormTableContainer activeForm={ActiveFormComponent} colorClass={activeColorClass} />
       </div>
     </div>

@@ -1,17 +1,22 @@
 /* src/components/DisplayApiDataTable/DisplayApiDataTable.css */
-/* color: whitesmoke;
-background-color: #282c34; */
+
+:root {
+    --table-header-bg-color: #282c34;
+    --table-header-border-color: whitesmoke;
+    --table-header-font-color: whitesmoke;
+    --table-row-bg-color: whitesmoke;
+    --table-row-border-color: #282c34;
+    --table-row-font-color: #282c34;
+}
+
 .api-table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
-    /* border: 1px solid red;
-    background-color: blue;
-    color: red; */
     font-family: Arial, sans-serif;
-    font-size: 16px;
+    font-size: .75rem;
     text-align: left;
-    margin: 20px 0;
+    margin: 1rem 0;
     table-layout: auto;
     caption-side: top;
     empty-cells: show;
@@ -20,45 +25,165 @@ background-color: #282c34; */
 }
 
 .api-table thead {
-    background-color: #282c34;
-    color: whitesmoke;
+    background-color: var(--table-header-bg-color);
+    color: var(--table-header-font-color);
     font-weight: bold;
     text-align: center;
     vertical-align: middle;
-    border-bottom: 2px solid #0e1013;
+    border-bottom: 2px solid red;
 }
 
-.api-table tr {
-    border-bottom: 1px solid red;
-    background-color: #282c34;
-    color: whitesmoke;
-    transition: background-color 0.3s ease;
-}
-
-.api-table tr:hover {
-    background-color: red;
-    color: blue;
-}
-
-.api-table th, .api-table td {
-    padding: 10px;
-    border: 1px solid #282c34;
-    text-align: left;
-    vertical-align: top;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.api-table tbody {
+    background-color: var(--table-row-bg-color);
+    color: var(--table-row-font-color);
+    border: 1px solid var(--table-row-border-color);
 }
 
 .api-table th {
-    background-color: #282c34;
+    padding: .125rem;
+    text-align: left;
+    vertical-align: top;
+    /* change these below */
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: clip;
+    word-break: normal;
+    min-width: 10ch;
+}
+
+.api-table td {
+    padding: .125rem;
+    text-align: left;
+    vertical-align: top;
+    /* change these below */
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: clip;
+    word-break: normal;
+    overflow-wrap: break-word;
+    max-width: 30ch;
+}
+
+.api-table th {
     color: whitesmoke;
     font-weight: bold;
     text-transform: uppercase;
 }
 
 .api-table td {
-    background-color: whitesmoke ;
     color: #282c34;
     font-weight: normal;
+    margin: .5rem;
+    border: 1px solid var(--table-row-border-color);
+}
+
+/* Column specific max-widths based on character limits */
+.api-table .document_id {
+    max-width: 20ch;
+}
+
+.api-table .record_type {
+    max-width: 3ch;
+}
+
+.api-table .party_type {
+    max-width: 12ch;
+}
+
+.api-table .name {
+    max-width: 70ch;
+}
+
+.api-table .address_1 {
+    max-width: 60ch;
+}
+
+.api-table .address_2 {
+    max-width: 60ch;
+}
+
+.api-table .country {
+    max-width: 4ch;
+}
+
+.api-table .city {
+    max-width: 30ch;
+}
+
+.api-table .state {
+    max-width: 8ch;
+}
+
+.api-table .zip {
+    max-width: 5ch;
+}
+
+.api-table .good_through_date {
+    max-width: 10ch;
+}
+
+body {
+    container-type: inline-size;
+    container-name: sidepanel-body;
+}
+
+/* Container query for when the side panel body width is 350px or less */
+@container sidepanel-body (max-width: 350px) {
+
+    .name,
+    .party_type,
+    .address_1,
+    .address_2,
+    .city,
+    .state,
+    .zip,
+    .country {
+        display: none;
+    }
+
+    .api-table tbody{
+        margin: 0 .5rem;
+    }
+}
+
+/* Container query for when the side panel body width is 500px or less */
+@container sidepanel-body (max-width: 500px) {
+
+    .address_2,
+    .city,
+    .state,
+    .zip,
+    .country {
+        display: none;
+    }
+}
+
+/* Container query for when the side panel body width is 600px or less */
+@container sidepanel-body (max-width: 650px) {
+
+    .city,
+    .state,
+    .zip,
+    .country {
+        display: none;
+    }
+
+    .hide-when-sidepanel-is-small {
+        display: none;
+    }
+}
+
+/* Container query for when the side panel body width is 700px or less */
+@container sidepanel-body (max-width: 700px) {
+
+    .city,
+    .state,
+    .zip,
+    .country {
+        display: none;
+    }
+
+    .hide-when-sidepanel-is-small {
+        display: none;
+    }
 }

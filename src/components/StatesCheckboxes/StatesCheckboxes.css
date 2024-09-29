@@ -1,0 +1,47 @@
+/* src/components/StatesCheckboxes/StatesCheckboxes.css */
+.states-checkboxes-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    /* border: 1px solid yellow; */
+  }
+  
+  .states-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    /* border: 1px solid red; */
+  }
+  
+  .states-column {
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid lightcyan; */
+  }
+  
+  .armed-forces-column {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  body {
+    container-type: inline-size;
+    container-name: sidepanel-body;
+  }
+  
+  /* Container query for when the side panel body width is 350px or less */
+  /* @container sidepanel-body (max-width: 350px) {
+    .states-checkboxes-container {
+      grid-template-columns: 1fr;
+    }
+  
+    .states-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .armed-forces-column {
+      grid-column: span 1;
+    }
+  } */

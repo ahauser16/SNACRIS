@@ -1,4 +1,4 @@
-user_favorites = {
+{
     "categories": [
       {
         "category_name": "My Documents",
@@ -25,7 +25,7 @@ user_favorites = {
             "borough": 1,
             "block": 1234,
             "lot": 5678,
-            "property_type": "R1", // Found in Property Type Codes dataset
+            "property_type": "R1",
             "street_number": "123",
             "street_name": "Main St",
             "unit_address": "Unit 4A"

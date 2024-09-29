@@ -1,32 +1,24 @@
-//src/components/SearchByPartyNameForm/SearchByPartyNameForm.jsx
+// src/components/SearchByPartyNameForm/SearchByPartyNameForm.jsx
 import React, { useState } from 'react';
-import {
-  fetchRealPropertyPartiesData,
-  fetchRealPropertyMasterData,
-} from '../../api/api';
+import { fetchRealPropertyPartiesData } from '../../api/api';
 import PartyNameSearch from '../PartyNameSearch/PartyNameSearch';
-import PartySelect from '../PartySelect/PartySelect';
-import DateSelect from '../DateSelect/DateSelect';
-import BoroughSelect from '../BoroughSelect/BoroughSelect';
-import DocSelect from '../DocSelect/DocSelect';
-
 import './SearchByPartyNameForm.css';
 
-const SearchByPartyNameForm = ({ setData, setError }) => {
-  const [selectedBoroughs, setSelectedBoroughs] = useState([]);
-  const [selectedPartyType, setSelectedPartyType] = useState([]);
-  const [selectedDocTypes, setSelectedDocTypes] = useState([]);
+// The `CountriesCheckboxes` and `StatesCheckboxes` components pass the checkbox values to the `soql` state variable through the `handleCountryChange` and `handleStateChange` functions, respectively. These functions are passed down as props from the `SearchByPartyNameForm` component to the `PartyNameSearch` component, and then further down to the `CountriesCheckboxes` and `StatesCheckboxes` components.
+
+const SearchByPartyNameForm = ({ setData, setError, handleReset }) => {
+  //State Initialization in `SearchByPartyNameForm`: The soql state is initialized in the `SearchByPartyNameForm` component below.
   const [soql, setSoql] = useState({
     name: '',
-    party_type: '',
-    document_date_start: '',
-    document_date_end: '',
-    borough: [],
-    doc_type: '',
+    address_1: '',
+    address_2: '',
+    country: [],
+    city: '',
+    state: [],
+    zip: '',
   });
-  const [queries, setQueries] = useState([]);
 
-  const handlePartyName = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setSoql((prevSoql) => ({
       ...prevSoql,
@@ -34,44 +26,34 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
     }));
   };
 
-  const handleBoroughChange = (selectedBoroughs) => {
-    setSelectedBoroughs(selectedBoroughs);
+  // Handler Functions in `SearchByPartyNameForm`: The `handleStateChange` function is defined in the `SearchByPartyNameForm` component to update the `soql` state:
+  const handleStateChange = (e) => {
+    const { value, checked } = e.target;
     setSoql((prevSoql) => ({
       ...prevSoql,
-      borough: selectedBoroughs,
+      state: checked
+        ? [...prevSoql.state, value]
+        : prevSoql.state.filter((state) => state !== value),
     }));
   };
 
-  const handlePartySelect = (value) => {
-    setSelectedPartyType(value);
+  // Handler Functions in `SearchByPartyNameForm`: The `handleCountryChange` function is defined in the `SearchByPartyNameForm` component to update the `soql` state:
+  const handleCountryChange = (e) => {
+    const { value, checked } = e.target;
     setSoql((prevSoql) => ({
       ...prevSoql,
-      party_type: value,
+      country: checked
+        ? [...prevSoql.country, value]
+        : prevSoql.country.filter((country) => country !== value),
     }));
-  };
-
-  const handleDocSelect = (selectedDocTypes) => {
-    setSelectedDocTypes(selectedDocTypes);
-    setSoql((prevSoql) => ({
-      ...prevSoql,
-      doc_type: selectedDocTypes.join(','),
-    }));
-  };
-
-  const handleAddQuery = (query) => {
-    setQueries((prevQueries) => [...prevQueries, query]);
-  };
-
-  const handleResetQueries = (newQueries = []) => {
-    setQueries(newQueries);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting with SoQL:', soql, 'Queries:', queries);
+    console.log('Submitting with SoQL:', soql);
 
     try {
-      const response = await fetchRealPropertyPartiesData({ ...soql, queries });
+      const response = await fetchRealPropertyPartiesData(soql);
       setData(response);
       setError(null); // Reset error state on successful fetch
     } catch (error) {
@@ -81,28 +63,32 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
     }
   };
 
+  const handleFormReset = () => {
+    setSoql({
+      name: '',
+      address_1: '',
+      address_2: '',
+      country: [],
+      city: '',
+      state: [],
+      zip: '',
+    });
+    handleReset();
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="search-by-party-name-form" onSubmit={handleSubmit}>
+      {/* Passing Handlers to `PartyNameSearch`: These handler functions are passed as props to the `PartyNameSearch` component. */}
       <PartyNameSearch
         soql={soql}
-        queries={queries}
-        handlePartyName={handlePartyName}
-        handleAddQuery={handleAddQuery}
-        handleResetQueries={handleResetQueries}
+        handleInputChange={handleInputChange}
+        handleStateChange={handleStateChange}
+        handleCountryChange={handleCountryChange}
       />
-      <PartySelect
-        selectedPartyType={selectedPartyType}
-        setSelectedPartyType={handlePartySelect}
-      />
-      <DateSelect
-        soql={soql}
-        setSoql={setSoql}
-      />
-      <BoroughSelect
-        selectedBoroughs={selectedBoroughs}
-        handleBoroughChange={handleBoroughChange}
-      />
-      <button type="submit">Search</button>
+      <div className="flex-container">
+        <button type="submit">Search</button>
+        <button type="button" onClick={handleFormReset}>Reset</button>
+      </div>
     </form>
   );
 };

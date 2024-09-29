@@ -6,9 +6,15 @@ const FormTableContainer = ({ activeForm: ActiveForm, colorClass }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
+  const handleReset = () => {
+    setData([]);
+    setError(null);
+  };
+
   return (
     <div className={`form-container ${colorClass}`}>
-      <ActiveForm setData={setData} setError={setError} />
+      <ActiveForm setData={setData} setError={setError} handleReset={handleReset} />
+      {/* <button onClick={handleReset}>Reset</button> */}
       <DisplayApiDataTable data={data} error={error} />
     </div>
   );
