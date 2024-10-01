@@ -38,6 +38,15 @@
     flex-direction: column;
   }
   
+.timezone-label{
+  color: orangered;
+  margin-right: .5rem;
+}
+
+
+.timestamp{
+  margin-left: .5rem;
+}
   /* favorite, unfavorite icon system */
 
 .icon-add-circle,

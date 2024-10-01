@@ -18,6 +18,11 @@
   width: 100%;
 }
 
+/* .timestamp{
+  margin-left: .5rem;
+  position: relative;
+} */
+
 .country-label-and-checkbox-container {
   font-size: 1rem;
   display: flex;

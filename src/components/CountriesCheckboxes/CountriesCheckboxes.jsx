@@ -235,7 +235,7 @@ const CountriesCheckboxes = () => {
           Object.keys(filteredCountries).map((timezone) => (
             <div key={timezone} className="timezone-group">
               <label className="timezone-label">
-                {timezone} - <TimezoneClock timezone={timezone} />
+                {timezone}   <TimezoneClock timezone={timezone} className="timestamp"/>
               </label>
               <div className="country-grid">
                 {filteredCountries[timezone].map(
