@@ -1,41 +1,77 @@
-/* src/components/StatesCheckboxes/StatesCheckboxes.css */
+/* CountriesCheckboxes.css */
 .country-checkboxes-container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    /* border: 1px solid yellow; */
-  }
-  
-  .country-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    width: 100%;
-    /* border: 1px solid red; */
-  }
-  
-  .country-column {
-    display: flex;
-    flex-direction: column;
-    /* border: 1px solid lightcyan; */
-  }
-  
-  body {
-    container-type: inline-size;
-    container-name: sidepanel-body;
-  }
-  
-  /* Container query for when the side panel body width is 350px or less */
-  /* @container sidepanel-body (max-width: 350px) {
-    .states-checkboxes-container {
-      grid-template-columns: 1fr;
-    }
-  
-    .states-grid {
-      grid-template-columns: 1fr;
-    }
-  
-    .armed-forces-column {
-      grid-column: span 1;
-    }
-  } */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.country-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+.country-label-and-checkbox-container {
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+}
+
+.country-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sorting-method-container {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.sorting-method-container label {
+  margin-right: 20px;
+}
+
+/* Ensure continent label has padding and border for clarity */
+.continent-label {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border: 1px solid red;
+  padding: 5px;
+}
+
+.continent-group {
+  margin-bottom: 20px;
+}
+
+/* Align checkbox input and description to the left */
+label {
+  display: flex;
+  align-items: center; /* Ensure input and text are aligned */
+  gap: 0.125rem; /* Add space between checkbox and description */
+}
+
+/* Ensure the checkbox aligns consistently */
+label input[type="checkbox"] {
+  margin-right: 10px; /* Ensure spacing between checkbox and label */
+}
+
+/* CountriesCheckboxes.css */
+
+.filtering-container {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.filtering-container input {
+  padding: 8px;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 300px;
+}
