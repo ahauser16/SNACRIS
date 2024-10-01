@@ -1,3 +1,9 @@
+:root {
+  --icon-bg-color: #A5B3BB;
+  --icon-inner-color: mediumblue;
+  --icon-hover-color: mediumseagreen;
+}
+
 /* CountriesCheckboxes.css */
 .country-checkboxes-container {
   display: flex;
@@ -13,7 +19,7 @@
 }
 
 .country-label-and-checkbox-container {
-  font-size: 0.85rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
 }
@@ -21,7 +27,7 @@
 .country-column {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  /* align-items: flex-start; */
 }
 
 .sorting-method-container {
@@ -51,13 +57,16 @@
 /* Align checkbox input and description to the left */
 label {
   display: flex;
-  align-items: center; /* Ensure input and text are aligned */
-  gap: 0.125rem; /* Add space between checkbox and description */
+  align-items: center;
+  /* Ensure input and text are aligned */
+  gap: 0.125rem;
+  /* Add space between checkbox and description */
 }
 
 /* Ensure the checkbox aligns consistently */
 label input[type="checkbox"] {
-  margin-right: 10px; /* Ensure spacing between checkbox and label */
+  margin-right: 10px;
+  /* Ensure spacing between checkbox and label */
 }
 
 /* CountriesCheckboxes.css */
@@ -74,4 +83,46 @@ label input[type="checkbox"] {
   font-size: 1rem;
   width: 100%;
   max-width: 300px;
+}
+
+/* favorite, unfavorite icon system */
+
+.icon-add-circle,
+.icon-check,
+.icon-close-circle {
+  cursor: pointer;
+  /* fill: gray; */
+  width: 1.15rem;
+  margin-left: .5rem;
+}
+
+.icon-add-circle .primary,
+.icon-close-circle .primary {
+  fill: var(--icon-bg-color);
+}
+
+.icon-add-circle .secondary,
+.icon-close-circle .secondary {
+  fill: var(--icon-inner-color);
+}
+
+
+.icon-check .primary {
+  fill: var(--icon-inner-color);
+}
+
+.icon-check .secondary {
+  fill: var(--icon-bg-color);
+}
+
+.icon-add-circle .primary:hover,
+.icon-check .primary:hover,
+.icon-close-circle .primary:hover {
+  fill: var(--icon-hover-color);
+}
+
+.icon-add-circle.active,
+.icon-check.active,
+.icon-close-circle.active {
+  fill: var(--icon-hover-color);
 }

@@ -1,4 +1,10 @@
 /* src/components/StatesCheckboxes/StatesCheckboxes.css */
+:root {
+  --icon-bg-color: #A5B3BB;
+  --icon-inner-color: mediumblue;
+  --icon-hover-color: mediumseagreen;
+}
+
 .states-checkboxes-container {
     display: flex;
     flex-direction: row;
@@ -14,6 +20,12 @@
     /* border: 1px solid red; */
   }
   
+  .state-label-and-checkbox-container {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+  }
+
   .states-column {
     display: flex;
     flex-direction: column;
@@ -26,22 +38,44 @@
     flex-direction: column;
   }
   
-  body {
-    container-type: inline-size;
-    container-name: sidepanel-body;
-  }
-  
-  /* Container query for when the side panel body width is 350px or less */
-  /* @container sidepanel-body (max-width: 350px) {
-    .states-checkboxes-container {
-      grid-template-columns: 1fr;
-    }
-  
-    .states-grid {
-      grid-template-columns: 1fr;
-    }
-  
-    .armed-forces-column {
-      grid-column: span 1;
-    }
-  } */
+  /* favorite, unfavorite icon system */
+
+.icon-add-circle,
+.icon-check,
+.icon-close-circle {
+  cursor: pointer;
+  /* fill: gray; */
+  width: 1.15rem;
+  margin-left: .5rem;
+}
+
+.icon-add-circle .primary,
+.icon-close-circle .primary {
+  fill: var(--icon-bg-color);
+}
+
+.icon-add-circle .secondary,
+.icon-close-circle .secondary {
+  fill: var(--icon-inner-color);
+}
+
+
+.icon-check .primary {
+  fill: var(--icon-inner-color);
+}
+
+.icon-check .secondary {
+  fill: var(--icon-bg-color);
+}
+
+.icon-add-circle .primary:hover,
+.icon-check .primary:hover,
+.icon-close-circle .primary:hover {
+  fill: var(--icon-hover-color);
+}
+
+.icon-add-circle.active,
+.icon-check.active,
+.icon-close-circle.active {
+  fill: var(--icon-hover-color);
+}
