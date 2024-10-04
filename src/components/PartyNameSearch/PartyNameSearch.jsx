@@ -47,6 +47,7 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
           name="name"
           value={soql.name}
           onChange={handleInputChange}
+          style={{ textTransform: 'uppercase' }}
         />
       </div>
 
@@ -59,6 +60,7 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
           name="address_1"
           value={soql.address_1}
           onChange={handleInputChange}
+          style={{ textTransform: 'uppercase' }}
         />
       </div>
 
@@ -71,6 +73,7 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
           name="address_2"
           value={soql.address_2}
           onChange={handleInputChange}
+          style={{ textTransform: 'uppercase' }}
         />
       </div>
 
@@ -83,6 +86,7 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
           name="city"
           value={soql.city}
           onChange={handleInputChange}
+          style={{ textTransform: 'uppercase' }}
         />
       </div>
 
@@ -125,6 +129,7 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
           name="zip"
           value={soql.zip}
           onChange={handleInputChange}
+          style={{ textTransform: 'uppercase' }}
         />
       </div>
 

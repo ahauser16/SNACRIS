@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { fetchRealPropertyLegalsData } from '../../api/api';
 import AddressSearch from '../AddressSearch/AddressSearch';
+import { uppercaseSoql } from '../Utils/uppercaseSoql';
+import './SearchByAddressForm.css';
 
 const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
   const [soql, setSoql] = useState({
@@ -19,26 +21,32 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setSoql((prevSoql) => ({
-      ...prevSoql,
-      [name]: value,
-    }));
+    setSoql((prevSoql) => {
+      const newSoql = { ...prevSoql, [name]: value };
+      return uppercaseSoql(newSoql);
+    });
   };
 
   const handlePropertyTypeChange = (e) => {
     const { value, checked, type } = e.target;
     if (type === "checkbox") {
-      setSoql((prevSoql) => ({
-        ...prevSoql,
-        property_type: checked
-          ? [...prevSoql.property_type, value]
-          : prevSoql.property_type.filter((propertyType) => propertyType !== value),
-      }));
+      setSoql((prevSoql) => {
+        const newSoql = {
+          ...prevSoql,
+          property_type: checked
+            ? [...prevSoql.property_type, value]
+            : prevSoql.property_type.filter((propertyType) => propertyType !== value),
+        };
+        return uppercaseSoql(newSoql);
+      });
     } else {
-      setSoql((prevSoql) => ({
-        ...prevSoql,
-        property_type: value ? [value] : [],
-      }));
+      setSoql((prevSoql) => {
+        const newSoql = {
+          ...prevSoql,
+          property_type: value ? [value] : [],
+        };
+        return uppercaseSoql(newSoql);
+      });
     }
   };
 

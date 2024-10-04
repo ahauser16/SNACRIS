@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { fetchRealPropertyPartiesData } from '../../api/api';
 import PartyNameSearch from '../PartyNameSearch/PartyNameSearch';
+import { uppercaseSoql } from '../Utils/uppercaseSoql';
 import './SearchByPartyNameForm.css';
 
 // The `CountriesCheckboxes` and `StatesCheckboxes` components pass the checkbox values to the `soql` state variable through the `handleCountryChange` and `handleStateChange` functions, respectively. These functions are passed down as props from the `SearchByPartyNameForm` component to the `PartyNameSearch` component, and then further down to the `CountriesCheckboxes` and `StatesCheckboxes` components.
@@ -23,50 +24,62 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
   //question: so each component needs to have this prop in order for the `soql` data store to be updated, correct?
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setSoql((prevSoql) => ({
-      ...prevSoql,
-      [name]: value,
-    }));
+    setSoql((prevSoql) => {
+      const newSoql = { ...prevSoql, [name]: value };
+      return uppercaseSoql(newSoql);
+    });
   };
 
   // `handleStateChange` updates the `state` array in the `soql` object by adding or removing state codes based on whether the checkbox is checked.
   //question: how do I pass this prop to each state_checkbox?
   // Modify `handleStateChange` to work with both select and checkbox inputs.
-  const handleStateChange = (e) => {
+   // `handleStateChange` updates the `state` array in the `soql` object
+   const handleStateChange = (e) => {
     const { value, checked, type } = e.target;
 
     if (type === "checkbox") {
-      // Handle checkbox input (multiple state selection)
-      setSoql((prevSoql) => ({
-        ...prevSoql,
-        state: checked
-          ? [...prevSoql.state, value] // Add the state if checked
-          : prevSoql.state.filter((state) => state !== value), // Remove if unchecked
-      }));
+      setSoql((prevSoql) => {
+        const newSoql = {
+          ...prevSoql,
+          state: checked
+            ? [...prevSoql.state, value]
+            : prevSoql.state.filter((state) => state !== value),
+        };
+        return uppercaseSoql(newSoql);
+      });
     } else {
-      // Handle select input (single state selection)
-      setSoql((prevSoql) => ({
-        ...prevSoql,
-        state: value ? [value] : [], // Wrap single value in array or clear if empty
-      }));
+      setSoql((prevSoql) => {
+        const newSoql = {
+          ...prevSoql,
+          state: value ? [value] : [],
+        };
+        return uppercaseSoql(newSoql);
+      });
     }
   };
+
 
   // `handleCountryChange` updates the `country` array in the `soql` object when a country checkbox is checked or unchecked.
   const handleCountryChange = (e) => {
     const { value, checked, type } = e.target;
     if (type === "checkbox") {
-      setSoql((prevSoql) => ({
-        ...prevSoql,
-        country: checked
-          ? [...prevSoql.country, value]
-          : prevSoql.country.filter((country) => country !== value),
-      }));
+      setSoql((prevSoql) => {
+        const newSoql = {
+          ...prevSoql,
+          country: checked
+            ? [...prevSoql.country, value]
+            : prevSoql.country.filter((country) => country !== value),
+        };
+        return uppercaseSoql(newSoql);
+      });
     } else {
-      setSoql((prevSoql) => ({
-        ...prevSoql,
-        country: value ? [value] : [],
-      }));
+      setSoql((prevSoql) => {
+        const newSoql = {
+          ...prevSoql,
+          country: value ? [value] : [],
+        };
+        return uppercaseSoql(newSoql);
+      });
     }
   };
 

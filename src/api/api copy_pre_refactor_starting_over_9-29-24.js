@@ -33,7 +33,7 @@ const buildSoQLQuery = (soql, fields) => {
 
   const whereClauses = soql.queries.map((query, index) => {
     const { query: condition, booleanOperator } = query;
-    const clause = `${index > 0 ? booleanOperator : ''} ${buildSoQLFieldQuery('name', condition)}`;
+    const clause = `${index > 0 ? booleanOperator : ''} ${buildSoqlFieldQuery('name', condition)}`;
     console.log('Constructed clause:', clause);
     return clause.trim();
   }).join(' ');
@@ -41,7 +41,7 @@ const buildSoQLQuery = (soql, fields) => {
   return `$where=${encodeURIComponent(whereClauses)}`;
 };
 
-const buildSoQLFieldQuery = (key, value) => {
+const buildSoqlFieldQuery = (key, value) => {
   switch (value.searchType) {
     case 'startsWith':
       return `UPPER(${key}) LIKE UPPER('${value.query}%')`;

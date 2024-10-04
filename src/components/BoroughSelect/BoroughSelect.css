@@ -1,8 +1,22 @@
-.borough-checkboxes {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .borough-checkboxes > div {
-    margin-right: 10px;
-  }
+.borough-select--container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+  /* border: 1px solid lightblue; */
+}
+
+.borough-select--label{
+  /* font-size: 1rem;
+  color: lightblue;
+  font-weight: bold; */
+}
+
+.borough-select--select{
+  border: 1px solid var(--address-search-color);
+  border-radius: 4px;
+}
+
+.borough-select--option{
+
+}

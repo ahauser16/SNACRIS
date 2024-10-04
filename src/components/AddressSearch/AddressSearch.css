@@ -1,77 +1,90 @@
 /* src/components/PartyNameSearch/PartyNameSearch.css */
 
-:root{
-    --party-name-color: orangered;
-  }
-  
-  body{
-    margin: 0;
-    padding: .4rem;
-  }
-  
-  .address-search-container{
-      border: 2px solid var(--party-name-color);
-      margin: .5rem;
-      padding: 1rem;
-      width: 100%;
-  }
-  
-  .address-search-legend{
-    color: var(--party-name-color); 
-    font-weight: bold;
-  }
-  
-  .initial-query{
-      border: 1px solid green;
-      margin: 1rem;
-  }
-  
-  .formatted-query-container {
-      display: inline-flex;
-      align-items: center;
-      margin: 1rem;
-      border: 1px solid lightblue;
-    }
-    
-    .formatted-query-label {
-      /* margin-right: 5px; */
-      font-weight: bold;
-    }
-    
-    .formatted-query {
-      margin: 1rem;
-    }
-    
-    .formatted-query-container button {
-      background: none;
-      border: none;
-      color: red;
-      cursor: pointer;
-    }
-  
-    .formatted-boolean-container {
-      display: inline-flex;
-      align-items: center;
-      margin: 1rem;
-      border: 1px solid yellow;
-    }
-    
-    .formatted-boolean-label {
-      /* margin-right: 5px; */
-      font-weight: bold;
-    }
-    
-    .formatted-boolean {
-      /* margin-right: 10px; */
-    }
-  
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
+:root {
+  --address-search-color: lightblue;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+
+.address-search-container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--address-search-color);
+  margin: 1rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+.address-search-container--legend {
+  color: var(--address-search-color);
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.bbl-container,
+.street-address-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 1rem;
+  border: 1px solid var(--address-search-color);
+  width: 50%;
+}
+
+.tax-block-input--input,
+.tax-lot-input--input {
+  width: 10ch;
+  /* Width to accommodate up to 4 characters */
+  border: 1px solid var(--address-search-color);
+  border-radius: 4px;
+}
+
+.bbl-legend,
+.street-address-legend {
+  color: var(--address-search-color);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.street-number-input--input {
+  width: 12ch;
+  border: 1px solid var(--address-search-color);
+  border-radius: 4px;
+}
+
+.street-name-input--input {
+  width: 32ch;
+  border: 1px solid var(--address-search-color);
+  border-radius: 4px;
+}
+
+.street-unit-input--input {
+  width: 7ch;
+  border: 1px solid var(--address-search-color);
+  border-radius: 4px;
+}
+
+
+.air-rights-select--container,
+.subterranean-rights-select--container,
+.partial-lot-select--container,
+.easement-select--container {
+  margin: 0 1rem;
+}
+
+.property-type-select-checkbox-container{
+  margin: 1rem;
+}

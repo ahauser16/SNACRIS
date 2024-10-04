@@ -19,7 +19,6 @@ The `api.js` file contains the `RPMqueryBuilder` and `buildSoQLQuery` functions,
 Add state management for the selected checkboxes:
 
 ```javascript
-
 import React, { useState } from 'react';
 import {
   fetchRealPropertyPartiesData,
@@ -35,7 +34,9 @@ import './SearchByPartyNameForm.css';
 const SearchByPartyNameForm = ({ setData, setError }) => {
   const [selectedBoroughs, setSelectedBoroughs] = useState([]);
   const [selectedPartyType, setSelectedPartyType] = useState([]);
-  const [selectedDocTypeCheckboxes, setSelectedDocTypeCheckboxes] = useState([]); // New state for selected checkboxes
+  const [selectedDocTypeCheckboxes, setSelectedDocTypeCheckboxes] = useState(
+    []
+  ); // New state for selected checkboxes
   const [soql, setSoql] = useState({
     name: '',
     party_type: '',
@@ -87,7 +88,11 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
     console.log('Submitting with SoQL:', soql, 'Queries:', queries);
 
     try {
-      const response = await fetchRealPropertyPartiesData({ ...soql, queries, selectedCheckboxes });
+      const response = await fetchRealPropertyPartiesData({
+        ...soql,
+        queries,
+        selectedCheckboxes,
+      });
       setData(response);
       setError(null); // Reset error state on successful fetch
     } catch (error) {
@@ -112,10 +117,7 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
         selectedDocTypeCheckboxes={selectedDocTypeCheckboxes}
         setSelectedDocTypeCheckboxes={handleCheckboxChange}
       />
-      <DateSelect
-        soql={soql}
-        setSoql={setSoql}
-      />
+      <DateSelect soql={soql} setSoql={setSoql} />
       <BoroughSelect
         selectedBoroughs={selectedBoroughs}
         handleBoroughChange={handleBoroughChange}
@@ -126,7 +128,6 @@ const SearchByPartyNameForm = ({ setData, setError }) => {
 };
 
 export default SearchByPartyNameForm;
-
 ```
 
 ### 2. Modify `PartySelect.jsx`
@@ -134,14 +135,13 @@ export default SearchByPartyNameForm;
 Update `PartySelect.jsx` to accept props for managing selected checkboxes:
 
 ```javascript
-
-import React, { useState, useEffect } from "react";
-import "./PartySelect.css";
-import partyMap from "./partyMap.json";
-import { groupByClassCodeDescription } from "./utils/groupByClassCodeDescription";
-import { checkboxGenerator } from "./utils/checkboxGenerator";
-import { toCamelCase } from "./utils/toCamelCase";
-import { toKebabCase } from "./utils/toKebabCase";
+import React, { useState, useEffect } from 'react';
+import './PartySelect.css';
+import partyMap from './partyMap.json';
+import { groupByClassCodeDescription } from './utils/groupByClassCodeDescription';
+import { checkboxGenerator } from './utils/checkboxGenerator';
+import { toCamelCase } from './utils/toCamelCase';
+import { toKebabCase } from './utils/toKebabCase';
 
 const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
   const [visibleGroups, setVisibleGroups] = useState({});
@@ -223,18 +223,18 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
         )}`,
         item.party1_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party1_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party1_type)}`
           : null,
         item.party2_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party2_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party2_type)}`
           : null,
         item.party3_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party3_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party3_type)}`
           : null,
       ])
       .filter(Boolean); // Remove null values
@@ -264,18 +264,18 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
         )}`,
         item.party1_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party1_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party1_type)}`
           : null,
         item.party2_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party2_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party2_type)}`
           : null,
         item.party3_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party3_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party3_type)}`
           : null,
       ])
       .filter(Boolean); // Remove null values
@@ -289,8 +289,8 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
       .map((item) =>
         item.party1_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party1_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party1_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -307,8 +307,8 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
       .map((item) =>
         item.party1_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party1_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party1_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -321,8 +321,8 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
       .map((item) =>
         item.party2_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party2_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party2_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -339,8 +339,8 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
       .map((item) =>
         item.party2_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party2_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party2_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -353,8 +353,8 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
       .map((item) =>
         item.party3_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party3_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party3_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -371,8 +371,8 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
       .map((item) =>
         item.party3_type
           ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-            item.doc__type
-          )}${toCamelCase(item.party3_type)}`
+              item.doc__type
+            )}${toCamelCase(item.party3_type)}`
           : null
       )
       .filter(Boolean); // Filter out null values
@@ -413,7 +413,7 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
               className="toggle-button"
               onClick={() => toggleVisibility(groupTitle)}
             >
-              {visibleGroups[groupTitle] ? "Hide All" : "Show All"}
+              {visibleGroups[groupTitle] ? 'Hide All' : 'Show All'}
             </button>
           </div>
           <legend>
@@ -423,7 +423,9 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
 
           <div
             className="fieldset-content"
-            style={{ display: visibleGroups[groupTitle] ? "inline-block" : "none" }}
+            style={{
+              display: visibleGroups[groupTitle] ? 'inline-block' : 'none',
+            }}
           >
             <div className="master-checkbox-row">
               <label className="all-party1-in-group-checkbox-controller-label custom-checkbox-label">
@@ -480,7 +482,6 @@ const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
 };
 
 export default PartySelect;
-
 ```
 
 ### 3. Update Query Construction in `api.js`
@@ -488,7 +489,6 @@ export default PartySelect;
 Modify the `RPMqueryBuilder` and `buildSoQLQuery` functions to include the selected checkboxes in the SoQL query:
 
 ```javascript
-
 const RPMqueryBuilder = (soql = {}, endpoint, fields) => {
   const soqlQuery = buildSoQLQuery(soql, fields);
   const url = `${endpoint}?${soqlQuery}`;
@@ -500,23 +500,28 @@ const buildSoQLQuery = (soql, fields) => {
   const whereClauses = [];
 
   if (soql.queries && soql.queries.length > 0) {
-    const queryClauses = soql.queries.map((query, index) => {
-      const { query: condition, booleanOperator } = query;
-      const clause = `${index > 0 ? booleanOperator : ''} ${buildSoQLFieldQuery('name', condition)}`;
-      console.log('Constructed clause:', clause);
-      return clause.trim();
-    }).join(' ');
+    const queryClauses = soql.queries
+      .map((query, index) => {
+        const { query: condition, booleanOperator } = query;
+        const clause = `${
+          index > 0 ? booleanOperator : ''
+        } ${buildSoqlFieldQuery('name', condition)}`;
+        console.log('Constructed clause:', clause);
+        return clause.trim();
+      })
+      .join(' ');
     whereClauses.push(queryClauses);
   }
 
   if (soql.selectedCheckboxes && soql.selectedCheckboxes.length > 0) {
-    const checkboxClauses = soql.selectedCheckboxes.map(id => `id='${id}'`).join(' OR ');
+    const checkboxClauses = soql.selectedCheckboxes
+      .map((id) => `id='${id}'`)
+      .join(' OR ');
     whereClauses.push(`(${checkboxClauses})`);
   }
 
   return `$where=${encodeURIComponent(whereClauses.join(' AND '))}`;
 };
-
 ```
 
 This plan and implementation should help you incorporate the `PartySelect.jsx` component into the `SearchByPartyNameForm.jsx` file, allowing the selected checkboxes to be included in the SoQL query.

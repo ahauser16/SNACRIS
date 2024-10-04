@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropertyTypeCheckboxes from '../PropertyTypeCheckboxes/PropertyTypeCheckboxes';
 import PropertyTypeSelect from '../PropertyTypeSelect/PropertyTypeSelect';
+import BoroughSelect from '../BoroughSelect/BoroughSelect';
 import './AddressSearch.css';
 
 function AddressSearch({ soql, handleInputChange, handlePropertyTypeChange }) {
@@ -20,88 +21,153 @@ function AddressSearch({ soql, handleInputChange, handlePropertyTypeChange }) {
 
     return (
         <fieldset className="address-search-container">
-            <legend className="address-search-legend">
-                Search By Address
+            <legend className="address-search-container--legend">
+                Search By Property
             </legend>
-            {/* Borough Field */}
-            <div className="form-group">
-                <label htmlFor="borough">Borough:</label>
-                <input
-                    type="text"
-                    id="borough"
-                    name="borough"
-                    value={soql.borough}
-                    onChange={handleInputChange}
-                />
-            </div>
-            {/* Block Field */}
-            <div className="form-group">
-                <label htmlFor="block">Block:</label>
-                <input
-                    type="text"
-                    id="block"
-                    name="block"
-                    value={soql.block}
-                    onChange={handleInputChange}
-                />
-            </div>
-            {/* Lot Field */}
-            <div className="form-group">
-                <label htmlFor="lot">Lot:</label>
-                <input
-                    type="text"
-                    id="lot"
-                    name="lot"
-                    value={soql.lot}
-                    onChange={handleInputChange}
-                />
+            <div className="row">
+                <fieldset className="bbl-container">
+                    <legend className="bbl-legend">Search By Borough/Block/Lot</legend>
+                    {/* Borough Field */}
+                    <BoroughSelect
+                        selectedBorough={soql.borough}
+                        setSelectedBorough={(borough) => handleInputChange({ target: { name: 'borough', value: borough } })}
+                        className="borough-select-component"
+                    />
+                    {/* Block Field */}
+                    <div className="tax-block-input--container">
+                        <label htmlFor="block" className="tax-block-input--label">Block:</label>
+                        <input
+                            type="number"
+                            id="block"
+                            name="block"
+                            value={soql.block}
+                            onChange={handleInputChange}
+                            className="tax-block-input--input"
+                        />
+                    </div>
+                    {/* Lot Field */}
+                    <div className="tax-lot-input--container">
+                        <label htmlFor="lot" className="tax-lot-input--label">Lot:</label>
+                        <input
+                            type="number"
+                            id="lot"
+                            name="lot"
+                            value={soql.lot}
+                            onChange={handleInputChange}
+                            className="tax-lot-input--input"
+                        />
+                    </div>
+                </fieldset>
+                <fieldset className="street-address-container">
+                    <legend className="street-address-legend">Search By Street Address</legend>
+                    {/* Street Number Field */}
+                    <div className="street-number-input--container">
+                        <label htmlFor="street_number" className="street-number-input--label">Street Number:</label>
+                        <input
+                            type="text"
+                            id="street_number"
+                            name="street_number"
+                            value={soql.street_number}
+                            onChange={handleInputChange}
+                            className="street-number-input--input"
+                            style={{ textTransform: 'uppercase' }}
+                        />
+                    </div>
+                    {/* Street Name Field */}
+                    <div className="street-name-input--container">
+                        <label htmlFor="street_name" className="street-name-input--label">Street Name:</label>
+                        <input
+                            type="text"
+                            id="street_name"
+                            name="street_name"
+                            value={soql.street_name}
+                            onChange={handleInputChange}
+                            className="street-name-input--input"
+                            style={{ textTransform: 'uppercase' }}
+                        />
+                    </div>
+                    {/* Unit Address Field */}
+                    <div className="street-unit-input--container">
+                        <label htmlFor="unit_address" className="street-unit-input--label">Unit Address:</label>
+                        <input
+                            type="text"
+                            id="unit_address"
+                            name="unit_address"
+                            value={soql.unit_address}
+                            onChange={handleInputChange}
+                            className="street-unit-input--input"
+                            style={{ textTransform: 'uppercase' }}
+                        />
+                    </div>
+                </fieldset>
             </div>
             {/* Easement Field */}
-            <div className="form-group">
-                <label htmlFor="easement">Easement:</label>
-                <input
-                    type="text"
-                    id="easement"
-                    name="easement"
-                    value={soql.easement}
-                    onChange={handleInputChange}
-                />
+            <div className="row">
+                <div className="easement-select--container">
+                    <label htmlFor="easement" className="easement-select--label">Easement:</label>
+                    <select
+                        id="easement"
+                        name="easement"
+                        value={soql.easement}
+                        onChange={handleInputChange}
+                        className="easement-select--select"
+                    >
+                        <option value="" className="easement-select--option">Select an option</option>
+                        <option value="Y" className="easement-select--option">Yes</option>
+                        <option value="N" className="easement-select--option">No</option>
+                    </select>
+                </div>
+                {/* Partial Lot Field */}
+                <div className="partial-lot-select--container">
+                    <label htmlFor="partial_lot" className="partial-lot-select--label">Partial Lot:</label>
+                    <select
+                        id="partial_lot"
+                        name="partial_lot"
+                        value={soql.partial_lot}
+                        onChange={handleInputChange}
+                        className="partial-lot-select--select"
+                    >
+                        <option value="" className="partial-lot-select--option">Select an option</option>
+                        <option value="P" className="partial-lot-select--option">Partial</option>
+                        <option value="E" className="partial-lot-select--option">Entire</option>
+                        <option value="N" className="partial-lot-select--option">Not Applicable</option>
+                    </select>
+                </div>
             </div>
-            {/* Partial Lot Field */}
-            <div className="form-group">
-                <label htmlFor="partial_lot">Partial Lot:</label>
-                <input
-                    type="text"
-                    id="partial_lot"
-                    name="partial_lot"
-                    value={soql.partial_lot}
-                    onChange={handleInputChange}
-                />
-            </div>
-            {/* Air Rights Field */}
-            <div className="form-group">
-                <label htmlFor="air_rights">Air Rights:</label>
-                <input
-                    type="text"
-                    id="air_rights"
-                    name="air_rights"
-                    value={soql.air_rights}
-                    onChange={handleInputChange}
-                />
-            </div>
-            {/* Subterranean Rights Field */}
-            <div className="form-group">
-                <label htmlFor="subterranean_rights">Subterranean Rights:</label>
-                <input
-                    type="text"
-                    id="subterranean_rights"
-                    name="subterranean_rights"
-                    value={soql.subterranean_rights}
-                    onChange={handleInputChange}
-                />
+            <div className="row">
+                {/* Air Rights Field */}
+                <div className="air-rights-select--container">
+                    <label htmlFor="air_rights" className="air-rights-select--label">Air Rights:</label>
+                    <select
+                        id="air_rights"
+                        name="air_rights"
+                        value={soql.air_rights}
+                        onChange={handleInputChange}
+                        className="air-rights-select--select"
+                    >
+                        <option value="" className="air-rights-select--option">Select an option</option>
+                        <option value="Y" className="air-rights-select--option">Yes</option>
+                        <option value="N" className="air-rights-select--option">No</option>
+                    </select>
+                </div>
+                {/* Subterranean Rights Field */}
+                <div className="subterranean-rights-select--container">
+                    <label htmlFor="subterranean_rights" className="subterranean-rights-select--label">Subterranean Rights:</label>
+                    <select
+                        id="subterranean_rights"
+                        name="subterranean_rights"
+                        value={soql.subterranean_rights}
+                        onChange={handleInputChange}
+                        className="subterranean-rights-select--select"
+                    >
+                        <option value="" className="subterranean-rights-select--option">Select an option</option>
+                        <option value="Y" className="subterranean-rights-select--option">Yes</option>
+                        <option value="N" className="subterranean-rights-select--option">No</option>
+                    </select>
+                </div>
             </div>
             {/* Property Type Field */}
-            <div className="form-group">
+            <div className="property-type-select-checkbox-container col">
                 <PropertyTypeSelect
                     selectedPropertyType={
                         soql.property_type.length > 1
@@ -124,40 +190,6 @@ function AddressSearch({ soql, handleInputChange, handlePropertyTypeChange }) {
                         handlePropertyTypeChange={handlePropertyTypeChange}
                     />
                 )}
-            </div>
-
-            {/* Street Number Field */}
-            <div className="form-group">
-                <label htmlFor="street_number">Street Number:</label>
-                <input
-                    type="text"
-                    id="street_number"
-                    name="street_number"
-                    value={soql.street_number}
-                    onChange={handleInputChange}
-                />
-            </div>
-            {/* Street Name Field */}
-            <div className="form-group">
-                <label htmlFor="street_name">Street Name:</label>
-                <input
-                    type="text"
-                    id="street_name"
-                    name="street_name"
-                    value={soql.street_name}
-                    onChange={handleInputChange}
-                />
-            </div>
-            {/* Unit Address Field */}
-            <div className="form-group">
-                <label htmlFor="unit_address">Unit Address:</label>
-                <input
-                    type="text"
-                    id="unit_address"
-                    name="unit_address"
-                    value={soql.unit_address}
-                    onChange={handleInputChange}
-                />
             </div>
         </fieldset>
     )
