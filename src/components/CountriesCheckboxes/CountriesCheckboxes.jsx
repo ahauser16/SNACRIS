@@ -11,10 +11,9 @@ import {
 } from "../../LocalStorage/LocalStorage";
 import "./CountriesCheckboxes.css";
 
-const CountriesCheckboxes = () => {
+const CountriesCheckboxes = ({ selectedCountries, handleCountryChange }) => {
   const [sortMethod, setSortMethod] = useState(sortingMethods.ALPHABETICAL);
   const [filterQuery, setFilterQuery] = useState("");
-  const [selectedCountries, setSelectedCountries] = useState([]);
   const [favoriteCountries, setFavoriteCountries] = useState([]);
 
   useEffect(() => {
@@ -34,20 +33,19 @@ const CountriesCheckboxes = () => {
     fetchFavorites();
   }, []);
 
-  const handleCountryChange = (e) => {
-    const { value, checked } = e.target;
-    setSelectedCountries((prev) =>
-      checked ? [...prev, value] : prev.filter((code) => code !== value)
-    );
-  };
-
   const handleFavoriteToggle = async (countryCode) => {
-    if (favoriteCountries.some((country) => country.country_code === countryCode)) {
+    if (
+      favoriteCountries.some((country) => country.country_code === countryCode)
+    ) {
       await removeFavoriteCountry(countryCode);
-      setFavoriteCountries((prev) => prev.filter((country) => country.country_code !== countryCode));
+      setFavoriteCountries((prev) =>
+        prev.filter((country) => country.country_code !== countryCode)
+      );
     } else {
       await addFavoriteCountry(countryCode);
-      const countryData = CountryCodes.find((country) => country.country_code === countryCode);
+      const countryData = CountryCodes.find(
+        (country) => country.country_code === countryCode
+      );
       setFavoriteCountries((prev) => [...prev, countryData]);
     }
   };
@@ -88,9 +86,9 @@ const CountriesCheckboxes = () => {
               {description} ({country_code})
             </label>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="icon-close-circle">
-            <circle cx="12" cy="12" r="10" className="primary" onClick={() => handleFavoriteToggle(country_code)} />
+              <circle cx="12" cy="12" r="10" className="primary" onClick={() => handleFavoriteToggle(country_code)} />
               <path className="secondary" d="M13.41 12l2.83 2.83a1 1 0 0 1-1.41 1.41L12 13.41l-2.83 2.83a1 1 0 1 1-1.41-1.41L10.59 12 7.76 9.17a1 1 0 0 1 1.41-1.41L12 10.59l2.83-2.83a1 1 0 0 1 1.41 1.41L13.41 12z" />
-              </svg>
+            </svg>
           </div>
         ))}
       </fieldset>
@@ -235,7 +233,7 @@ const CountriesCheckboxes = () => {
           Object.keys(filteredCountries).map((timezone) => (
             <div key={timezone} className="timezone-group">
               <label className="timezone-label">
-                {timezone}   <TimezoneClock timezone={timezone} className="timestamp"/>
+                {timezone}   <TimezoneClock timezone={timezone} className="timestamp" />
               </label>
               <div className="country-grid">
                 {filteredCountries[timezone].map(
