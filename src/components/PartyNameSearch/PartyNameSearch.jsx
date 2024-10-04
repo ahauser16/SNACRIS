@@ -155,17 +155,6 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
           />
         )}
       </div>
-
-      {/* <button type="button" onClick={toggleCountriesCheckboxes}>
-        {showCountriesCheckboxes ? "Hide Countries" : "Show Countries"}
-      </button>
-
-      {showCountriesCheckboxes && (
-        <CountriesCheckboxes
-          selectedCountries={soql.country}
-          handleCountryChange={handleCountryChange}
-        />
-      )} */}
     </fieldset>
   );
 };

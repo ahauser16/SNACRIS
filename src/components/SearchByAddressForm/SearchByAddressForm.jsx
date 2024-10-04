@@ -1,13 +1,23 @@
 // src/components/SearchByAddressForm/SearchByAddressForm.jsx
 import React, { useState } from 'react';
-import { fetchRealPropertyMasterData } from '../../api/api';
+import { fetchRealPropertyLegalsData } from '../../api/api';
+import AddressSearch from '../AddressSearch/AddressSearch';
 
-const SearchByAddressForm = ({ setData, setError, colorClass }) => {
+const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
   const [soql, setSoql] = useState({
-    document_id: '',
+    borough: '',
+    block: '',
+    lot: '',
+    easement: '',
+    partial_lot: '',
+    air_rights: '',
+    subterranean_rights: '',
+    property_type: [],
+    street_name: '',
+    unit_address: '',
   });
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setSoql((prevSoql) => ({
       ...prevSoql,
@@ -15,40 +25,67 @@ const SearchByAddressForm = ({ setData, setError, colorClass }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('Submitting with SoQL:', soql); // Log the SoQL object
-    try {
-      const result = await fetchRealPropertyMasterData(soql);
-      console.log('API call result:', result); // Log the result of the API call
-      setData(result);
-      setError(null); // Reset error state on successful fetch
-    } catch (err) {
-      console.error('Error in handleSubmit:', err); // Log the error
-      setError(err.message);
-      setData([]); // Clear data on error
+  const handlePropertyTypeChange = (e) => {
+    const { value, checked, type } = e.target;
+    if (type === "checkbox") {
+      setSoql((prevSoql) => ({
+        ...prevSoql,
+        property_type: checked
+          ? [...prevSoql.property_type, value]
+          : prevSoql.property_type.filter((propertyType) => propertyType !== value),
+      }));
+    } else {
+      setSoql((prevSoql) => ({
+        ...prevSoql,
+        property_type: value ? [value] : [],
+      }));
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Submitting with SoQL:", soql);
+
+    try {
+      const response = await fetchRealPropertyLegalsData(soql);
+      setData(response);
+      setError(null);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError(error.message);
+      setData([]);
+    }
+  };
+
+  const handleFormReset = () => {
+    setSoql({
+      borough: '',
+      block: '',
+      lot: '',
+      easement: '',
+      partial_lot: '',
+      air_rights: '',
+      subterranean_rights: '',
+      property_type: [],
+      street_number: '',
+      street_name: '',
+      unit_address: '',
+    });
+    handleTableReset();
+  };
+
   return (
-    <div className={`form-container ${colorClass}`}>
-      <h2>Real Property Master Data</h2>
-      <h3>Search by 'document_id'</h3>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Document ID:
-          </label>
-          <input
-            type="text"
-            name="document_id"
-            value={soql.document_id}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Fetch Data</button>
-      </form>
-    </div>
+    <form className="search-by-address-form" onSubmit={handleSubmit}>
+      <AddressSearch
+        soql={soql}
+        handleInputChange={handleInputChange}
+        handlePropertyTypeChange={handlePropertyTypeChange}
+      />
+      <div className="flex-container">
+        <button type="submit">Search</button>
+        <button type="button" onClick={handleFormReset}>Reset</button>
+      </div>
+    </form>
   );
 };
 

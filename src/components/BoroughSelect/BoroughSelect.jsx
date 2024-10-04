@@ -11,26 +11,18 @@ const BoroughSelect = ({ selectedBoroughs, setSelectedBoroughs }) => {
     { label: 'Staten Island', value: 5 },
   ];
 
-  const handleCheckboxChange = (e) => {
+  const handleBorRadioChange = (e) => {
     const { value, checked } = e.target;
-    setSelectedBoroughs((prevSelectedBoroughs) => {
-      if (checked) {
-        return [...prevSelectedBoroughs, parseInt(value)];
-      } else {
-        return prevSelectedBoroughs.filter((borough) => borough !== parseInt(value));
-      }
-    });
   };
 
   return (
     <div>
       <label>Borough:</label>
-      <div className="borough-checkboxes">
         {boroughOptions.map((borough) => (
-          <div key={borough.value}>
+          <div key={borough.value} className="borough-radio">
             <label>
               <input
-                type="checkbox"
+                type="radio"
                 value={borough.value}
                 checked={selectedBoroughs.includes(borough.value)}
                 onChange={handleCheckboxChange}
@@ -39,7 +31,6 @@ const BoroughSelect = ({ selectedBoroughs, setSelectedBoroughs }) => {
             </label>
           </div>
         ))}
-      </div>
     </div>
   );
 };

@@ -7,7 +7,7 @@ import './SearchByPartyNameForm.css';
 // The `CountriesCheckboxes` and `StatesCheckboxes` components pass the checkbox values to the `soql` state variable through the `handleCountryChange` and `handleStateChange` functions, respectively. These functions are passed down as props from the `SearchByPartyNameForm` component to the `PartyNameSearch` component, and then further down to the `CountriesCheckboxes` and `StatesCheckboxes` components.
 
 const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
-  //State Initialization: The component initializes a soql state object via `useState`, which stores the form fields: `name`, `address_1`, `address_2`, `country`, `city`, `state`, and `zip`. This state object will be passed down to other components (`PartyNameSearch`, `CountriesCheckboxes`, and `StatesCheckboxes`) as props.
+  //State Initialization: The component initializes a soql state object via `useState`, which stores the form fields from the ACRIS_REAL_PROPERTY_PARTIES dataset [https://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Parties/636b-3b5g/about_data]. This state object will be passed down to other components (`PartyNameSearch`, `CountriesCheckboxes`, and `StatesCheckboxes`) as props.
   //`soql` acts as the dynamic data store for the user's input and selection, which will later be transformed into a query string for the API.
   const [soql, setSoql] = useState({
     name: '',
