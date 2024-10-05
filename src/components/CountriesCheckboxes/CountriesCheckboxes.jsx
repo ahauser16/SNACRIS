@@ -68,7 +68,7 @@ const CountriesCheckboxes = ({ selectedCountries, handleCountryChange }) => {
   };
 
   return (
-    <div>
+    <div className="countries-checkboxes-component--container">
       {/* User Favorites section */}
       <fieldset className="favorites-container">
         <legend>My Favorite Countries</legend>
@@ -114,9 +114,9 @@ const CountriesCheckboxes = ({ selectedCountries, handleCountryChange }) => {
       </fieldset>
 
       {/* Sorting Radio Buttons */}
-      <fieldset className="sorting-method-container">
+      <fieldset className="sorting-method--container">
         <legend>Sort Countries By</legend>
-        <label>
+        <label className="sorting-method--label">
           <input
             type="radio"
             name="sortMethod"

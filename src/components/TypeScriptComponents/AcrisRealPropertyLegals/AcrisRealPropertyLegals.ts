@@ -11,7 +11,7 @@ export interface AcrisRealPropertyLegals {
     property_type: string; // 2 characters, code defined in property codes record
     street_number: string; // 12 characters
     street_name: string; // 32 characters
-    unit_address: string; // 7 characters
+    unit: string; // 7 characters
     good_through_date: string; // 10 characters, Format: MM/DD/YYYY
   }
   

@@ -34,13 +34,13 @@
     flex-direction: column;
   } */
 
-.sorting-method-container {
+.sorting-method--container {
   margin-bottom: 10px;
   display: flex;
   flex-direction: row;
 }
 
-.sorting-method-container label {
+.sorting-method--container label {
   margin-right: 20px;
 }
 
@@ -59,7 +59,7 @@
   } */
 
 /* Align checkbox input and description to the left */
-label {
+.property-type-component--container label {
   display: flex;
   align-items: center;
   /* Ensure input and text are aligned */
@@ -68,7 +68,7 @@ label {
 }
 
 /* Ensure the checkbox aligns consistently */
-label input[type="checkbox"] {
+.property-type-component--container label input[type="checkbox"] {
   margin-right: 10px;
   /* Ensure spacing between checkbox and label */
 }

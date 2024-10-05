@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import {
   fetchRealPropertyPartiesData,
   fetchRealPropertyMasterData,
-} from '../../api/api';
-import PartyNameSearch from '../PartyNameSearch/PartyNameSearch';
-import DocAndPartyTypeSelect from '../DocAndPartyTypeSelect/DocAndPartyTypeSelect';
-import DateSelect from '../DateSelect/DateSelect';
+} from '../../../api/api';
+import PartyNameSearch from '../../PartyNameSearch/PartyNameSearch';
+import DocAndPartyTypeSelect from '../../DocAndPartyTypeSelect/DocAndPartyTypeSelect';
+import DateSelect from '../../DateSelect/DateSelect';
 import BoroughSelect from '../BoroughSelect/BoroughSelect';
 
 import './SearchByPartyNameForm.css';

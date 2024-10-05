@@ -104,7 +104,7 @@ const StatesCheckboxes = ({ selectedStates, handleStateChange }) => {
       </fieldset>
 
       {/* Sorting Radio Buttons */}
-      <fieldset className="sorting-method-container">
+      <fieldset className="sorting-method--container">
         <legend>Sort States By</legend>
         <label>
           <input
@@ -145,7 +145,7 @@ const StatesCheckboxes = ({ selectedStates, handleStateChange }) => {
           {sortMethod === sortingMethods.TIMEZONE ? (
             Object.keys(filteredStates).map((timezone) => (
               <div key={timezone}>
-                <label className="timezone-label">{timezone}<TimezoneClock timezone={timezone} className="timestamp"/></label>
+                <label className="timezone-label">{timezone}<TimezoneClock timezone={timezone} className="timestamp" /></label>
                 {filteredStates[timezone].map(({ state_code, description }) => (
                   <div key={state_code} className="state-label-and-checkbox-container">
                     <label >

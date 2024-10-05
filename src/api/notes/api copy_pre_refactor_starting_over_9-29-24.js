@@ -1,21 +1,21 @@
 // src/api/api.js
 import axios from 'axios';
 import secrets from 'secrets';
-import realPropertyMasterFields from './realPropertyMasterFields';
-import realPropertyLegalFields from './realPropertyLegalFields';
-import realPropertyPartiesFields from './realPropertyPartiesFields';
-import realPropertyReferencesFields from './realPropertyReferencesFields';
-import realPropertyRemarksFields from './realPropertyRemarksFields';
-import personalPropertyMasterFields from './personalPropertyMasterFields';
-import personalPropertyLegalsFields from './personalPropertyLegalsFields';
-import personalPropertyPartiesFields from './personalPropertyPartiesFields';
-import personalPropertyReferencesFields from './personalPropertyReferencesFields';
-import personalPropertyRemarksFields from './personalPropertyRemarksFields';
-import documentControlCodesFields from './documentControlCodesFields';
-import countryCodesFields from './countryCodesFields';
-import uccCollateralCodesFields from './uccCollateralCodesFields';
-import stateCodesFields from './stateCodesFields';
-import API_ENDPOINTS from './apiEndpoints';
+import realPropertyMasterFields from '../realPropertyMasterFields';
+import realPropertyLegalFields from '../realPropertyLegalFields';
+import realPropertyPartiesFields from '../realPropertyPartiesFields';
+import realPropertyReferencesFields from '../realPropertyReferencesFields';
+import realPropertyRemarksFields from '../realPropertyRemarksFields';
+import personalPropertyMasterFields from '../personalPropertyMasterFields';
+import personalPropertyLegalsFields from '../personalPropertyLegalsFields';
+import personalPropertyPartiesFields from '../personalPropertyPartiesFields';
+import personalPropertyReferencesFields from '../personalPropertyReferencesFields';
+import personalPropertyRemarksFields from '../personalPropertyRemarksFields';
+import documentControlCodesFields from '../documentControlCodesFields';
+import countryCodesFields from '../countryCodesFields';
+import uccCollateralCodesFields from '../uccCollateralCodesFields';
+import stateCodesFields from '../stateCodesFields';
+import API_ENDPOINTS from '../apiEndpoints';
 
 const APP_TOKEN = secrets.appToken;
 

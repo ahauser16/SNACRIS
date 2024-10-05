@@ -20,6 +20,25 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
     zip: '',
   });
 
+  const [inputUserErrors, setInputUserErrors] = useState({
+    name: '',
+    address_1: '',
+    address_2: '',
+    country: [],
+    city: '',
+    state: [],
+    zip: '',
+  });
+
+  const [errorMessages, setErrorMessages] = useState([]);
+
+  const handleErrorDisplay = (name, errorMessage) => {
+    setInputUserErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: errorMessage,
+    }));
+  };
+
   //`handleInputChange` updates the `soql` state for text inputs (e.g., `name`, `address_1`, `address_2`, etc.). It's triggered when the user types into any of these input fields.
   //question: so each component needs to have this prop in order for the `soql` data store to be updated, correct?
   const handleInputChange = (e) => {
@@ -33,8 +52,8 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
   // `handleStateChange` updates the `state` array in the `soql` object by adding or removing state codes based on whether the checkbox is checked.
   //question: how do I pass this prop to each state_checkbox?
   // Modify `handleStateChange` to work with both select and checkbox inputs.
-   // `handleStateChange` updates the `state` array in the `soql` object
-   const handleStateChange = (e) => {
+  // `handleStateChange` updates the `state` array in the `soql` object
+  const handleStateChange = (e) => {
     const { value, checked, type } = e.target;
 
     if (type === "checkbox") {
@@ -86,6 +105,14 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
   //`handleSubmit` is triggered when the user submits the form. It prevents the default form submission, then constructs the SoQL query using the current `soql` state and sends it to the API via the `fetchRealPropertyPartiesData` function.
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check for errors in inputUserErrors
+    const errors = Object.values(inputUserErrors).filter(error => error !== '');
+    if (errors.length > 0) {
+      setErrorMessages(errors);
+      return;
+    }
+
     console.log("Submitting with SoQL:", soql);
 
     try {
@@ -93,6 +120,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
       const response = await fetchRealPropertyPartiesData(soql);
       setData(response);
       setError(null);
+      setErrorMessages([]); // Clear error messages on successful submission
     } catch (error) {
       console.error("Error fetching data:", error);
       setError(error.message);
@@ -111,6 +139,16 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
       state: [],
       zip: '',
     });
+    setInputUserErrors({
+      name: '',
+      address_1: '',
+      address_2: '',
+      country: [],
+      city: '',
+      state: [],
+      zip: '',
+    });
+    setErrorMessages([]);
     handleTableReset();
   };
 
@@ -125,11 +163,24 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
         handleInputChange={handleInputChange}
         handleStateChange={handleStateChange}
         handleCountryChange={handleCountryChange}
+        handleErrorDisplay={handleErrorDisplay}
+        inputUserErrors={inputUserErrors}
       />
       <div className="flex-container">
         <button type="submit">Search</button>
         <button type="button" onClick={handleFormReset}>Reset</button>
       </div>
+      {errorMessages.length > 0 && (
+        <div className="flex-container">
+          <span className="error-msg-display">
+            <ul>
+              {errorMessages.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </span>
+        </div>
+      )}
     </form>
   );
 };

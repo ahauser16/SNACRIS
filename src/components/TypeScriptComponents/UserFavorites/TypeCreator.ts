@@ -16,7 +16,7 @@
     property_type: string; // Property type code from the Property Type Codes dataset
     street_number: string;
     street_name: string;
-    unit_address: string;
+    unit: string;
   }
   
   // Structure for the entire favorites object in local storage

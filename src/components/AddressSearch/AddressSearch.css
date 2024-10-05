@@ -16,8 +16,6 @@
   justify-content: center;
 }
 
-
-
 .address-search-container {
   display: flex;
   flex-direction: column;
@@ -44,13 +42,6 @@
   width: 50%;
 }
 
-.tax-block-input--input,
-.tax-lot-input--input {
-  width: 10ch;
-  /* Width to accommodate up to 4 characters */
-  border: 1px solid var(--address-search-color);
-  border-radius: 4px;
-}
 
 .bbl-legend,
 .street-address-legend {
@@ -59,32 +50,8 @@
   font-size: 1rem;
 }
 
-.street-number-input--input {
-  width: 12ch;
-  border: 1px solid var(--address-search-color);
-  border-radius: 4px;
-}
-
-.street-name-input--input {
-  width: 32ch;
-  border: 1px solid var(--address-search-color);
-  border-radius: 4px;
-}
-
-.street-unit-input--input {
-  width: 7ch;
-  border: 1px solid var(--address-search-color);
-  border-radius: 4px;
-}
 
 
-.air-rights-select--container,
-.subterranean-rights-select--container,
-.partial-lot-select--container,
-.easement-select--container {
-  margin: 0 1rem;
-}
-
-.property-type-select-checkbox-container{
+.property-type-select-checkbox-container {
   margin: 1rem;
 }

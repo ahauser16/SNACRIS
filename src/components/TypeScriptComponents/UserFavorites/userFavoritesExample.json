@@ -1,56 +1,55 @@
 {
-    "categories": [
-      {
-        "category_name": "My Documents",
-        "category_type": "default",
-        "items": [
-          {
-            "document_id": "CCC1234567891234",
-            "dataset": "Real Property Master",
-            "doc__type_description": "AGREEMENT"
-          },
-          {
-            "document_id": "CCC9876543212345",
-            "dataset": "Personal Property Master",
-            "doc__type_description": "MORTGAGE"
-          }
-        ]
-      },
-      {
-        "category_name": "My Properties",
-        "category_type": "default",
-        "items": [
-          {
-            "document_id": "CCC7654321098765",
-            "borough": 1,
-            "block": 1234,
-            "lot": 5678,
-            "property_type": "R1",
-            "street_number": "123",
-            "street_name": "Main St",
-            "unit_address": "Unit 4A"
-          }
-        ]
-      },
-      {
-        "category_name": "Project Gold",
-        "category_type": "custom",
-        "project_id": "project_001",
-        "items": [
-          {
-            "document_id": "CCC1234567891234",
-            "dataset": "Real Property Master",
-            "doc__type_description": "AGREEMENT",
-            "note": "this is my favorite document"
-          },
-          {
-            "document_id": "CCC9876543212345",
-            "dataset": "Personal Property Master",
-            "doc__type_description": "MORTGAGE",
-            "note": "important document for Project Gold"
-          }
-        ]
-      }
-    ]
-  }
-  
+  "categories": [
+    {
+      "category_name": "My Documents",
+      "category_type": "default",
+      "items": [
+        {
+          "document_id": "CCC1234567891234",
+          "dataset": "Real Property Master",
+          "doc__type_description": "AGREEMENT"
+        },
+        {
+          "document_id": "CCC9876543212345",
+          "dataset": "Personal Property Master",
+          "doc__type_description": "MORTGAGE"
+        }
+      ]
+    },
+    {
+      "category_name": "My Properties",
+      "category_type": "default",
+      "items": [
+        {
+          "document_id": "CCC7654321098765",
+          "borough": 1,
+          "block": 1234,
+          "lot": 5678,
+          "property_type": "R1",
+          "street_number": "123",
+          "street_name": "Main St",
+          "unit": "Unit 4A"
+        }
+      ]
+    },
+    {
+      "category_name": "Project Gold",
+      "category_type": "custom",
+      "project_id": "project_001",
+      "items": [
+        {
+          "document_id": "CCC1234567891234",
+          "dataset": "Real Property Master",
+          "doc__type_description": "AGREEMENT",
+          "note": "this is my favorite document"
+        },
+        {
+          "document_id": "CCC9876543212345",
+          "dataset": "Personal Property Master",
+          "doc__type_description": "MORTGAGE",
+          "note": "important document for Project Gold"
+        }
+      ]
+    }
+  ]
+}

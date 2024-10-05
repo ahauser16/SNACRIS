@@ -4,9 +4,14 @@ import StatesCheckboxes from '../StatesCheckboxes/StatesCheckboxes';
 import StatesSelect from "../StatesSelect/StatesSelect";
 import CountriesCheckboxes from '../CountriesCheckboxes/CountriesCheckboxes';
 import CountrySelect from "../CountrySelect/CountrySelect";
+import NameInput from "./NameInput/NameInput";
+import AddressOne from "./AddressOne/AddressOne";
+import AddressTwo from "./AddressTwo/AddressTwo";
+import CityInput from "./CityInput/CityInput";
+import ZipInput from "./ZipInput/ZipInput";
 import './PartyNameSearch.css';
 
-const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCountryChange }) => {
+const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCountryChange, handleErrorDisplay, inputUserErrors }) => {
   const [showStatesCheckboxes, setShowStatesCheckboxes] = useState(false);
   const [isUsingMultipleStates, setIsUsingMultipleStates] = useState(false);
   const [showCountriesCheckboxes, setShowCountriesCheckboxes] = useState(false);
@@ -37,58 +42,30 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
   return (
     <fieldset className="party-name-search-container">
       <legend className="party-name-search-legend">Search By Party Name</legend>
-
-      {/* Name Field */}
-      <div className="form-group">
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={soql.name}
-          onChange={handleInputChange}
-          style={{ textTransform: 'uppercase' }}
-        />
-      </div>
-
-      {/* Address 1 Field */}
-      <div className="form-group">
-        <label htmlFor="address_1">Address 1:</label>
-        <input
-          type="text"
-          id="address_1"
-          name="address_1"
-          value={soql.address_1}
-          onChange={handleInputChange}
-          style={{ textTransform: 'uppercase' }}
-        />
-      </div>
-
-      {/* Address 2 Field */}
-      <div className="form-group">
-        <label htmlFor="address_2">Address 2:</label>
-        <input
-          type="text"
-          id="address_2"
-          name="address_2"
-          value={soql.address_2}
-          onChange={handleInputChange}
-          style={{ textTransform: 'uppercase' }}
-        />
-      </div>
-
-      {/* City Field */}
-      <div className="form-group">
-        <label htmlFor="city">City:</label>
-        <input
-          type="text"
-          id="city"
-          name="city"
-          value={soql.city}
-          onChange={handleInputChange}
-          style={{ textTransform: 'uppercase' }}
-        />
-      </div>
+      <NameInput
+        value={soql.name}
+        onChange={handleInputChange}
+        handleErrorDisplay={handleErrorDisplay}
+        error={inputUserErrors.name}
+      />
+      <AddressOne
+        value={soql.address_1}
+        onChange={handleInputChange}
+        handleErrorDisplay={handleErrorDisplay}
+        error={inputUserErrors.address_1}
+      />
+      <AddressTwo
+        value={soql.address_2}
+        onChange={handleInputChange}
+        handleErrorDisplay={handleErrorDisplay}
+        error={inputUserErrors.address_2}
+      />
+      <CityInput
+        value={soql.city}
+        onChange={handleInputChange}
+        handleErrorDisplay={handleErrorDisplay}
+        error={inputUserErrors.city}
+      />
 
       {/* States Selection */}
       <div className="form-group">
@@ -98,8 +75,8 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
             soql.state.length > 1
               ? "multiple" // Pass "multiple" if more than one state is selected
               : soql.state.length === 1
-              ? soql.state[0]
-              : ""
+                ? soql.state[0]
+                : ""
           }
           handleStateSelectChange={handleStateSelectChange}
           disabled={isUsingMultipleStates}
@@ -120,18 +97,12 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
         )}
       </div>
 
-      {/* Zip Field */}
-      <div className="form-group">
-        <label htmlFor="zip">Zip:</label>
-        <input
-          type="text"
-          id="zip"
-          name="zip"
-          value={soql.zip}
-          onChange={handleInputChange}
-          style={{ textTransform: 'uppercase' }}
-        />
-      </div>
+      <ZipInput
+        value={soql.zip}
+        onChange={handleInputChange}
+        handleErrorDisplay={handleErrorDisplay}
+        error={inputUserErrors.zip}
+      />
 
       {/* Country Selection */}
       <div className="form-group">
@@ -140,8 +111,8 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
             soql.country.length > 1
               ? "multiple" // Display "multiple" if more than one country is selected
               : soql.country.length === 1
-              ? soql.country[0]
-              : ""
+                ? soql.country[0]
+                : ""
           }
           handleCountrySelectChange={handleCountrySelectChange}
           disabled={isUsingMultipleCountries}

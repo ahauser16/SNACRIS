@@ -1,78 +1,69 @@
 // src/api/api.js
 import axios from 'axios';
 import secrets from 'secrets';
-import realPropertyMasterFields from './realPropertyMasterFields';
-import realPropertyLegalFields from './realPropertyLegalFields';
-import realPropertyPartiesFields from './realPropertyPartiesFields';
-import realPropertyReferencesFields from './realPropertyReferencesFields';
-import realPropertyRemarksFields from './realPropertyRemarksFields';
-import personalPropertyMasterFields from './personalPropertyMasterFields';
-import personalPropertyLegalsFields from './personalPropertyLegalsFields';
-import personalPropertyPartiesFields from './personalPropertyPartiesFields';
-import personalPropertyReferencesFields from './personalPropertyReferencesFields';
-import personalPropertyRemarksFields from './personalPropertyRemarksFields';
-import documentControlCodesFields from './documentControlCodesFields';
-import countryCodesFields from './countryCodesFields';
-import uccCollateralCodesFields from './uccCollateralCodesFields';
-import stateCodesFields from './stateCodesFields';
-import API_ENDPOINTS from './apiEndpoints';
+import realPropertyMasterFields from '../realPropertyMasterFields';
+import realPropertyLegalFields from '../realPropertyLegalFields';
+import realPropertyPartiesFields from '../realPropertyPartiesFields';
+import realPropertyReferencesFields from '../realPropertyReferencesFields';
+import realPropertyRemarksFields from '../realPropertyRemarksFields';
+import personalPropertyMasterFields from '../personalPropertyMasterFields';
+import personalPropertyLegalsFields from '../personalPropertyLegalsFields';
+import personalPropertyPartiesFields from '../personalPropertyPartiesFields';
+import personalPropertyReferencesFields from '../personalPropertyReferencesFields';
+import personalPropertyRemarksFields from '../personalPropertyRemarksFields';
+import documentControlCodesFields from '../documentControlCodesFields';
+import countryCodesFields from '../countryCodesFields';
+import uccCollateralCodesFields from '../uccCollateralCodesFields';
+import stateCodesFields from '../stateCodesFields';
+import API_ENDPOINTS from '../apiEndpoints';
 
 const APP_TOKEN = secrets.appToken;
 
+//The `RPMqueryBuilder` function is defined, taking three parameters: `soql` (an object containing query parameters), `endpoint` (the API endpoint URL), and `fields` (the fields to be queried).
 const RPMqueryBuilder = (soql = {}, endpoint, fields) => {
+  //The `buildSoQLQuery` function is called with `soql` and `fields` as arguments, and the result is stored in the `soqlQuery` variable.
   const soqlQuery = buildSoQLQuery(soql, fields);
+  //The `url` variable is constructed by concatenating the `endpoint` and the `soqlQuery`.
   const url = `${endpoint}?${soqlQuery}`;
   console.log('Constructed URL:', url);
   return url;
 };
 
-// Build SoQL query string
+//The `buildSoQLQuery` function is defined, taking two parameters: `soql` (an object containing query parameters) and `fields` (the fields to be queried).
 const buildSoQLQuery = (soql, fields) => {
+  //The whereClauses variable is constructed by:
+  //first, converting the `soql` object into an array of key-value pairs using `Object.entries`.
   const whereClauses = Object.entries(soql)
+    //second, filtering out entries where the value is empty or consists only of whitespace.
     .filter(([_, value]) => value && String(value).trim() !== '')
+    //third, mapping each key-value pair to a SoQL field query using the `buildSoqlFieldQuery` function.
     .map(([key, value]) => buildSoqlFieldQuery(key, value))
+  console.log(buildSoqlFieldQuery(key, value))
+    //fourth, joining the resulting array of field queries with " AND ".
     .join(' AND ');
-
-  // Log the constructed where clause before encoding
-  console.log('Raw SoQL Query:', whereClauses);
-
-  // Ensure that the query is properly encoded
+  //The `whereClauses` string is encoded using `encodeURIComponent` and prefixed with `$where=`. 
+  //The resulting string is returned.
   return `$where=${encodeURIComponent(whereClauses)}`;
 };
 
-// Improved utility function to escape SoQL string values
-const escapeSoqlString = (value) => {
-  if (typeof value === 'string') {
-    return value.replace(/'/g, "''");  // Escape single quotes for SoQL
-  }
-  return value;
-};
-
-// Function to ensure the query starts properly with correct syntax
-const startQuery = (key, value, isString) => {
-  return isString ? `${key}="${escapeSoqlString(value)}` : `${key}=${value}`;
-};
-
-// Function to ensure the query ends correctly with proper quotes and escape handling
-const endQuery = (isString) => {
-  return isString ? '"' : '';  // Use double quotes for strings
-};
-
-// Function to build field queries based on field type (string or number)
+// The `buildSoqlFieldQuery` function takes two parameters: `key` (the field name) and `value` (the field value).
 const buildSoqlFieldQuery = (key, value) => {
-  const exactMatchStringFields = ['street_name', 'unit', 'street_number'];
+  // Define the fields that should use the `=` operator for strings and numbers.
+  const exactMatchStringFields = ['street_name', 'street_number', 'unit'];
   const exactMatchNumberFields = ['borough', 'block', 'lot'];
 
-  const isString = exactMatchStringFields.includes(key);
-  const isNumber = exactMatchNumberFields.includes(key);
-
-  if (isString || isNumber) {
-    // Exact match for string or number fields
-    return startQuery(key, value, isString) + endQuery(isString);
+  // Check if the key is in the exactMatchStringFields array.
+  if (exactMatchStringFields.includes(key)) {
+    return `${key}='${value}'`;
   }
 
-  // Default to partial match for other fields
-  return `${key} LIKE '%${escapeSoqlString(value)}%'`;
+  // Check if the key is in the exactMatchNumberFields array.
+  if (exactMatchNumberFields.includes(key)) {
+    return `${key}=${value}`;
+  }
+
+  // For other fields, return a string representing a SoQL field query using the `LIKE` operator.
+  return `${key} LIKE '%${value}%'`;
 };
 
 const fetchData = async (url) => {

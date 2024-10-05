@@ -70,7 +70,7 @@ const PropertyTypeCheckboxes = ({ selectedPropertyTypes, handlePropertyTypeChang
   };
 
   return (
-    <div>
+    <div className="property-type-component--container">
       {/* User Favorites section */}
       <fieldset className="favorites-container">
         <legend>My Favorite Property Types</legend>
@@ -107,7 +107,7 @@ const PropertyTypeCheckboxes = ({ selectedPropertyTypes, handlePropertyTypeChang
       </fieldset>
 
       {/* Sorting Radio Buttons */}
-      <fieldset className="sorting-method-container">
+      <fieldset className="sorting-method--container">
         <legend>Sort Property Types By</legend>
         <label>
           <input
