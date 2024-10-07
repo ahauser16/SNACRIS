@@ -1,3 +1,4 @@
+//src/pages/Panel/Panel.tsx
 import React from 'react';
 import './Panel.css';
 

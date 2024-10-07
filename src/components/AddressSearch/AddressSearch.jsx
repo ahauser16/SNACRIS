@@ -13,7 +13,13 @@ import AirRightsSelect from './AirRightsSelect/AirRightsSelect';
 import SubterraneanRightsSelect from './SubterraneanRightsSelect/SubterraneanRightsSelect';
 import './AddressSearch.css';
 
-function AddressSearch({ soql, handleInputChange, handlePropertyTypeChange, handleErrorDisplay, inputUserErrors }) {
+function AddressSearch({
+    soql,
+    handleInputChange,
+    handlePropertyTypeChange,
+    handleErrorDisplay,
+    inputUserErrors
+}) {
     const [showPropertyTypeCheckboxes, setShowPropertyTypeCheckboxes] = useState(false);
     const [isUsingMultiplePropertyTypes, setIsUsingMultiplePropertyTypes] = useState(false);
 
@@ -29,8 +35,8 @@ function AddressSearch({ soql, handleInputChange, handlePropertyTypeChange, hand
     };
 
     return (
-        <fieldset className="address-search-container">
-            <legend className="address-search-container--legend">
+        <fieldset className="address-search--container">
+            <legend className="address-search--legend">
                 Search By Property
             </legend>
             <div className="row">
@@ -40,6 +46,8 @@ function AddressSearch({ soql, handleInputChange, handlePropertyTypeChange, hand
                         selectedBorough={soql.borough}
                         setSelectedBorough={(borough) => handleInputChange({ target: { name: 'borough', value: borough } })}
                         className="borough-select-component"
+                        value={soql.borough} //test this--refactor required most likely
+                        onChange={handleInputChange} //test this--refactor required most likely
                     />
                     <TaxBlockInput
                         value={soql.block}

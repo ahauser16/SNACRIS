@@ -1,3 +1,4 @@
+// src/pages/Content/index.js
 import { printLine } from './modules/print';
 
 console.log('Content script works!');

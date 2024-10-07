@@ -22,6 +22,7 @@ const sections = [
 
 const SidepanelMenu = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [formStates, setFormStates] = useState(sections.map(() => ({ data: [], error: null })));
 
   const handleNavClick = (index) => {
     setActiveIndex(index);
@@ -33,6 +34,22 @@ const SidepanelMenu = () => {
   useEffect(() => {
     document.documentElement.className = activeColorClass;
   }, [activeColorClass]);
+
+  const setData = (index, data) => {
+    setFormStates((prevStates) => {
+      const newStates = [...prevStates];
+      newStates[index].data = data;
+      return newStates;
+    });
+  };
+
+  const setError = (index, error) => {
+    setFormStates((prevStates) => {
+      const newStates = [...prevStates];
+      newStates[index].error = error;
+      return newStates;
+    });
+  };
 
   return (
     <div className="nav-form-container">
@@ -50,7 +67,14 @@ const SidepanelMenu = () => {
       </nav>
 
       <div className={`pageViewer ${activeColorClass}`}>
-        <FormTableContainer activeForm={ActiveFormComponent} colorClass={activeColorClass} />
+        <FormTableContainer
+          activeForm={ActiveFormComponent}
+          colorClass={activeColorClass}
+          data={formStates[activeIndex].data}
+          error={formStates[activeIndex].error}
+          setData={(data) => setData(activeIndex, data)}
+          setError={(error) => setError(activeIndex, error)}
+        />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ function TaxLotInput({ value, onChange, handleErrorDisplay, error }) {
         if (value.length > 4) {
             handleErrorDisplay('lot', 'Lot number must be 4 numbers or less.');
         } else {
-            handleErrorDisplay('lot', '');
+            handleErrorDisplay('lot', null);
         }
     };
 

@@ -1,5 +1,6 @@
+//src/pages/Devtools/index.js
 chrome.devtools.panels.create(
-  'Dev Tools from chrome-extension-boilerplate-react',
+  'SNACRIS Dev Tools!',
   'icon-34.png',
   'panel.html'
 );

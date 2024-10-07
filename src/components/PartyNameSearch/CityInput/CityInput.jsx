@@ -7,7 +7,7 @@ function CityInput({ value, onChange, handleErrorDisplay, error }) {
         if (value.length > 30) {
             handleErrorDisplay('city', 'City name must be 30 characters or less.');
         } else {
-            handleErrorDisplay('city', '');
+            handleErrorDisplay('city', null);
         }
     };
 

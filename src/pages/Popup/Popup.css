@@ -1,38 +1,29 @@
 /* src/pages/Popup/Popup.css */
-.popup-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* padding: 10px; */
-  background-color: whitesmoke;
-  color: #282c34;
-  width: 100%;
-  height: auto;
+
+:root{
+  --popup-color--text: orangered;
+  --popup-color--border: antiquewhite;
+  --popup-color--bg: rgb(13, 17, 23);
 }
 
-.popup-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: whitesmoke;
-  background-color: #282c34;
-  width: 100%;
-  /* padding: 10px; */
+body{
+  margin: 0;
+  padding: 0;
 }
 
-.popup-body{
+#app-container{
+  margin: 0;
+  padding: .25rem;
+  color: var(--popup-color--text);
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  /* padding: .25rem;
-  margin: .25rem; */
+  background-color: var(--popup-color--bg);
+  height: 200px;
+  width: 200px;
+  border: 1px solid var(--popup-color--border);
 }
 
-.App-link {
-  color: #61dafb;
-}
+
 

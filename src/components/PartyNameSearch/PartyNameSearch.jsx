@@ -11,7 +11,14 @@ import CityInput from "./CityInput/CityInput";
 import ZipInput from "./ZipInput/ZipInput";
 import './PartyNameSearch.css';
 
-const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCountryChange, handleErrorDisplay, inputUserErrors }) => {
+function PartyNameSearch({
+  soql,
+  handleInputChange,
+  handleStateChange,
+  handleCountryChange,
+  handleErrorDisplay,
+  inputUserErrors
+}) {
   const [showStatesCheckboxes, setShowStatesCheckboxes] = useState(false);
   const [isUsingMultipleStates, setIsUsingMultipleStates] = useState(false);
   const [showCountriesCheckboxes, setShowCountriesCheckboxes] = useState(false);
@@ -40,8 +47,8 @@ const PartyNameSearch = ({ soql, handleInputChange, handleStateChange, handleCou
   };
 
   return (
-    <fieldset className="party-name-search-container">
-      <legend className="party-name-search-legend">Search By Party Name</legend>
+    <fieldset className="party-name-search--container">
+      <legend className="party-name-search--legend">Search By Party Name</legend>
       <NameInput
         value={soql.name}
         onChange={handleInputChange}

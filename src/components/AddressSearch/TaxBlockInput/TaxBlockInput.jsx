@@ -7,7 +7,7 @@ function TaxBlockInput({ value, onChange, handleErrorDisplay, error }) {
         if (value.length > 5) {
             handleErrorDisplay('block', 'Block number must be 5 numbers or less.');
         } else {
-            handleErrorDisplay('block', '');
+            handleErrorDisplay('block', null);
         }
     };
 

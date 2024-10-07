@@ -7,7 +7,7 @@ function AddressTwo({ value, onChange, handleErrorDisplay, error }) {
         if (value.length > 60) {
             handleErrorDisplay('address_2', 'Address must be 60 characters or less.');
         } else {
-            handleErrorDisplay('address_2', '');
+            handleErrorDisplay('address_2', null);
         }
     };
 

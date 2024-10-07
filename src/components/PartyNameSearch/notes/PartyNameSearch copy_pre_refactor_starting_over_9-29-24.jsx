@@ -22,7 +22,7 @@ const PartyNameSearch = ({ soql, queries = [], handleAddQuery, handleResetQuerie
   const handleAddCondition = () => {
     if (currentQuery) {
       const query = { searchType, query: currentQuery };
-      console.log('Adding query:', query); 
+      console.log('Adding query:', query);
       handleAddQuery({ query, booleanOperator });
       setCurrentQuery('');
     }
@@ -45,7 +45,7 @@ const PartyNameSearch = ({ soql, queries = [], handleAddQuery, handleResetQuerie
 
   return (
     <fieldset className="PartyNameSearch-container">
-      <legend className="party-name-search-legend">Search By Party Name</legend>
+      <legend className="party-name-search--legend">Search By Party Name</legend>
       <div>
         <label>Search Type:</label>
         <select value={searchType} onChange={handleSearchTypeChange}>

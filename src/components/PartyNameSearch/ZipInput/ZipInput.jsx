@@ -7,7 +7,7 @@ function ZipInput({ value, onChange, handleErrorDisplay, error }) {
         if (value.length > 9) {
             handleErrorDisplay('zip', 'Zip code must be 9 characters or less.');
         } else {
-            handleErrorDisplay('zip', '');
+            handleErrorDisplay('zip', null);
         }
     };
 

@@ -1,7 +1,11 @@
 import React from 'react'
 import './StreetNameInput.css'
 
-function StreetNameInput({ value, onChange, handleErrorDisplay, error }) {
+function StreetNameInput({
+    value,
+    onChange,
+    handleErrorDisplay,
+    error }) {
 
     const validateUserInput = (value) => {
         if (value.length > 32) {
@@ -18,7 +22,12 @@ function StreetNameInput({ value, onChange, handleErrorDisplay, error }) {
 
     return (
         <div className="street-name-input--container">
-            <label htmlFor="street_name" className="street-name-input--label">Street Name:</label>
+            <label
+                htmlFor="street_name"
+                className="street-name-input--label"
+            >
+                Street Name:
+            </label>
             <input
                 type="text"
                 id="street_name"

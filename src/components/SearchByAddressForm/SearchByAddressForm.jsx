@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { fetchRealPropertyLegalsData } from '../../api/api';
 import AddressSearch from '../AddressSearch/AddressSearch';
 import { uppercaseSoql } from '../Utils/uppercaseSoql';
+import { handleErrorsDuringSubmission } from '../Utils/handleErrorsDuringFormSubmission';
 import './SearchByAddressForm.css';
 
 const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
@@ -19,15 +20,15 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
   });
 
   const [inputUserErrors, setInputUserErrors] = useState({
-    borough: '',
-    block: '',
-    lot: '',
-    easement: '',
-    partial_lot: '',
-    air_rights: '',
-    subterranean_rights: '',
-    street_name: '',
-    unit: '',
+    borough: null,
+    block: null,
+    lot: null,
+    easement: null,
+    partial_lot: null,
+    air_rights: null,
+    subterranean_rights: null,
+    street_name: null,
+    unit: null,
   });
 
   const [errorMessages, setErrorMessages] = useState([]);
@@ -73,10 +74,8 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check for errors in inputUserErrors
-    const errors = Object.values(inputUserErrors).filter(error => error !== '');
-    if (errors.length > 0) {
-      setErrorMessages(errors);
+    console.log('Current inputUserErrors:', inputUserErrors);
+    if (handleErrorsDuringSubmission(inputUserErrors, setErrorMessages)) {
       return;
     }
 
@@ -109,22 +108,25 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
       unit: '',
     });
     setInputUserErrors({
-      borough: '',
-      block: '',
-      lot: '',
-      easement: '',
-      partial_lot: '',
-      air_rights: '',
-      subterranean_rights: '',
-      street_name: '',
-      unit: '',
+      borough: null,
+      block: null,
+      lot: null,
+      easement: null,
+      partial_lot: null,
+      air_rights: null,
+      subterranean_rights: null,
+      street_name: null,
+      unit: null,
     });
     setErrorMessages([]);
     handleTableReset();
   };
 
   return (
-    <form className="search-by-address-form" onSubmit={handleSubmit}>
+    <form
+      className="search-by-address-form"
+      onSubmit={handleSubmit}
+    >
       <AddressSearch
         soql={soql}
         handleInputChange={handleInputChange}

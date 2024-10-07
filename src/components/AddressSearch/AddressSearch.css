@@ -16,7 +16,7 @@
   justify-content: center;
 }
 
-.address-search-container {
+.address-search--container {
   display: flex;
   flex-direction: column;
   border: 2px solid var(--address-search-color);
@@ -25,7 +25,7 @@
   width: 100%;
 }
 
-.address-search-container--legend {
+.address-search--legend {
   color: var(--address-search-color);
   font-weight: bold;
   font-size: 1.25rem;
