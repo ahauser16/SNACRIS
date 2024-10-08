@@ -1,0 +1,19 @@
+.date-range-select-input--container {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-range-select-input--label {}
+
+.date-range-select-input--input {
+    width: 10ch;
+    /* Width to accommodate up to 4 characters */
+    border: 1px solid var(--address-search-color);
+    border-radius: 4px;
+}
+
+.error-msg-display{
+    color: red;
+    background-color: antiquewhite;
+    margin: .25rem;
+}

@@ -1,7 +1,12 @@
 import React from 'react'
 import './TaxLotInput.css'
 
-function TaxLotInput({ value, onChange, handleErrorDisplay, error }) {
+function TaxLotInput({ 
+    value, 
+    onChange, 
+    handleErrorDisplay, 
+    error 
+}) {
 
     const validateUserInput = (value) => {
         if (value.length > 4) {

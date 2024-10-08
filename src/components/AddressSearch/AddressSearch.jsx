@@ -14,7 +14,7 @@ import SubterraneanRightsSelect from './SubterraneanRightsSelect/SubterraneanRig
 import './AddressSearch.css';
 
 function AddressSearch({
-    soql,
+    addressSoql,
     handleInputChange,
     handlePropertyTypeChange,
     handleErrorDisplay,
@@ -43,20 +43,19 @@ function AddressSearch({
                 <fieldset className="bbl-container">
                     <legend className="bbl-legend">Search By Borough/Block/Lot</legend>
                     <BoroughSelect
-                        selectedBorough={soql.borough}
-                        setSelectedBorough={(borough) => handleInputChange({ target: { name: 'borough', value: borough } })}
-                        className="borough-select-component"
-                        value={soql.borough} //test this--refactor required most likely
-                        onChange={handleInputChange} //test this--refactor required most likely
+                        value={addressSoql.borough}
+                        onChange={handleInputChange}
+                        handleErrorDisplay={handleErrorDisplay}
+                        error={inputUserErrors.borough}
                     />
                     <TaxBlockInput
-                        value={soql.block}
+                        value={addressSoql.block}
                         onChange={handleInputChange}
                         handleErrorDisplay={handleErrorDisplay}
                         error={inputUserErrors.block}
                     />
                     <TaxLotInput
-                        value={soql.lot}
+                        value={addressSoql.lot}
                         onChange={handleInputChange}
                         handleErrorDisplay={handleErrorDisplay}
                         error={inputUserErrors.lot}
@@ -65,19 +64,19 @@ function AddressSearch({
                 <fieldset className="street-address-container">
                     <legend className="street-address-legend">Search By Street Address</legend>
                     <StreetNumberInput
-                        value={soql.street_number}
+                        value={addressSoql.street_number}
                         onChange={handleInputChange}
                         handleErrorDisplay={handleErrorDisplay}
                         error={inputUserErrors.street_number}
                     />
                     <StreetNameInput
-                        value={soql.street_name}
+                        value={addressSoql.street_name}
                         onChange={handleInputChange}
                         handleErrorDisplay={handleErrorDisplay}
                         error={inputUserErrors.street_name}
                     />
                     <StreetUnitInput
-                        value={soql.unit}
+                        value={addressSoql.unit}
                         onChange={handleInputChange}
                         handleErrorDisplay={handleErrorDisplay}
                         error={inputUserErrors.unit}
@@ -86,22 +85,22 @@ function AddressSearch({
             </div>
             <div className="row">
                 <EasementSelect
-                    value={soql.easement}
+                    value={addressSoql.easement}
                     onChange={handleInputChange}
                 />
                 <PartialLotSelect
-                    value={soql.partial_lot}
+                    value={addressSoql.partial_lot}
                     onChange={handleInputChange}
                 />
 
             </div>
             <div className="row">
                 <AirRightsSelect
-                    value={soql.air_rights}
+                    value={addressSoql.air_rights}
                     onChange={handleInputChange}
                 />
                 <SubterraneanRightsSelect
-                    value={soql.subterranean_rights}
+                    value={addressSoql.subterranean_rights}
                     onChange={handleInputChange}
                     className="subterranean-rights-select--select"
                 />
@@ -110,10 +109,10 @@ function AddressSearch({
             <div className="property-type-select-checkbox-container col">
                 <PropertyTypeSelect
                     selectedPropertyType={
-                        soql.property_type.length > 1
+                        addressSoql.property_type.length > 1
                             ? "multiple"
-                            : soql.property_type.length === 1
-                                ? soql.property_type[0]
+                            : addressSoql.property_type.length === 1
+                                ? addressSoql.property_type[0]
                                 : ""
                     }
                     handlePropertyTypeSelectChange={handlePropertyTypeSelectChange}
@@ -126,7 +125,7 @@ function AddressSearch({
                 </button>
                 {showPropertyTypeCheckboxes && (
                     <PropertyTypeCheckboxes
-                        selectedPropertyTypes={soql.property_type}
+                        selectedPropertyTypes={addressSoql.property_type}
                         handlePropertyTypeChange={handlePropertyTypeChange}
                     />
                 )}

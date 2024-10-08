@@ -1,6 +1,7 @@
 // src/api/api.js
 import axios from 'axios';
 import secrets from 'secrets';
+import moment from 'moment';
 import realPropertyMasterFields from './realPropertyMasterFields';
 import realPropertyLegalFields from './realPropertyLegalFields';
 import realPropertyPartiesFields from './realPropertyPartiesFields';
@@ -61,7 +62,7 @@ const endQuery = (isString) => {
 // Function to build field queries based on field type (string or number)
 const buildSoqlFieldQuery = (key, value) => {
   const exactMatchStringFields = ['street_name', 'unit', 'street_number', 'state', 'city'];
-  const exactMatchNumberFields = ['borough', 'block', 'lot'];
+  const exactMatchNumberFields = ['borough', 'block', 'lot', 'recorded_borough'];
 
   const isString = exactMatchStringFields.includes(key);
   const isNumber = exactMatchNumberFields.includes(key);
@@ -69,6 +70,20 @@ const buildSoqlFieldQuery = (key, value) => {
   if (isString || isNumber) {
     // Exact match for string or number fields
     return startQuery(key, value, isString) + endQuery(isString);
+  }
+
+  if (key === 'document_date') {
+    if (value.includes(' - ')) {
+      // Handle date range
+      const [startDate, endDate] = value.split(' - ');
+      const formattedStartDate = moment(startDate, 'YYYY-MM-DD').format('YYYY-MM-DD');
+      const formattedEndDate = moment(endDate, 'YYYY-MM-DD').format('YYYY-MM-DD');
+      return `document_date BETWEEN '${formattedStartDate}' AND '${formattedEndDate}'`;
+    } else {
+      // Handle exact date
+      const formattedDate = moment(value, 'YYYY-MM-DD').format('YYYY-MM-DD');
+      return `document_date = '${formattedDate}'`;
+    }
   }
 
   // Default to partial match for other fields
@@ -101,16 +116,16 @@ export const fetchPaginatedData = (soql, endpoint, fields, limit, offset) => {
 };
 
 //API endpoing specific functions
-export const fetchRealPropertyMasterData = (soql, limit = 10, offset = 0) => {
-  return fetchPaginatedData(soql, API_ENDPOINTS.realPropertyMaster, realPropertyMasterFields, limit, offset);
+export const fetchRealPropertyMasterData = (docTypeSoql, limit = 10, offset = 0) => {
+  return fetchPaginatedData(docTypeSoql, API_ENDPOINTS.realPropertyMaster, realPropertyMasterFields, limit, offset);
 };
 
-export const fetchRealPropertyPartiesData = (soql, limit = 10, offset = 0) => {
-  return fetchPaginatedData(soql, API_ENDPOINTS.realPropertyParties, realPropertyPartiesFields, limit, offset);
+export const fetchRealPropertyPartiesData = (partyNameSoql, limit = 10, offset = 0) => {
+  return fetchPaginatedData(partyNameSoql, API_ENDPOINTS.realPropertyParties, realPropertyPartiesFields, limit, offset);
 };
 
-export const fetchRealPropertyLegalsData = (soql, limit = 10, offset = 0) => {
-  return fetchPaginatedData(soql, API_ENDPOINTS.realPropertyLegals, realPropertyLegalFields, limit, offset);
+export const fetchRealPropertyLegalsData = (addressSoql, limit = 10, offset = 0) => {
+  return fetchPaginatedData(addressSoql, API_ENDPOINTS.realPropertyLegals, realPropertyLegalFields, limit, offset);
 };
 
 export const fetchRealPropertyReferencesData = (soql, limit = 10, offset = 0) => {

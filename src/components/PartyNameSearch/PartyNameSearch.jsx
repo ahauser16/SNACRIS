@@ -12,7 +12,7 @@ import ZipInput from "./ZipInput/ZipInput";
 import './PartyNameSearch.css';
 
 function PartyNameSearch({
-  soql,
+  partyNameSoql,
   handleInputChange,
   handleStateChange,
   handleCountryChange,
@@ -50,25 +50,25 @@ function PartyNameSearch({
     <fieldset className="party-name-search--container">
       <legend className="party-name-search--legend">Search By Party Name</legend>
       <NameInput
-        value={soql.name}
+        value={partyNameSoql.name}
         onChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
         error={inputUserErrors.name}
       />
       <AddressOne
-        value={soql.address_1}
+        value={partyNameSoql.address_1}
         onChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
         error={inputUserErrors.address_1}
       />
       <AddressTwo
-        value={soql.address_2}
+        value={partyNameSoql.address_2}
         onChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
         error={inputUserErrors.address_2}
       />
       <CityInput
-        value={soql.city}
+        value={partyNameSoql.city}
         onChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
         error={inputUserErrors.city}
@@ -79,10 +79,10 @@ function PartyNameSearch({
         {/* State Select (Single) */}
         <StatesSelect
           selectedState={
-            soql.state.length > 1
+            partyNameSoql.state.length > 1
               ? "multiple" // Pass "multiple" if more than one state is selected
-              : soql.state.length === 1
-                ? soql.state[0]
+              : partyNameSoql.state.length === 1
+                ? partyNameSoql.state[0]
                 : ""
           }
           handleStateSelectChange={handleStateSelectChange}
@@ -98,14 +98,14 @@ function PartyNameSearch({
 
         {showStatesCheckboxes && (
           <StatesCheckboxes
-            selectedStates={soql.state}
+            selectedStates={partyNameSoql.state}
             handleStateChange={handleStateChange}
           />
         )}
       </div>
 
       <ZipInput
-        value={soql.zip}
+        value={partyNameSoql.zip}
         onChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
         error={inputUserErrors.zip}
@@ -115,10 +115,10 @@ function PartyNameSearch({
       <div className="form-group">
         <CountrySelect
           selectedCountry={
-            soql.country.length > 1
+            partyNameSoql.country.length > 1
               ? "multiple" // Display "multiple" if more than one country is selected
-              : soql.country.length === 1
-                ? soql.country[0]
+              : partyNameSoql.country.length === 1
+                ? partyNameSoql.country[0]
                 : ""
           }
           handleCountrySelectChange={handleCountrySelectChange}
@@ -133,7 +133,7 @@ function PartyNameSearch({
 
         {showCountriesCheckboxes && (
           <CountriesCheckboxes
-            selectedCountries={soql.country}
+            selectedCountries={partyNameSoql.country}
             handleCountryChange={handleCountryChange}
           />
         )}

@@ -8,7 +8,7 @@ import './SearchByPartyNameForm.css';
 
 const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
 
-  const [soql, setSoql] = useState({
+  const [partyNameSoql, setPartyNameSoql] = useState({
     name: '',
     address_1: '',
     address_2: '',
@@ -47,7 +47,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log(`Input change - ${name}: ${value}`);
-    setSoql((prevSoql) => {
+    setPartyNameSoql((prevSoql) => {
       const newSoql = { ...prevSoql, [name]: value };
       return uppercaseSoql(newSoql);
     });
@@ -58,7 +58,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
     console.log(`State change - value: ${value}, checked: ${checked}, type: ${type}`);
 
     if (type === "checkbox") {
-      setSoql((prevSoql) => {
+      setPartyNameSoql((prevSoql) => {
         const newSoql = {
           ...prevSoql,
           state: checked
@@ -69,7 +69,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
         return uppercaseSoql(newSoql);
       });
     } else {
-      setSoql((prevSoql) => {
+      setPartyNameSoql((prevSoql) => {
         const newSoql = {
           ...prevSoql,
           state: value ? [value] : [],
@@ -84,7 +84,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
     const { value, checked, type } = e.target;
     console.log(`Country change - value: ${value}, checked: ${checked}, type: ${type}`);
     if (type === "checkbox") {
-      setSoql((prevSoql) => {
+      setPartyNameSoql((prevSoql) => {
         const newSoql = {
           ...prevSoql,
           country: checked
@@ -95,7 +95,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
         return uppercaseSoql(newSoql);
       });
     } else {
-      setSoql((prevSoql) => {
+      setPartyNameSoql((prevSoql) => {
         const newSoql = {
           ...prevSoql,
           country: value ? [value] : [],
@@ -114,10 +114,10 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
       return;
     }
 
-    console.log("Submitting with SoQL:", soql);
+    console.log("Submitting with SoQL:", partyNameSoql);
 
     try {
-      const response = await fetchRealPropertyPartiesData(soql);
+      const response = await fetchRealPropertyPartiesData(partyNameSoql);
       console.log('API response:', response);
       setData(response);
       setError(null);
@@ -130,7 +130,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
   };
 
   const handleFormReset = () => {
-    setSoql({
+    setPartyNameSoql({
       name: '',
       address_1: '',
       address_2: '',
@@ -157,7 +157,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
       className="search-by-party-name-form"
       onSubmit={handleSubmit}>
       <PartyNameSearch
-        soql={soql}
+        partyNameSoql={partyNameSoql}
         handleInputChange={handleInputChange}
         handleStateChange={handleStateChange}
         handleCountryChange={handleCountryChange}

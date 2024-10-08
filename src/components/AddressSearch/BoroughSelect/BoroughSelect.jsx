@@ -1,40 +1,42 @@
-// src/components/GroupedBoroughsRadioBtns/GroupedBoroughsRadioBtns
 import React from 'react';
 import './BoroughSelect.css';
 
-const BoroughSelect = ({ selectedBorough, setSelectedBorough }) => {
-  const boroughOptions = [
-    { description: 'Manhattan', borough_code: 1 },
-    { description: 'Bronx', borough_code: 2 },
-    { description: 'Brooklyn', borough_code: 3 },
-    { description: 'Queens', borough_code: 4 },
-    { description: 'Staten Island', borough_code: 5 },
-  ];
 
-  const handleBoroughChange = (e) => {
-    const borough_code = parseInt(e.target.value, 10);
-    setSelectedBorough(borough_code);
+//this validation does not work as intended because the user can still submit the form without selecting a borough only when the the page first loads.  If the user selects a borough and then selects the default "Select a borough" option, the error message will display which disables the form from being submitted.
+const BoroughSelect = ({ value, onChange, handleErrorDisplay, error }) => {
+  const validateUserInput = (value) => {
+    if (!value) {
+      handleErrorDisplay('borough', 'You must select a borough.');
+    } else {
+      handleErrorDisplay('borough', null);
+    }
+  };
+
+  const handleValidationPlusDataTransferToSoql = (e) => {
+    validateUserInput(e.target.value);
+    onChange(e); // Keep the original onChange for state management
   };
 
   return (
     <div className="borough-select--container">
-      <label htmlFor="borough-select" className="borough-select--label">Borough:</label>
+      <label htmlFor="borough" className="borough-select--label">Borough:</label>
       <select
-        id="borough-select"
-        value={selectedBorough}
-        onChange={handleBoroughChange}
+        id="borough"
+        name="borough"
+        value={value}
+        onChange={handleValidationPlusDataTransferToSoql}
         className="borough-select--select"
       >
         <option value="" className="borough-select--option">Select a borough</option>
-        {boroughOptions.map((borough) => (
-          <option key={borough.borough_code} value={borough.borough_code} className="borough-select--option">
-            {borough.description}
-          </option>
-        ))}
+        <option value="1" className="borough-select--option">Manhattan</option>
+        <option value="2" className="borough-select--option">Bronx</option>
+        <option value="3" className="borough-select--option">Brooklyn</option>
+        <option value="4" className="borough-select--option">Queens</option>
+        <option value="5" className="borough-select--option">Staten Island</option>
       </select>
+      <span className="error-msg-display">{error}</span>
     </div>
   );
 };
 
 export default BoroughSelect;
-

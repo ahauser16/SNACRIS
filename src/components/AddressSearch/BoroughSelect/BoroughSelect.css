@@ -1,9 +1,6 @@
 .borough-select--container {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-
-  /* border: 1px solid lightblue; */
 }
 
 .borough-select--label{
@@ -19,4 +16,10 @@
 
 .borough-select--option{
 
+}
+
+.error-msg-display{
+  color: red;
+  background-color: antiquewhite;
+  margin: .25rem;
 }

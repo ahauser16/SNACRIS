@@ -4,9 +4,9 @@ import AddressSearch from '../AddressSearch/AddressSearch';
 import { uppercaseSoql } from '../Utils/uppercaseSoql';
 import { handleErrorsDuringSubmission } from '../Utils/handleErrorsDuringFormSubmission';
 import './SearchByAddressForm.css';
-
+// partyNameSoql / setPartyNameSoql
 const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
-  const [soql, setSoql] = useState({
+  const [addressSoql, setAddressSoql] = useState({
     borough: '',
     block: '',
     lot: '',
@@ -42,7 +42,7 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setSoql((prevSoql) => {
+    setAddressSoql((prevSoql) => {
       const newSoql = { ...prevSoql, [name]: value };
       return uppercaseSoql(newSoql);
     });
@@ -51,7 +51,7 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
   const handlePropertyTypeChange = (e) => {
     const { value, checked, type } = e.target;
     if (type === "checkbox") {
-      setSoql((prevSoql) => {
+      setAddressSoql((prevSoql) => {
         const newSoql = {
           ...prevSoql,
           property_type: checked
@@ -61,7 +61,7 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
         return uppercaseSoql(newSoql);
       });
     } else {
-      setSoql((prevSoql) => {
+      setAddressSoql((prevSoql) => {
         const newSoql = {
           ...prevSoql,
           property_type: value ? [value] : [],
@@ -79,10 +79,10 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
       return;
     }
 
-    console.log("Submitting with SoQL:", soql);
+    console.log("Submitting with SoQL:", addressSoql);
 
     try {
-      const response = await fetchRealPropertyLegalsData(soql);
+      const response = await fetchRealPropertyLegalsData(addressSoql);
       setData(response);
       setError(null);
       setErrorMessages([]); // Clear error messages on successful submission
@@ -94,7 +94,7 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
   };
 
   const handleFormReset = () => {
-    setSoql({
+    setAddressSoql({
       borough: '',
       block: '',
       lot: '',
@@ -128,7 +128,7 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
       onSubmit={handleSubmit}
     >
       <AddressSearch
-        soql={soql}
+        addressSoql={addressSoql}
         handleInputChange={handleInputChange}
         handlePropertyTypeChange={handlePropertyTypeChange}
         handleErrorDisplay={handleErrorDisplay}
