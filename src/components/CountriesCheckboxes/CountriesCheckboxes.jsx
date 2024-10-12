@@ -67,14 +67,82 @@ const CountriesCheckboxes = ({ selectedCountries, handleCountryChange }) => {
     );
   };
 
+  const splitCountriesIntoColumns = (countries) => {
+    if (!Array.isArray(countries)) return [[], []];
+    const midIndex = Math.ceil(countries.length / 2);
+    return [countries.slice(0, midIndex), countries.slice(midIndex)];
+  };
+
+  const renderCountriesByGroup = (groupedCountries) => {
+    const groups = Object.keys(groupedCountries);
+    const midIndex = Math.ceil(groups.length / 2);
+    const leftGroups = groups.slice(0, midIndex);
+    const rightGroups = groups.slice(midIndex);
+
+    return (
+      <>
+        <div className="countries-column">
+          {leftGroups.map((group) => (
+            <div key={group} className="group-container">
+              <label className="group-label">{group}</label>
+              {groupedCountries[group].map(({ country_code, description }) => (
+                <div key={country_code} className="single-checkbox--container">
+                  <label className="single-checkbox--label">
+                    <input
+                      type="checkbox"
+                      name={country_code}
+                      value={country_code}
+                      checked={selectedCountries.includes(country_code)}
+                      onChange={handleCountryChange}
+                      aria-label={description}
+                      className="single-checkbox--input"
+                    />
+                    {description} ({country_code})
+                  </label>
+                  {renderFavoriteIcon(country_code)}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="countries-column">
+          {rightGroups.map((group) => (
+            <div key={group} className="group-container">
+              <label className="group-label">{group}</label>
+              {groupedCountries[group].map(({ country_code, description }) => (
+                <div key={country_code} className="single-checkbox--container">
+                  <label className="single-checkbox--label">
+                    <input
+                      type="checkbox"
+                      name={country_code}
+                      value={country_code}
+                      checked={selectedCountries.includes(country_code)}
+                      onChange={handleCountryChange}
+                      aria-label={description}
+                      className="single-checkbox--input"
+                    />
+                    {description} ({country_code})
+                  </label>
+                  {renderFavoriteIcon(country_code)}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
+  const [leftColumn, rightColumn] = splitCountriesIntoColumns(filteredCountries);
+
   return (
     <div className="countries-checkboxes-component--container">
       {/* User Favorites section */}
       <fieldset className="favorites-container">
         <legend>My Favorite Countries</legend>
         {favoriteCountries.map(({ country_code, description }) => (
-          <div key={country_code} className="country-label-and-checkbox-container">
-            <label>
+          <div key={country_code} className="single-checkbox--container">
+            <label className="single-checkbox--label">
               <input
                 type="checkbox"
                 name={country_code}
@@ -82,6 +150,7 @@ const CountriesCheckboxes = ({ selectedCountries, handleCountryChange }) => {
                 checked={selectedCountries.includes(country_code)}
                 onChange={handleCountryChange}
                 aria-label={description}
+                className="single-checkbox--input"
               />
               {description} ({country_code})
             </label>
@@ -116,194 +185,158 @@ const CountriesCheckboxes = ({ selectedCountries, handleCountryChange }) => {
       {/* Sorting Radio Buttons */}
       <fieldset className="sorting-method--container">
         <legend>Sort Countries By</legend>
-        <label className="sorting-method--label">
-          <input
-            type="radio"
-            name="sortMethod"
-            value={sortingMethods.ALPHABETICAL}
-            checked={sortMethod === sortingMethods.ALPHABETICAL}
-            onChange={() => setSortMethod(sortingMethods.ALPHABETICAL)}
-          />
-          Alphabetical
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="sortMethod"
-            value={sortingMethods.CONTINENT}
-            checked={sortMethod === sortingMethods.CONTINENT}
-            onChange={() => setSortMethod(sortingMethods.CONTINENT)}
-          />
-          Continent
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="sortMethod"
-            value={sortingMethods.COUNTRY_CODE}
-            checked={sortMethod === sortingMethods.COUNTRY_CODE}
-            onChange={() => setSortMethod(sortingMethods.COUNTRY_CODE)}
-          />
-          Country Code
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="sortMethod"
-            value={sortingMethods.SUBREGION}
-            checked={sortMethod === sortingMethods.SUBREGION}
-            onChange={() => setSortMethod(sortingMethods.SUBREGION)}
-          />
-          Subregions
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="sortMethod"
-            value={sortingMethods.TIMEZONE}
-            checked={sortMethod === sortingMethods.TIMEZONE}
-            onChange={() => setSortMethod(sortingMethods.TIMEZONE)}
-          />
-          Timezone
-        </label>
+        <div className="col-left">
+          <label className="sorting-method--label">
+            <input
+              type="radio"
+              name="sortMethod"
+              value={sortingMethods.ALPHABETICAL}
+              checked={sortMethod === sortingMethods.ALPHABETICAL}
+              onChange={() => setSortMethod(sortingMethods.ALPHABETICAL)}
+              className="sorting-method--input"
+            />
+            Alphabetical
+          </label>
+          <label className="sorting-method--label">
+            <input
+              type="radio"
+              name="sortMethod"
+              value={sortingMethods.CONTINENT}
+              checked={sortMethod === sortingMethods.CONTINENT}
+              onChange={() => setSortMethod(sortingMethods.CONTINENT)}
+              className="sorting-method--input"
+            />
+            Continent
+          </label>
+          <label className="sorting-method--label">
+            <input
+              type="radio"
+              name="sortMethod"
+              value={sortingMethods.COUNTRY_CODE}
+              checked={sortMethod === sortingMethods.COUNTRY_CODE}
+              onChange={() => setSortMethod(sortingMethods.COUNTRY_CODE)}
+              className="sorting-method--input"
+            />
+            Country Code
+          </label>
+        </div>
+        <div className="col-right">
+          <label className="sorting-method--label">
+            <input
+              type="radio"
+              name="sortMethod"
+              value={sortingMethods.SUBREGION}
+              checked={sortMethod === sortingMethods.SUBREGION}
+              onChange={() => setSortMethod(sortingMethods.SUBREGION)}
+              className="sorting-method--input"
+            />
+            Subregions
+          </label>
+          <label className="sorting-method--label">
+            <input
+              type="radio"
+              name="sortMethod"
+              value={sortingMethods.TIMEZONE}
+              checked={sortMethod === sortingMethods.TIMEZONE}
+              onChange={() => setSortMethod(sortingMethods.TIMEZONE)}
+              className="sorting-method--input"
+            />
+            Timezone
+          </label>
+        </div>
       </fieldset>
 
       {/* Countries Checkboxes */}
       <fieldset className="country-checkboxes-container">
         <legend className="country-checkboxes-legend">Countries</legend>
         {sortMethod === sortingMethods.CONTINENT ? (
-          Object.keys(filteredCountries).map((continent) => (
-            <div key={continent} className="continent-group">
-              <label className="continent-label">{continent}</label>
-              <div className="country-grid">
-                {filteredCountries[continent].map(
-                  ({ country_code, description }) => (
-                    <div
-                      className="country-label-and-checkbox-container"
-                      key={country_code}
-                    >
-                      <label>
-                        <input
-                          type="checkbox"
-                          name={country_code}
-                          value={country_code}
-                          checked={selectedCountries.includes(country_code)}
-                          onChange={handleCountryChange}
-                          aria-label={description}
-                        />
-                        {description} ({country_code})
-                      </label>
-                      {renderFavoriteIcon(country_code)}
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-          ))
+          renderCountriesByGroup(filteredCountries)
         ) : sortMethod === sortingMethods.SUBREGION ? (
-          Object.keys(filteredCountries).map((subregion) => (
-            <div key={subregion} className="continent-group">
-              <label className="continent-label">{subregion}</label>
-              <div className="country-grid">
-                {filteredCountries[subregion].map(
-                  ({ country_code, description }) => (
-                    <div
-                      className="country-label-and-checkbox-container"
-                      key={country_code}
-                    >
-                      <label>
-                        <input
-                          type="checkbox"
-                          name={country_code}
-                          value={country_code}
-                          checked={selectedCountries.includes(country_code)}
-                          onChange={handleCountryChange}
-                          aria-label={description}
-                        />
-                        {description} ({country_code})
-                      </label>
-                      {renderFavoriteIcon(country_code)}
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-          ))
+          renderCountriesByGroup(filteredCountries)
         ) : sortMethod === sortingMethods.TIMEZONE ? (
-          Object.keys(filteredCountries).map((timezone) => (
-            <div key={timezone} className="timezone-group">
-              <label className="timezone-label">
-                {timezone}   <TimezoneClock timezone={timezone} className="timestamp" />
-              </label>
-              <div className="country-grid">
-                {filteredCountries[timezone].map(
-                  ({ country_code, description }) => (
-                    <div
-                      className="country-label-and-checkbox-container"
-                      key={country_code}
-                    >
-                      <label>
-                        <input
-                          type="checkbox"
-                          name={country_code}
-                          value={country_code}
-                          checked={selectedCountries.includes(country_code)}
-                          onChange={handleCountryChange}
-                          aria-label={description}
-                        />
-                        {description} ({country_code})
-                      </label>
-                      {renderFavoriteIcon(country_code)}
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-          ))
+          renderCountriesByGroup(filteredCountries)
         ) : sortMethod === sortingMethods.COUNTRY_CODE ? (
-          <div className="country-grid">
-            {filteredCountries.map(({ country_code, description }) => (
-              <div
-                className="country-label-and-checkbox-container"
-                key={country_code}
-              >
-                <label>
-                  <input
-                    type="checkbox"
-                    name={country_code}
-                    value={country_code}
-                    checked={selectedCountries.includes(country_code)}
-                    onChange={handleCountryChange}
-                    aria-label={description}
-                  />
-                  {country_code} ({description})
-                </label>
-                {renderFavoriteIcon(country_code)}
-              </div>
-            ))}
-          </div>
+          <>
+            <div className="countries-column">
+              {leftColumn.map(({ country_code, description }) => (
+                <div key={country_code} className="single-checkbox--container">
+                  <label className="single-checkbox--label">
+                    <input
+                      type="checkbox"
+                      name={country_code}
+                      value={country_code}
+                      checked={selectedCountries.includes(country_code)}
+                      onChange={handleCountryChange}
+                      aria-label={description}
+                      className="single-checkbox--input"
+                    />
+                    {country_code} ({description})
+                  </label>
+                  {renderFavoriteIcon(country_code)}
+                </div>
+              ))}
+            </div>
+            <div className="countries-column">
+              {rightColumn.map(({ country_code, description }) => (
+                <div key={country_code} className="single-checkbox--container">
+                  <label className="single-checkbox--label">
+                    <input
+                      type="checkbox"
+                      name={country_code}
+                      value={country_code}
+                      checked={selectedCountries.includes(country_code)}
+                      onChange={handleCountryChange}
+                      aria-label={description}
+                      className="single-checkbox--input"
+                    />
+                    {country_code} ({description})
+                  </label>
+                  {renderFavoriteIcon(country_code)}
+                </div>
+              ))}
+            </div>
+          </>
         ) : (
-          <div className="country-grid">
-            {filteredCountries.map(({ country_code, description }) => (
-              <div
-                className="country-label-and-checkbox-container"
-                key={country_code}
-              >
-                <label>
-                  <input
-                    type="checkbox"
-                    name={country_code}
-                    value={country_code}
-                    checked={selectedCountries.includes(country_code)}
-                    onChange={handleCountryChange}
-                    aria-label={description}
-                  />
-                  {description} ({country_code})
-                </label>
-                {renderFavoriteIcon(country_code)}
-              </div>
-            ))}
-          </div>
+          <>
+            <div className="countries-column">
+              {leftColumn.map(({ country_code, description }) => (
+                <div key={country_code} className="single-checkbox--container">
+                  <label className="single-checkbox--label">
+                    <input
+                      type="checkbox"
+                      name={country_code}
+                      value={country_code}
+                      checked={selectedCountries.includes(country_code)}
+                      onChange={handleCountryChange}
+                      aria-label={description}
+                      className="single-checkbox--input"
+                    />
+                    {description} ({country_code})
+                  </label>
+                  {renderFavoriteIcon(country_code)}
+                </div>
+              ))}
+            </div>
+            <div className="countries-column">
+              {rightColumn.map(({ country_code, description }) => (
+                <div key={country_code} className="single-checkbox--container">
+                  <label className="single-checkbox--label">
+                    <input
+                      type="checkbox"
+                      name={country_code}
+                      value={country_code}
+                      checked={selectedCountries.includes(country_code)}
+                      onChange={handleCountryChange}
+                      aria-label={description}
+                      className="single-checkbox--input"
+                    />
+                    {description} ({country_code})
+                  </label>
+                  {renderFavoriteIcon(country_code)}
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </fieldset>
     </div>

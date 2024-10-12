@@ -6,7 +6,7 @@
 .street-number-input--label {}
 
 .street-number-input--input {
-    width: 12ch;
+    /* width: 12ch; */
     border: 1px solid var(--address-search-color);
     border-radius: 4px;
     text-transform: 'uppercase'

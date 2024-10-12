@@ -39,9 +39,9 @@ function AddressSearch({
             <legend className="address-search--legend">
                 Search By Property
             </legend>
-            <div className="row">
+            <div className="bbl-street-address--container">
                 <fieldset className="bbl-container">
-                    <legend className="bbl-legend">Search By Borough/Block/Lot</legend>
+                    <legend className="bbl-legend">Borough/Block/Lot</legend>
                     <BoroughSelect
                         value={addressSoql.borough}
                         onChange={handleInputChange}
@@ -62,7 +62,7 @@ function AddressSearch({
                     />
                 </fieldset>
                 <fieldset className="street-address-container">
-                    <legend className="street-address-legend">Search By Street Address</legend>
+                    <legend className="street-address-legend">Street Address</legend>
                     <StreetNumberInput
                         value={addressSoql.street_number}
                         onChange={handleInputChange}
@@ -83,7 +83,7 @@ function AddressSearch({
                     />
                 </fieldset>
             </div>
-            <div className="row">
+            <div className="easement-partialLot--container">
                 <EasementSelect
                     value={addressSoql.easement}
                     onChange={handleInputChange}
@@ -94,7 +94,7 @@ function AddressSearch({
                 />
 
             </div>
-            <div className="row">
+            <div className="airRights-subRights--container">
                 <AirRightsSelect
                     value={addressSoql.air_rights}
                     onChange={handleInputChange}
@@ -106,7 +106,7 @@ function AddressSearch({
                 />
             </div>
             {/* Property Type Field */}
-            <div className="property-type-select-checkbox-container col">
+            <div className="property-type-select-checkbox-container">
                 <PropertyTypeSelect
                     selectedPropertyType={
                         addressSoql.property_type.length > 1

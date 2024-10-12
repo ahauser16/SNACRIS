@@ -81,7 +81,7 @@
     text-overflow: clip;
     word-break: normal;
     overflow-wrap: break-word;
-    max-width: 30ch;
+    /* max-width: 30ch; */
 }
 
 .api-table th {

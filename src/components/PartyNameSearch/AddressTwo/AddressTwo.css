@@ -6,7 +6,7 @@
 .address-2-input--label {}
 
 .address-2-input--input {
-    width: 60ch;
+    /* width: 60ch; */
     /* Width to accommodate up to 5 characters */
     border: 1px solid var(--address-search-color);
     border-radius: 4px;

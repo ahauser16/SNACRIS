@@ -46,6 +46,9 @@
     }
   ],
   "permissions": [
-    "sidePanel"
+    "sidePanel",
+    "tabs",
+    "activeTab",
+    "windows"
   ]
 }

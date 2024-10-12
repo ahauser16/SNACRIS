@@ -6,7 +6,7 @@
 .zip-input--label {}
 
 .zip-input--input {
-    width: 9ch;
+    /* width: 9ch; */
     /* Width to accommodate up to 5 characters */
     border: 1px solid var(--address-search-color);
     border-radius: 4px;

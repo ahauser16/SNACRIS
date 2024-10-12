@@ -4,18 +4,23 @@
   --icon-hover-color: mediumseagreen;
 }
 
+.single-checkbox--container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
 /* CountriesCheckboxes.css */
 .country-checkboxes-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  /* width: 100%; */
 }
 
-.country-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  width: 100%;
+.countries-column {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
 }
 
 /* .timestamp{
@@ -36,10 +41,21 @@
 }
 
 .sorting-method--container {
-  margin-bottom: 10px;
   display: flex;
   flex-direction: row;
+  border: 1px solid green;
 }
+
+.col-left{
+  display: flex;
+  flex-direction: column;
+}
+
+.col-right{
+  display: flex;
+  flex-direction: column;
+}
+
 
 .sorting-method--label {
   margin-right: 20px;
@@ -60,7 +76,7 @@
 }
 
 /* Align checkbox input and description to the left */
-.countries-checkboxes-component--container label {
+.single-checkbox--container label {
   display: flex;
   align-items: center;
   /* Ensure input and text are aligned */
@@ -69,7 +85,7 @@
 }
 
 /* Ensure the checkbox aligns consistently */
-.countries-checkboxes-component--container label input[type="checkbox"] {
+.single-checkbox--container label input[type="checkbox"] {
   margin-right: 10px;
   /* Ensure spacing between checkbox and label */
 }
@@ -86,8 +102,8 @@
 .filtering-container input {
   padding: 8px;
   font-size: 1rem;
-  width: 100%;
-  max-width: 300px;
+  /* width: 100%; */
+  /* max-width: 300px; */
 }
 
 /* favorite, unfavorite icon system */
@@ -130,4 +146,11 @@
 .icon-check.active,
 .icon-close-circle.active {
   fill: var(--icon-hover-color);
+}
+
+/* Container query for states-columns--container */
+@container (min-width: 540px) {
+  .country-checkboxes-container {
+    flex-direction: row;
+  }
 }

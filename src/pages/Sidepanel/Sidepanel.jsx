@@ -1,17 +1,17 @@
 // src/pages/Sidepanel/Sidepanel.jsx
-import React, { useContext } from 'react';
+import React, { useState, useEffect } from "react";
 import './Sidepanel.css';
 import SidepanelMenu from '../../components/SidepanelMenu/SidepanelMenu';
-import { StateContext } from '../../context/StateProvider';
+import SubNav from '../../components/SubNav/SubNav';
 
-const Sidepanel = ({ title }) => {
-  const { state, setState } = useContext(StateContext);
-
+const Sidepanel = () => {
+ 
   return (
-    <div className="SidepanelContainer">
+    <div className="App" id="app-container">
       <SidepanelMenu />
+      <SubNav />
     </div>
   );
-};
+}
 
 export default Sidepanel;

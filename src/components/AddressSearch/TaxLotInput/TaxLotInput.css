@@ -6,7 +6,7 @@
 .tax-lot-input--label {}
 
 .tax-lot-input--input {
-    width: 10ch;
+    /* width: 10ch; */
     /* Width to accommodate up to 4 characters */
     border: 1px solid var(--address-search-color);
     border-radius: 4px;

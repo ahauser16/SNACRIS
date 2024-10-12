@@ -6,7 +6,7 @@
 .city-input--label {}
 
 .city-input--input {
-    width: 30ch;
+    /* width: 30ch; */
     /* Width to accommodate up to 5 characters */
     border: 1px solid var(--address-search-color);
     border-radius: 4px;

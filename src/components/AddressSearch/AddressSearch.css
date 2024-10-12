@@ -16,19 +16,29 @@
   justify-content: center;
 }
 
+.bbl-street-address--container,
+.easement-partialLot--container,
+.airRights-subRights--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .address-search--container {
   display: flex;
   flex-direction: column;
   border: 2px solid var(--address-search-color);
-  margin: 1rem;
-  padding: 1rem;
-  width: 100%;
+  margin: 0;
+  padding: 0;
+  /* width: 100%; */
 }
 
 .address-search--legend {
   color: var(--address-search-color);
   font-weight: bold;
   font-size: 1.25rem;
+  margin-left: 3rem;
+  padding: 0;
 }
 
 .bbl-container,
@@ -37,9 +47,8 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  margin: 1rem;
+  /* margin: 1rem; */
   border: 1px solid var(--address-search-color);
-  width: 50%;
 }
 
 
@@ -53,5 +62,11 @@
 
 
 .property-type-select-checkbox-container {
-  margin: 1rem;
+}
+
+/* Container query for states-columns--container */
+@container (min-width: 540px) {
+  .bbl-street-address--container {
+    flex-direction: row;
+  }
 }

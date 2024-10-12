@@ -5,55 +5,61 @@
   --icon-hover-color: mediumseagreen;
 }
 
-.states-checkboxes-container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    /* border: 1px solid yellow; */
-  }
-  
-  .states-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    width: 100%;
-    /* border: 1px solid red; */
-  }
-  
-  .state-label-and-checkbox-container {
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-  }
+.states-checkboxes--container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  /* border: 1px solid yellow; */
+}
 
-  .states-column {
-    display: flex;
-    flex-direction: column;
-    /* border: 1px solid lightcyan; */
-  }
-  
-  .armed-forces-column {
-    grid-column: span 2;
-    display: flex;
-    flex-direction: column;
-  }
-  
-.timezone-label{
+.states-checkboxes--legend {}
+
+.states-columns--container {
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  container-type: inline-size; /* Add this line to make it a container */
+}
+
+.states-column {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
+}
+
+.single-checkbox--container {}
+
+.single-checkbox--label {}
+
+.single-checkbox--input {}
+
+.states-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.armed-forces-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.timezone-label {
   color: orangered;
   margin-right: .5rem;
 }
 
-
-.timestamp{
+.timestamp {
   margin-left: .5rem;
 }
-  /* favorite, unfavorite icon system */
+
+/* favorite, unfavorite icon system */
 
 .icon-add-circle,
 .icon-check,
 .icon-close-circle {
   cursor: pointer;
-  /* fill: gray; */
   width: 1.15rem;
   margin-left: .5rem;
 }
@@ -67,7 +73,6 @@
 .icon-close-circle .secondary {
   fill: var(--icon-inner-color);
 }
-
 
 .icon-check .primary {
   fill: var(--icon-inner-color);
@@ -87,4 +92,11 @@
 .icon-check.active,
 .icon-close-circle.active {
   fill: var(--icon-hover-color);
+}
+
+/* Container query for states-columns--container */
+@container (min-width: 540px) {
+  .states-columns--container {
+    flex-direction: row;
+  }
 }

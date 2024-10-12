@@ -34,13 +34,13 @@
     flex-direction: column;
   } */
 
-.sorting-method--container {
+.property-type-component--container .sorting-method--container {
   margin-bottom: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-.sorting-method--container label {
+.property-type-component--container .sorting-method--container label {
   margin-right: 20px;
 }
 
@@ -74,25 +74,25 @@
 }
 
 
-.filtering-container {
+.property-type-component--container .filtering-container {
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.filtering-container input {
+.property-type-component--container .filtering-container input {
   padding: 8px;
   font-size: 1rem;
   width: 100%;
-  max-width: 300px;
+  /* max-width: 300px; */
 }
 
 /* favorite, unfavorite icon system */
 
-.icon-add-circle,
-.icon-check,
-.icon-close-circle {
+.property-type-component--container .icon-add-circle,
+.property-type-component--container .icon-check,
+.property-type-component--container .icon-close-circle {
   cursor: pointer;
   /* fill: gray; */
   /* width: 1.15rem; */
@@ -100,33 +100,33 @@
   min-width: 1.15rem;
 }
 
-.icon-add-circle .primary,
-.icon-close-circle .primary {
+.property-type-component--container .icon-add-circle .primary,
+.property-type-component--container .icon-close-circle .primary {
   fill: var(--icon-bg-color);
 }
 
-.icon-add-circle .secondary,
-.icon-close-circle .secondary {
+.property-type-component--container .icon-add-circle .secondary,
+.property-type-component--container .icon-close-circle .secondary {
   fill: var(--icon-inner-color);
 }
 
 
-.icon-check .primary {
+.property-type-component--container .icon-check .primary {
   fill: var(--icon-inner-color);
 }
 
-.icon-check .secondary {
+.property-type-component--container .icon-check .secondary {
   fill: var(--icon-bg-color);
 }
 
-.icon-add-circle .primary:hover,
-.icon-check .primary:hover,
-.icon-close-circle .primary:hover {
+.property-type-component--container .icon-add-circle .primary:hover,
+.property-type-component--container .icon-check .primary:hover,
+.property-type-component--container .icon-close-circle .primary:hover {
   fill: var(--icon-hover-color);
 }
 
-.icon-add-circle.active,
-.icon-check.active,
-.icon-close-circle.active {
+.property-type-component--container .icon-add-circle.active,
+.property-type-component--container .icon-check.active,
+.property-type-component--container .icon-close-circle.active {
   fill: var(--icon-hover-color);
 }

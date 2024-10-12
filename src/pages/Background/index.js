@@ -7,6 +7,8 @@ chrome.sidePanel
     .catch((error) => console.error(error));
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log('Received message:', message);
+
     if (message.type === 'toggle_side_panel') {
         const { isOpen, tabId } = message.payload;
         if (isOpen) {
@@ -43,11 +45,32 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     sendResponse({ success: false, error });
                 });
         }
-        return true; // Keep the message channel open for sendResponse
+        return true;
     } else if (message.type === 'update_state') {
         chrome.storage.local.set({ state: message.payload }, () => {
             sendResponse({ success: true });
         });
-        return true; // Keep the message channel open for sendResponse
+        return true;
+    }
+});
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log('Received message:', message); 
+
+    if (message.type === 'resize_side_panel') {
+        const { width } = message.payload;
+        console.log(`Resizing window to ${width}px`); 
+
+        if (isNaN(width) || width <= 0) {
+            console.error('Invalid width received:', width);
+            sendResponse({ success: false, error: 'Invalid width' });
+            return;
+        }
+
+        chrome.windows.getCurrent((window) => {
+            chrome.windows.update(window.id, { width });
+        });
+        sendResponse({ success: true });
+        return true; 
     }
 });

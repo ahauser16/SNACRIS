@@ -66,14 +66,82 @@ const StatesCheckboxes = ({ selectedStates, handleStateChange }) => {
     );
   };
 
+  const splitStatesIntoColumns = (states) => {
+    if (!Array.isArray(states)) return [[], []];
+    const midIndex = Math.ceil(states.length / 2);
+    return [states.slice(0, midIndex), states.slice(midIndex)];
+  };
+
+  const renderStatesByTimezone = () => {
+    const timezones = Object.keys(filteredStates);
+    const midIndex = Math.ceil(timezones.length / 2);
+    const leftTimezones = timezones.slice(0, midIndex);
+    const rightTimezones = timezones.slice(midIndex);
+
+    return (
+      <>
+        <div className="states-column">
+          {leftTimezones.map((timezone) => (
+            <div key={timezone}>
+              <label className="timezone-label">{timezone}<TimezoneClock timezone={timezone} className="timestamp" /></label>
+              {filteredStates[timezone].map(({ state_code, description }) => (
+                <div key={state_code} className="single-checkbox--container">
+                  <label className="single-checkbox--label">
+                    <input
+                      type="checkbox"
+                      name={state_code}
+                      value={state_code}
+                      checked={selectedStates.includes(state_code)}
+                      onChange={handleStateChange}
+                      aria-label={description}
+                      className="single-checkbox--input"
+                    />
+                    {description} ({state_code})
+                  </label>
+                  {renderFavoriteIcon(state_code)}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="states-column">
+          {rightTimezones.map((timezone) => (
+            <div key={timezone}>
+              <label className="timezone-label">{timezone}<TimezoneClock timezone={timezone} className="timestamp" /></label>
+              {filteredStates[timezone].map(({ state_code, description }) => (
+                <div key={state_code} className="single-checkbox--container">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name={state_code}
+                      value={state_code}
+                      checked={selectedStates.includes(state_code)}
+                      onChange={handleStateChange}
+                      aria-label={description}
+                      className="single-checkbox--input"
+                    />
+                    {description} ({state_code})
+                  </label>
+                  {renderFavoriteIcon(state_code)}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
+  const [leftColumn, rightColumn] = splitStatesIntoColumns(filteredStates);
+
   return (
     <div>
       {/* User Favorites section */}
       <fieldset className="favorites-container">
         <legend>My Favorite States</legend>
         {favoriteStates.map(({ state_code, description }) => (
-          <div key={state_code} className="state-label-and-checkbox-container">
-            <label>
+          <div key={state_code} className="single-checkbox--container">
+            <label className="single-checkbox--label">
               <input
                 type="checkbox"
                 name={state_code}
@@ -81,6 +149,7 @@ const StatesCheckboxes = ({ selectedStates, handleStateChange }) => {
                 checked={selectedStates.includes(state_code)}
                 onChange={handleStateChange}
                 aria-label={description}
+                className="single-checkbox--input"
               />
               {description} ({state_code})
             </label>
@@ -93,6 +162,7 @@ const StatesCheckboxes = ({ selectedStates, handleStateChange }) => {
       <fieldset className="filtering-container">
         <legend>Filter States</legend>
         <input
+          className="single-checkbox--input"
           type="text"
           value={filterQuery}
           onChange={(e) => setFilterQuery(e.target.value)}
@@ -106,8 +176,9 @@ const StatesCheckboxes = ({ selectedStates, handleStateChange }) => {
       {/* Sorting Radio Buttons */}
       <fieldset className="sorting-method--container">
         <legend>Sort States By</legend>
-        <label>
+        <label className="single-checkbox--label">
           <input
+            className="single-checkbox--input"
             type="radio"
             name="sortMethod"
             value={sortingMethods.ALPHABETICAL}
@@ -116,8 +187,9 @@ const StatesCheckboxes = ({ selectedStates, handleStateChange }) => {
           />
           Alphabetical
         </label>
-        <label>
+        <label className="single-checkbox--label">
           <input
+            className="single-checkbox--input"
             type="radio"
             name="sortMethod"
             value={sortingMethods.STATE_CODE}
@@ -126,29 +198,31 @@ const StatesCheckboxes = ({ selectedStates, handleStateChange }) => {
           />
           State Code
         </label>
-        <label>
+        <label className="single-checkbox--label">
           <input
             type="radio"
             name="sortMethod"
             value={sortingMethods.TIMEZONE}
             checked={sortMethod === sortingMethods.TIMEZONE}
             onChange={() => setSortMethod(sortingMethods.TIMEZONE)}
+            className="single-checkbox--input"
           />
           Timezone
         </label>
       </fieldset>
 
       {/* States Checkboxes */}
-      <fieldset className="states-checkboxes-container">
-        <legend className="states-checkboxes-legend">States</legend>
-        <div className="states-grid">
+      <fieldset className="states-checkboxes--container">
+        <legend className="states-checkboxes--legend">States</legend>
+        <div className="states-columns--container">
           {sortMethod === sortingMethods.TIMEZONE ? (
-            Object.keys(filteredStates).map((timezone) => (
-              <div key={timezone}>
-                <label className="timezone-label">{timezone}<TimezoneClock timezone={timezone} className="timestamp" /></label>
-                {filteredStates[timezone].map(({ state_code, description }) => (
-                  <div key={state_code} className="state-label-and-checkbox-container">
-                    <label >
+            renderStatesByTimezone()
+          ) : (
+            <>
+              <div className="states-column">
+                {leftColumn.map(({ state_code, description }) => (
+                  <div key={state_code} className="single-checkbox--container">
+                    <label className="single-checkbox--label">
                       <input
                         type="checkbox"
                         name={state_code}
@@ -156,6 +230,7 @@ const StatesCheckboxes = ({ selectedStates, handleStateChange }) => {
                         checked={selectedStates.includes(state_code)}
                         onChange={handleStateChange}
                         aria-label={description}
+                        className="single-checkbox--input"
                       />
                       {description} ({state_code})
                     </label>
@@ -163,24 +238,26 @@ const StatesCheckboxes = ({ selectedStates, handleStateChange }) => {
                   </div>
                 ))}
               </div>
-            ))
-          ) : (
-            filteredStates.map(({ state_code, description }) => (
-              <div key={state_code} className="state-label-and-checkbox-container">
-                <label>
-                  <input
-                    type="checkbox"
-                    name={state_code}
-                    value={state_code}
-                    checked={selectedStates.includes(state_code)}
-                    onChange={handleStateChange}
-                    aria-label={description}
-                  />
-                  {description} ({state_code})
-                </label>
-                {renderFavoriteIcon(state_code)}
+              <div className="states-column">
+                {rightColumn.map(({ state_code, description }) => (
+                  <div key={state_code} className="single-checkbox--container">
+                    <label className="single-checkbox--label">
+                      <input
+                        type="checkbox"
+                        name={state_code}
+                        value={state_code}
+                        checked={selectedStates.includes(state_code)}
+                        onChange={handleStateChange}
+                        aria-label={description}
+                        className="single-checkbox--input"
+                      />
+                      {description} ({state_code})
+                    </label>
+                    {renderFavoriteIcon(state_code)}
+                  </div>
+                ))}
               </div>
-            ))
+            </>
           )}
         </div>
       </fieldset>
