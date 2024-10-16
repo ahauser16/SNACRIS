@@ -22,9 +22,11 @@ const AddressOne = ({
     };
 
     return (
-        <div className="form-group">
+        <div 
+        className={`form-group form-group--address_1 ${error ? 'field-error' : ''}`}
+        >
             <label
-                htmlFor="address_1" className="address-1-input--label"
+                htmlFor="address_1"
             >
                 Address 1:
             </label>
@@ -37,8 +39,14 @@ const AddressOne = ({
                 onChange={handleValidationPlusDataTransferToSoql}
                 // className="address-1-input--input"
                 className="form-field"
+                aria-describedby="address-line-1-description"
             />
-            <span className="error-msg-display">{error}</span>
+            <span
+                className="field-description"
+                id="address-line-1-description"
+                >
+                {error}
+            </span>
         </div >
     )
 }

@@ -1,3 +1,7 @@
+:root{
+  --space-btn-form-groups: 1rem;
+}
+
 legend {
   font-weight: bold;
   font-size: 1.5rem;
@@ -9,10 +13,11 @@ fieldset+fieldset {
 }
 
 .form-row {
+/* this local variable is the minimum allowed value for the `grid-template-columns` rule.  Essentially once the the form-field elements hit the 20ch, they are moved onto their own row because of the `display: grid` rule below.  FYI, I changed this width to 18ch because I couldn't get the Zip input to fit on the same row  */
   --field-col-width: 15ch;
 
   display: grid;
-  grid-gap: 2rem;
+  grid-gap: var(--space-btn-form-groups);
   grid-template-columns: repeat(auto-fit, minmax(var(--field-col-width), 1fr));
 }
 
@@ -28,27 +33,31 @@ fieldset+fieldset {
   margin-top: 2rem;
 }
 
+/* IN ORDER TO USE this rule it MUST be applied to an element with the class `form-row` when you have a `form-group` class element that you know doesn't need to take up the same width as its siblings (e.g. an input field for a zip code which only requires 5 digits)  */
 .form-row--mixed {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: var(--space-btn-form-groups);
 }
-
+/* to replace the behavior that grid was supplying for columns, this rule allows form-group items (whose parent is a `form-row--mixed` class container) to GROW and SHRINK while reusing the `--field-col-width` as the flex basis value.  At this point in the tutorial the zip input field dropped to its own row because the City and State inputs did not provide enough free space for the Zip input to exist at the `--field-col-width` which essentially acts as a minimum value.  Also, now that the Zip input is on its own row the `flex: 1 1 var(--field-col-width)` rule allowed it to grow and take up all the remaining space on its row.  However, we want to be able to customize the width each `form-group` class takes up which requires creating an additional class called "form-group--width-auto".     */
 .form-row--mixed .form-group {
   flex: 1 1 var(--field-col-width);
 }
 
+/* this rule should be added only to a `div` with class name "form-group" whose parent has the "form-row" AND "form-row--mixed" classes.  Essentially it updates the flexbox behavior rule of `.form-row--mixed .form-group` so that it will NOT grow but it will be able to shrink.  At this point in the tutorial, the Zip input shrinks down to the minimum widht value of `--field-col-width`.  This is fine for some input elements but since the Zip input only needs 5 digits we want to have more control over the width of in this particular case.   */
 .form-row--mixed .form-group--width-auto {
   flex: 0 1 auto;
 }
 
+/* this new rule introduces the `--field-width` variable that you can apply to a class with `form-field` (or `form-control`) as an inline-style.  If you look at the `FieldsetSample.jsx` file there is a Zip input that has the syntax: `style={{ '--field-width': '8ch' }}` which allows the Zip input to be on the same row as the City and State input fields with a width of `8ch` and the City and State input fields shrink to make room for the Zip input.  */
 .form-row--mixed .form-group--width-auto .form-field,
 .form-row--mixed .form-group--width-auto .form-control {
   max-width: var(--field-width, 0);
 }
 
+/* this rule is useful when you want to align two `div` elements with class name "form-group" within a `div` element with class name "form-row" WHILE ALSO allowing the two "form-group" div elements to have their own variable width without the need to define it explicitly like we did with the Zip input.  This `form-row--variable` rule is applied to the div element with class name "form-row" which contains two radio buttons referring to the `FieldsetSample.jsx` example.  */
 .form-row--variable {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: var(--space-btn-form-groups);
 }

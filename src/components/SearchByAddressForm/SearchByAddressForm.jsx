@@ -8,36 +8,48 @@ import './SearchByAddressForm.css';
 const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
   const [addressSoql, setAddressSoql] = useState({
     borough: '',
-    block: '',
-    lot: '',
-    easement: '',
-    partial_lot: '',
-    air_rights: '',
-    subterranean_rights: '',
-    property_type: [],
-    street_name: '',
-    unit: '',
+      block: '',
+      lot: '',
+      easement: '',
+      partial_lot: '',
+      air_rights: '',
+      subterranean_rights: '',
+      property_type: [],
+      street_number: '',
+      street_name: '',
+      unit: '',
   });
 
   const [inputUserErrors, setInputUserErrors] = useState({
     borough: null,
-    block: null,
-    lot: null,
-    easement: null,
-    partial_lot: null,
-    air_rights: null,
-    subterranean_rights: null,
-    street_name: null,
-    unit: null,
+      block: null,
+      lot: null,
+      easement: null,
+      partial_lot: null,
+      air_rights: null,
+      subterranean_rights: null,
+      property_type: null,
+      street_number: null,
+      street_name: null,
+      unit: null,
   });
 
   const [errorMessages, setErrorMessages] = useState([]);
 
   const handleErrorDisplay = (name, errorMessage) => {
-    setInputUserErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: errorMessage,
-    }));
+    console.log(`Error in ${name}: ${errorMessage}`);
+    setInputUserErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      if (errorMessage) {
+        newErrors[name] = errorMessage;
+        document.querySelector(`.form-group--${name}`).classList.add('field-error');
+      } else {
+        newErrors[name] = null; // Set to null if no error
+        document.querySelector(`.form-group--${name}`).classList.remove('field-error');
+      }
+      console.log('Updated inputUserErrors:', newErrors);
+      return newErrors;
+    });
   };
 
   const handleInputChange = (e) => {
@@ -115,6 +127,8 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
       partial_lot: null,
       air_rights: null,
       subterranean_rights: null,
+      property_type: null,
+      street_number: null,
       street_name: null,
       unit: null,
     });
@@ -134,25 +148,27 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
         handleErrorDisplay={handleErrorDisplay}
         inputUserErrors={inputUserErrors}
       />
-      <div className="form-row">
-        <div className="form-group">
-          <button
-            type="submit"
-            className="form-button infoBtn"
-          >
-            Search
-          </button>
-        </div>
-        <div className="form-group">
-          <button
-            type="button"
-            onClick={handleFormReset}
-            className="form-button warningBtn"
-          >
-            Reset
-          </button>
-        </div>
-      </div>
+      <fieldset className="center">
+          <div className="form-row form-row--variable">
+            <div className="form-group">
+              <button
+                type="submit"
+                className="form-button infoBtn"
+              >
+                Search
+              </button>
+            </div>
+            <div className="form-group">
+              <button
+                type="button"
+                onClick={handleFormReset}
+                className="form-button warningBtn"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </fieldset>
       {errorMessages.length > 0 && (
         <div className="flex-container">
           <span className="error-msg-display">

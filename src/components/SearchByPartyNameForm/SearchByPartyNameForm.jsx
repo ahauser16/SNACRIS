@@ -6,9 +6,7 @@ import { uppercaseSoql } from '../Utils/uppercaseSoql';
 import { handleErrorsDuringSubmission } from '../Utils/handleErrorsDuringFormSubmission';
 import './SearchByPartyNameForm.css';
 
-
 const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
-
   const [partyNameSoql, setPartyNameSoql] = useState({
     name: '',
     address_1: '',
@@ -37,8 +35,10 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
       const newErrors = { ...prevErrors };
       if (errorMessage) {
         newErrors[name] = errorMessage;
+        document.querySelector(`.form-group--${name}`).classList.add('field-error');
       } else {
         newErrors[name] = null; // Set to null if no error
+        document.querySelector(`.form-group--${name}`).classList.remove('field-error');
       }
       console.log('Updated inputUserErrors:', newErrors);
       return newErrors;
@@ -66,7 +66,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
             ? [...prevSoql.state, value]
             : prevSoql.state.filter((state) => state !== value),
         };
-        console.log('Updated soql:', newSoql);
+        console.log('Updated so:', newSoql);
         return uppercaseSoql(newSoql);
       });
     } else {
@@ -109,6 +109,22 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check for required fields
+    const requiredFields = ['name'];
+    let hasError = false;
+
+    requiredFields.forEach((field) => {
+      if (!partyNameSoql[field]) {
+        console.log("The Name field has been left blank.")
+        handleErrorDisplay(field, 'This field is required for form submission');
+        hasError = true;
+      }
+    });
+
+    if (hasError) {
+      return;
+    }
 
     console.log('Current inputUserErrors:', inputUserErrors);
     if (handleErrorsDuringSubmission(inputUserErrors, setErrorMessages)) {
@@ -154,48 +170,52 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
   };
 
   return (
-    <form
-      className="search-by-party-name-form"
-      onSubmit={handleSubmit}>
-      <PartyNameSearch
-        partyNameSoql={partyNameSoql}
-        handleInputChange={handleInputChange}
-        handleStateChange={handleStateChange}
-        handleCountryChange={handleCountryChange}
-        handleErrorDisplay={handleErrorDisplay}
-        inputUserErrors={inputUserErrors}
-      />
-      <div className="form-row">
-        <div className="form-group">
-          <button
-            type="submit"
-            className="form-button infoBtn"
-          >
-            Search
-          </button>
-        </div>
-        <div className="form-group">
-          <button
-            type="button"
-            onClick={handleFormReset}
-            className="form-button warningBtn"
-          >
-            Reset
-          </button>
-        </div>
-      </div>
-      {errorMessages.length > 0 && (
-        <div className="form-row">
-          <span className="error-msg-display">
-            <ul>
-              {errorMessages.map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
-            </ul>
-          </span>
-        </div>
-      )}
-    </form>
+    <main>
+      <form
+        className="search-by-party-name-form"
+        onSubmit={handleSubmit}>
+        <PartyNameSearch
+          partyNameSoql={partyNameSoql}
+          handleInputChange={handleInputChange}
+          handleStateChange={handleStateChange}
+          handleCountryChange={handleCountryChange}
+          handleErrorDisplay={handleErrorDisplay}
+          inputUserErrors={inputUserErrors}
+        />
+        <fieldset className="center">
+          <div className="form-row form-row--variable">
+            <div className="form-group">
+              <button
+                type="submit"
+                className="form-button infoBtn"
+              >
+                Search
+              </button>
+            </div>
+            <div className="form-group">
+              <button
+                type="button"
+                onClick={handleFormReset}
+                className="form-button warningBtn"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </fieldset>
+        {errorMessages.length > 0 && (
+          <div className="form-row">
+            <span className="error-msg-display">
+              <ul>
+                {errorMessages.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </span>
+          </div>
+        )}
+      </form>
+    </main>
   );
 };
 

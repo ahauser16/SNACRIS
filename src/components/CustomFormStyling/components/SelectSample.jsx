@@ -4,7 +4,7 @@ const SelectSample = () => {
     return (
         <>
             <div className="form-group">
-                <label for="standard-select" >
+                <label htmlFor="standard-select" >
                     Standard Select
                 </label>
                 <div className="form-field select">
@@ -24,7 +24,7 @@ const SelectSample = () => {
             </div>
 
             <div className="form-group">
-                <label for="multi-select">Multiple Select</label>
+                <label htmlFor="multi-select">Multiple Select</label>
                 <div className="form-field select select--multiple">
                     <select id="multi-select" name="multi-select" multiple>
                         <option value="Option 1">Option 1</option>
@@ -41,7 +41,7 @@ const SelectSample = () => {
             </div>
 
             <div className="form-group">
-                <label for="standard-select-disabled">Disabled Select</label>
+                <label htmlFor="standard-select-disabled">Disabled Select</label>
                 <div className="form-field select select--disabled">
                     <select id="standard-select-disabled" name="standard-select-disabled" disabled>
                         <option value="Option 1">Option 1</option>
@@ -57,7 +57,7 @@ const SelectSample = () => {
             </div>
             {/* the disabled multi-select still has the arrow showing which is not desireable.   */}
             <div className="form-group">
-                <label for="standard-select">Disabled Multiple Select</label>
+                <label htmlFor="standard-select">Disabled Multiple Select</label>
                 <div className="form-field select select--multiple select--disabled">
                     <select id="multi-select-disabled" name="multi-select-disabled" multiple disabled>
                         <option value="Option 1">Option 1</option>

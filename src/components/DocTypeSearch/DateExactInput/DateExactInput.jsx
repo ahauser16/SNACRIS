@@ -3,7 +3,11 @@ import React from 'react';
 import './DateExactInput.css';
 import moment from 'moment';
 
-const DateExactInput = ({ value, onChange, handleErrorDisplay, error }) => {
+const DateExactInput = ({ 
+  value, 
+  onChange, 
+  handleErrorDisplay, 
+  error }) => {
 
   const validateUserInput = (value) => {
     console.log('Validating date input:', value);
@@ -26,7 +30,9 @@ const DateExactInput = ({ value, onChange, handleErrorDisplay, error }) => {
   };
 
   return (
-    <div className="date-exact-input--container">
+    <div
+      className={`form-group form-group--width-auto form-group--date-range ${error ? 'field-error' : ''}`}
+      style={{ '--field-width': '15ch' }}>
       <label htmlFor="date-exact-input" className="date-exact-input--label">
         Select Exact Date:
       </label>
@@ -36,9 +42,13 @@ const DateExactInput = ({ value, onChange, handleErrorDisplay, error }) => {
         name="document_date"
         value={value}
         onChange={handleValidationPlusDataTransferToSoql}
-        className="date-exact-input--input"
+        aria-describedby="document-date-exact-description"
       />
-      <span className="error-msg-display">{error}</span>
+      <span
+        className="field-description"
+        id="document-date-exact-description">
+        {error}
+      </span>
     </div>
   );
 };

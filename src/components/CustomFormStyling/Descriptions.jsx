@@ -21,7 +21,7 @@ const Descriptions = () => {
                         <label htmlFor="state">State</label>
                         <input className="form-field" id="state" name="state" type="text" />
                     </div>
-                    <div className="form-group form-group--width-auto" style="--field-width: 10ch;">
+                    <div className="form-group form-group--width-auto" style={{ '--field-width': '8ch' }}>
                         <label htmlFor="zip">Zip</label>
                         <input aria-describedby="zip-description" className="form-field" id="zip" name="zip" type="text" />
                         <span className="field-description" id="zip-description">5 digits</span>

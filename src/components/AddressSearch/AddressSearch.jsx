@@ -58,44 +58,51 @@ function AddressSearch({
                     handleErrorDisplay={handleErrorDisplay}
                     error={inputUserErrors.lot}
                 />
-                <div className="form-row form-row--mixed">
-                    <StreetNumberInput
-                        value={addressSoql.street_number}
-                        onChange={handleInputChange}
-                        handleErrorDisplay={handleErrorDisplay}
-                        error={inputUserErrors.street_number}
-                    />
-                    <StreetNameInput
-                        value={addressSoql.street_name}
-                        onChange={handleInputChange}
-                        handleErrorDisplay={handleErrorDisplay}
-                        error={inputUserErrors.street_name}
-                    />
-                    <StreetUnitInput
-                        value={addressSoql.unit}
-                        onChange={handleInputChange}
-                        handleErrorDisplay={handleErrorDisplay}
-                        error={inputUserErrors.unit}
-                    />
-                </div>
+            </div>
+            <div className="form-row form-row--mixed">
+                <StreetNumberInput
+                    value={addressSoql.street_number}
+                    onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.street_number}
+                />
+                <StreetNameInput
+                    value={addressSoql.street_name}
+                    onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.street_name}
+                />
+                <StreetUnitInput
+                    value={addressSoql.unit}
+                    onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.unit}
+                />
             </div>
             <div className="form-row form-row--mixed">
                 <EasementSelect
                     value={addressSoql.easement}
                     onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.easement}
                 />
                 <PartialLotSelect
                     value={addressSoql.partial_lot}
                     onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.partial_lot}
                 />
                 <AirRightsSelect
                     value={addressSoql.air_rights}
                     onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.air_rights}
                 />
                 <SubterraneanRightsSelect
                     value={addressSoql.subterranean_rights}
                     onChange={handleInputChange}
-                    className="subterranean-rights-select--select"
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.subterranean_rights}
                 />
                 <PropertyTypeSelect
                     selectedPropertyType={
@@ -107,6 +114,10 @@ function AddressSearch({
                     }
                     handlePropertyTypeSelectChange={handlePropertyTypeSelectChange}
                     disabled={isUsingMultiplePropertyTypes}
+                    value={addressSoql.property_type}
+                    onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.property_type}
                 />
             </div>
             {/* <button type="button" onClick={togglePropertyTypesCheckboxes}>
@@ -120,7 +131,7 @@ function AddressSearch({
                         handlePropertyTypeChange={handlePropertyTypeChange}
                     />
                 )} */}
-        </fieldset>
+        </fieldset >
     )
 }
 

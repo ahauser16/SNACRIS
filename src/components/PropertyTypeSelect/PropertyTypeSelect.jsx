@@ -4,20 +4,44 @@ import PropertyTypeCodes from '../PropertyTypeCheckboxes/PropertyTypeCodes.json'
 import './PropertyTypeSelect.css'; // Import the CSS file
 
 
-const PropertyTypeSelect = ({ selectedPropertyType, handlePropertyTypeSelectChange, disabled }) => {
+const PropertyTypeSelect = ({
+    selectedPropertyType,
+    handlePropertyTypeSelectChange,
+    disabled,
+    value,
+    onChange,
+    handleErrorDisplay,
+    error
+}) => {
+    const validateUserInput = (value) => {
+        // if (!value) {
+        //     handleErrorDisplay('borough', 'You must select a borough.');
+        // } else {
+        //     handleErrorDisplay('borough', null);
+        // }
+    };
+
+    const handleValidationPlusDataTransferToSoql = (e) => {
+        validateUserInput(e.target.value);
+        onChange(e); // Keep the original onChange for state management
+    };
     return (
-        <div className="form-group">
-            <label
-                htmlFor="property-type--select" className="property-type-select--label"
-            >Select a Property Type:</label>
+        <div
+            className={`form-group form-group--width-auto form-group--property_type ${error ? 'field-error' : ''}`}
+            style={{ '--field-width': '15ch' }}
+        >
+            <label htmlFor="property-type--select" >
+                Property Type
+            </label>
             <div className="form-field select">
                 <select
                     id="property-type-select"
                     name="property_type"
                     value={selectedPropertyType || ""}
                     onChange={(e) => handlePropertyTypeSelectChange(e.target.value)}
+                    // onChange={handleValidationPlusDataTransferToSoql}
                     disabled={disabled}
-                    className="property-type-select--select"
+                    aria-describedby="property-type-description"
                 >
                     {selectedPropertyType === "multiple" ? (
                         <option
@@ -28,7 +52,7 @@ const PropertyTypeSelect = ({ selectedPropertyType, handlePropertyTypeSelectChan
                     ) : (
                         <option
                             className="property-type-select--option"
-                            value="">Select a Property Type
+                            value="">Select
                         </option>
                     )}
                     {PropertyTypeCodes.map((propertyType) => (
@@ -43,6 +67,12 @@ const PropertyTypeSelect = ({ selectedPropertyType, handlePropertyTypeSelectChan
                 </select>
                 <span className="focus"></span>
             </div>
+            <span
+                className="field-description"
+                id="borough-description"
+            >
+                {error}
+            </span>
         </div>
     );
 };

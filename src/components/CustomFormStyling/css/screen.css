@@ -1,3 +1,8 @@
+html{
+  /* FYI, this sets what "1rem" is equal to so the rule `font-size: 16px` sets "1rem" to 16px. */
+  font-size: 16px;
+}
+
 body {
     font-family: "Roboto", sans-serif;
     background-color: var(--color-background, var(--color-background));
@@ -6,7 +11,10 @@ body {
   
   header,
   main {
-    width: 60ch;
+/* FYI, 60ch is roughly 400px when 1rem is 16px.  This is impacted by the Font Family and Font Size being used since the 1ch is equal to the "0" character which is different for font families and sizes.  I've adjusted the width to "54ch" which is equal to "360px" and is the default width of the sidepanel of chrome extensions.     */
+
+/* when thereare multiple fields the first field tha tis invalid should be focused and it would be a good idea to have a list of invalid fields with anchor links that allow the user to navigate to those fields. */
+    width: 54ch;
     max-width: 100%;
-    margin: 2rem auto;
+    margin: 1rem auto;
   }

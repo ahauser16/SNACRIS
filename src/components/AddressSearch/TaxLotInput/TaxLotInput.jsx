@@ -9,7 +9,9 @@ function TaxLotInput({
 }) {
 
     const validateUserInput = (value) => {
-        if (value.length > 4) {
+        if (!/^\d*$/.test(value)) {
+            handleErrorDisplay('lot', 'Lot must be numbers only');
+        } else if (value.length > 4) {
             handleErrorDisplay('lot', 'Lot number must be 4 numbers or less.');
         } else {
             handleErrorDisplay('lot', null);
@@ -23,21 +25,28 @@ function TaxLotInput({
 
     return (
         <div
-            className="form-group form-group--width-auto"
-            style={{ '--field-width': '8ch' }}
+            className={`form-group form-group--width-auto form-group--lot ${error ? 'field-error' : ''}`}
+            style={{ '--field-width': '6ch' }}
         >
             <label
                 htmlFor="lot">Lot</label>
             <input
-                type="number"
+                type="text"
                 id="lot"
                 name="lot"
                 value={value}
                 // onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
                 className="form-field"
+                maxLength="4"
+                aria-describedby="tax-lot-description"
             />
-            <span className="error-msg-display">{error}</span>
+            <span
+                className="field-description"
+                id="tax-lot-description"
+            >
+                {error}
+            </span>
         </div>
     )
 }

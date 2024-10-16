@@ -5,7 +5,7 @@ function StreetUnitInput({ value, onChange, handleErrorDisplay, error }) {
 
     const validateUserInput = (value) => {
         if (value.length > 7) {
-            handleErrorDisplay('unit', 'Unit must be 5 numbers/letters or less.');
+            handleErrorDisplay('unit', 'Unit must be less than 7 characters');
         } else {
             handleErrorDisplay('unit', '');
         }
@@ -18,8 +18,8 @@ function StreetUnitInput({ value, onChange, handleErrorDisplay, error }) {
 
     return (
         <div
-            className="form-group form-group--width-auto"
-            style={{ '--field-width': '7ch' }}
+        className={`form-group form-group--width-auto form-group--unit ${error ? 'field-error' : ''}`}
+            style={{ '--field-width': '9ch' }}
         >
             <label htmlFor="unit" className="street-unit-input--label">Unit</label>
             <input
@@ -30,8 +30,15 @@ function StreetUnitInput({ value, onChange, handleErrorDisplay, error }) {
                 // onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
                 className="form-field"
+                maxLength="7"
+                aria-describedby="unit-description"
             />
-            <span className="error-msg-display">{error}</span>
+            <span
+                className="field-description"
+                id="unit-description"
+            >
+                {error}
+            </span>
         </div>
     )
 }

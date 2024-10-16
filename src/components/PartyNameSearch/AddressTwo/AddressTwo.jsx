@@ -1,7 +1,11 @@
 import React from 'react'
 import './AddressTwo.css'
 
-const AddressTwo = ({ value, onChange, handleErrorDisplay, error }) => {
+const AddressTwo = ({
+    value,
+    onChange,
+    handleErrorDisplay,
+    error }) => {
 
     const validateUserInput = (value) => {
         if (value.length > 60) {
@@ -17,7 +21,8 @@ const AddressTwo = ({ value, onChange, handleErrorDisplay, error }) => {
     };
 
     return (
-        <div className="form-group">
+        <div
+            className={`form-group form-group--address_2 ${error ? 'field-error' : ''}`}>
             <label htmlFor="address_2">
                 Address 2:
             </label>
@@ -28,8 +33,14 @@ const AddressTwo = ({ value, onChange, handleErrorDisplay, error }) => {
                 value={value}
                 onChange={handleValidationPlusDataTransferToSoql}
                 className="form-field"
+                aria-describedby="address-line-2-description"
             />
-            <span className="error-msg-display">{error}</span>
+            <span
+                className="field-description"
+                id="address-line-2-description"
+            >
+                {error}
+            </span>
         </div>
     )
 }

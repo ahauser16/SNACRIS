@@ -49,7 +49,7 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
         <div className="api-table--container">
             <h2>Results</h2>
             <div className="api-response-details--container">
-                <h6>Response Details</h6>
+                <h3>Response Details</h3>
                 <ul>
                     <li className="api-response-detail">Total Records: {totalRecords}</li>
                     <li className="api-response-detail">Displayed Records: {records.length}</li>
@@ -57,22 +57,53 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
                     <li className="api-response-detail">Timestamp: {new Date().toLocaleString()}</li>
                 </ul>
             </div>
+            {/* <fieldset className="center">
+          <div className="form-row form-row--variable">
+            <div className="form-group">
+              <button
+                type="submit"
+                className="form-button infoBtn"
+              >
+                Search
+              </button>
+            </div>
+            <div className="form-group">
+              <button
+                type="button"
+                onClick={handleFormReset}
+                className="form-button warningBtn"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </fieldset> */}
             <div className="api-table-form--container">
-                <h6>Table Controls</h6>
-                <button
-                    className="pagination-btn"
-                    onClick={handlePrev}
-                    disabled={offset === 0}
-                >
-                    Prev
-                </button>
-                <button
-                    className="pagination-btn"
-                    onClick={handleNext}
-                    disabled={records.length < limit}
-                >
-                    Next
-                </button>
+                <fieldset>
+                    <legend>Table Controls</legend>
+                    <div className="form-row form-row--variable">
+                        <div className="form-group">
+                            <button
+                                type="button"
+                                onClick={handlePrev}
+                                disabled={offset === 0}
+                                className="form-button infoBtn"
+                            >
+                                Prev
+                            </button>
+                        </div>
+                        <div className="form-group">
+                            <button
+                                type="button"
+                                className="form-button infoBtn"
+                                onClick={handleNext}
+                                disabled={records.length < limit}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
             <table className="api-table">
                 <thead>

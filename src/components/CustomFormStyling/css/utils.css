@@ -1,0 +1,11 @@
+.center {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;    /* Center vertically */
+  }
+
+  .text-wrapper {
+    display: block; /* or inline-block */
+    max-width: 50%; /* Adjust as needed */
+    word-wrap: break-word; /* Ensures long words break to the next line */
+}

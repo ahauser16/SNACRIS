@@ -48,7 +48,7 @@ const PartyNameSearch = ({
   };
 
   return (
-    <main>
+    // <main>
       <fieldset className="party-name-search--container">
         <legend className="party-name-search--legend">
           Search By Party Name
@@ -96,6 +96,8 @@ const PartyNameSearch = ({
             }
             handleStateSelectChange={handleStateSelectChange}
             disabled={isUsingMultipleStates}
+            handleErrorDisplay={handleErrorDisplay}
+            error={inputUserErrors.state}
           />
 
           {/* Toggle Button for States Checkboxes */}
@@ -149,7 +151,7 @@ const PartyNameSearch = ({
           )} */}
         </div>
       </fieldset>
-    </main>
+    // </main>
   );
 };
 

@@ -22,8 +22,8 @@ function StreetNameInput({
 
     return (
         <div 
-        className="form-group"
-        style={{ '--field-width': '32ch' }}
+        className={`form-group form-group--width-auto form-group--street_name ${error ? 'field-error' : ''}`}
+        style={{ '--field-width': '20ch' }}
         >
             <label htmlFor="street_name" >
                 Street Name
@@ -34,10 +34,12 @@ function StreetNameInput({
                 name="street_name"
                 value={value}
                 onChange={handleValidationPlusDataTransferToSoql}
-                // onChange={onChange}
                 className="form-field"
+                aria-describedby="tax-block-description"
+                maxLength="32"
             />
-            <span className="error-msg-display">{error}</span>
+            <span className="field-description"
+                id="tax-block-description">{error}</span>
         </div>
     )
 }

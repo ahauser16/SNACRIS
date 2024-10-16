@@ -5,6 +5,8 @@ import SelectSample from '../CustomFormStyling/components/SelectSample';
 import TextInputSample from '../CustomFormStyling/components/TextInputSample';
 import ButtonSample from '../CustomFormStyling/components/ButtonSample';
 import FieldsetSample from '../CustomFormStyling/FieldsetSample';
+import Descriptions from '../CustomFormStyling/Descriptions';
+import ValidationSample from '../CustomFormStyling/ValidationSample';
 import './css/FormTestArea.css';
 
 const FormTestArea = () => {
@@ -15,11 +17,13 @@ const FormTestArea = () => {
             </header>
             <main>
                 <FieldsetSample />
-                <TextInputSample />
+                <Descriptions />
+                <ValidationSample />
+                {/* <TextInputSample />
                 <CheckboxSample />
                 <RadioBtnSample />
                 <SelectSample />
-                <ButtonSample />
+                <ButtonSample /> */}
             </main>
         </>
     )

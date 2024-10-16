@@ -49,31 +49,35 @@ function DateRangeInput({
   };
 
   return (
-    <div className="date-range-input--container col">
-      <label htmlFor="date-range-start" className="date-range-input--label">
-        Start Date:
-      </label>
-      <input
-        type="date"
-        id="date-range-start"
-        name="date_range_start"
-        value={startDate || ''}
-        onChange={handleStartDateChange}
-        className="date-range-input--input"
-      />
-      <label htmlFor="date-range-end" className="date-range-input--label">
-        End Date:
-      </label>
-      <input
-        type="date"
-        id="date-range-end"
-        name="date_range_end"
-        value={endDate || ''}
-        onChange={handleEndDateChange}
-        className="date-range-input--input"
-      />
-      <span className="error-msg-display">{error}</span>
-    </div>
+    <>
+      <div className="form-group">
+        <label htmlFor="date-range-start" className="date-range-input--label">
+          Start Date:
+        </label>
+        <input
+          type="date"
+          id="date-range-start"
+          name="date_range_start"
+          value={startDate || ''}
+          onChange={handleStartDateChange}
+          className="date-range-input--input"
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="date-range-end" className="date-range-input--label">
+          End Date:
+        </label>
+        <input
+          type="date"
+          id="date-range-end"
+          name="date_range_end"
+          value={endDate || ''}
+          onChange={handleEndDateChange}
+          className="date-range-input--input"
+        />
+        <span className="error-msg-display">{error}</span>
+      </div>
+    </>
   );
 }
 

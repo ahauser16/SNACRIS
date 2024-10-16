@@ -13,6 +13,7 @@
   opacity: 1;
 }
 
+/* keep in mind WCAG states that focus state must have a 3:1 contrast change between the default color and the focus color.  */
 .field-error .field-description:before {
   content: "";
   width: 0.8em;

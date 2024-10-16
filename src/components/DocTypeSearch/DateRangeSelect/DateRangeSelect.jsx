@@ -49,28 +49,34 @@ function DateRangeSelect({
   };
 
   return (
-    <div className="date-range-select-input--container">
-      <label
-        htmlFor="date-range-select"
-        className="date-range-select-input--label"
-      >
-        Select Date Range:
+    <div
+      className={`form-group form-group--width-auto form-group--date-range ${error ? 'field-error' : ''}`}
+      style={{ '--field-width': '15ch' }}>
+      <label htmlFor="date-range-select">
+        Date Range
       </label>
-      <select
-        id="date-range-select"
-        name="document_date"
-        value={value}
-        onChange={handleValidationPlusDataTransferToSoql}
-        className="date-range-select-input--input"
-      >
-        <option value="">Select a date range</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <span className="error-msg-display">{error}</span>
+      <div className="form-field select">
+        <select
+          id="date-range-select"
+          name="document_date"
+          value={value}
+          onChange={handleValidationPlusDataTransferToSoql}
+          aria-describedby="document-date-range-description"
+        >
+          <option value="">Select</option>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <span className="focus"></span>
+      </div>
+      <span
+        className="field-description"
+        id="document-date-range-description">
+        {error}
+      </span>
     </div>
   );
 }

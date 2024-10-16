@@ -1,11 +1,29 @@
 import React from 'react'
 import './SubterraneanRightsSelect.css'
 
-function SubterraneanRightsSelect({ value, onChange }) {
+const SubterraneanRightsSelect = ({
+    value,
+    onChange,
+    handleErrorDisplay,
+    error }) => {
+
+    const validateUserInput = (value) => {
+        // if (!value) {
+        //   handleErrorDisplay('borough', 'You must select a borough.');
+        // } else {
+        //   handleErrorDisplay('borough', null);
+        // }
+    };
+
+    const handleValidationPlusDataTransferToSoql = (e) => {
+        validateUserInput(e.target.value);
+        onChange(e); // Keep the original onChange for state management
+    };
+
     return (
-        <div 
-        className="form-group form-group--width-auto" 
-        style={{ '--field-width': '12ch' }}
+        <div
+            className={`form-group form-group--width-auto form-group--subterranean_rights ${error ? 'field-error' : ''}`}
+            style={{ '--field-width': '10ch' }}
         >
             <label htmlFor="subterranean_rights" >
                 Subterranean Rights
@@ -15,15 +33,21 @@ function SubterraneanRightsSelect({ value, onChange }) {
                     id="subterranean_rights"
                     name="subterranean_rights"
                     value={value}
-                    onChange={onChange}
-                    className="subterranean-rights-select--select"
+                    onChange={handleValidationPlusDataTransferToSoql}
+                    aria-describedby="subterranean-rights-description"
                 >
-                    <option value="" className="subterranean-rights-select--option">Select</option>
-                    <option value="Y" className="subterranean-rights-select--option">Yes</option>
-                    <option value="N" className="subterranean-rights-select--option">No</option>
+                    <option value="">Select</option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
                 </select>
                 <span className="focus"></span>
             </div>
+            <span
+                className="field-description"
+                id="subterranean-rights-description"
+            >
+                {error}
+            </span>
         </div>
     )
 }

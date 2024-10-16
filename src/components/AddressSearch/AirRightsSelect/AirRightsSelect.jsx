@@ -1,10 +1,27 @@
 import React from 'react'
 import './AirRightsSelect.css'
 
-function AirRightsSelect({ value, onChange }) {
+const AirRightsSelect = ({ 
+    value, 
+    onChange, 
+    handleErrorDisplay, 
+    error 
+}) => {
+    const validateUserInput = (value) => {
+        // if (!value) {
+        //     handleErrorDisplay('borough', 'You must select a borough.');
+        // } else {
+        //     handleErrorDisplay('borough', null);
+        // }
+    };
+
+    const handleValidationPlusDataTransferToSoql = (e) => {
+        validateUserInput(e.target.value);
+        onChange(e); // Keep the original onChange for state management
+    };
     return (
         <div
-            className="form-group form-group--width-auto"
+            className={`form-group form-group--width-auto form-group--air_rights ${error ? 'field-error' : ''}`}
             style={{ '--field-width': '12ch' }}
         >
             <label htmlFor="air_rights">
@@ -15,7 +32,9 @@ function AirRightsSelect({ value, onChange }) {
                     id="air_rights"
                     name="air_rights"
                     value={value}
-                    onChange={onChange}
+                    onChange={handleValidationPlusDataTransferToSoql}
+                    aria-describedby="air-rights-description"
+
                 >
                     <option value="">
                         Select
@@ -27,7 +46,9 @@ function AirRightsSelect({ value, onChange }) {
                         No
                     </option>
                 </select>
+                <span className="focus"></span>
             </div>
+            <span className="field-description" id="air-rights-description">{error}</span>
         </div>
     )
 }

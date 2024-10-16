@@ -1,7 +1,12 @@
 .field-description {
+  /* position: absolute; */
   font-size: 0.9rem;
   margin-top: 0.5em;
   display: block;
   opacity: 0.75;
   letter-spacing: 0.015em;
+}
+
+.field-description--absolute {
+  position: absolute;
 }

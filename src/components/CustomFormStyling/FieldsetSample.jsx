@@ -3,7 +3,7 @@ import React from 'react'
 const FieldsetSample = () => {
     return (
         <>
-            <fieldset>
+            <fieldset> 
                 <legend>Your Name</legend>
                 <div className="form-row">
                     <div className="form-group">

@@ -1,7 +1,11 @@
 import React from 'react'
 import './ZipInput.css'
 
-const ZipInput = ({ value, onChange, handleErrorDisplay, error }) => {
+const ZipInput = ({
+    value,
+    onChange,
+    handleErrorDisplay,
+    error }) => {
 
     const validateUserInput = (value) => {
         if (value.length > 9) {
@@ -17,9 +21,9 @@ const ZipInput = ({ value, onChange, handleErrorDisplay, error }) => {
     };
 
     return (
-        <div 
-        className="form-group form-group--width-auto" 
-        style={{ '--field-width': '8ch' }}>
+        <div
+            className={`form-group form-group--width-auto form-group--zip ${error ? 'field-error' : ''}`}
+            style={{ '--field-width': '8ch' }}>
             <label htmlFor="zip" >
                 Zip:
             </label>
@@ -31,8 +35,14 @@ const ZipInput = ({ value, onChange, handleErrorDisplay, error }) => {
                 // onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
                 className="form-field"
+                aria-describedby="zip-code-description"
             />
-            <span className="error-msg-display">{error}</span>
+            <span
+                className="field-description"
+                id="zip-code-description"
+            >
+                {error}
+            </span>
         </div>
     )
 }

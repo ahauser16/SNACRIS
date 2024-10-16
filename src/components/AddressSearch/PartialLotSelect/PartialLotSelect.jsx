@@ -1,10 +1,27 @@
 import React from 'react'
 import './PartialLotSelect.css'
 
-function PartialLotSelect({ value, onChange }) {
+const PartialLotSelect = ({ value,
+    onChange,
+    handleErrorDisplay,
+    error }) =>{
+
+    const validateUserInput = (value) => {
+        // if (!value) {
+        //   handleErrorDisplay('borough', 'You must select a borough.');
+        // } else {
+        //   handleErrorDisplay('borough', null);
+        // }
+    };
+
+    const handleValidationPlusDataTransferToSoql = (e) => {
+        validateUserInput(e.target.value);
+        onChange(e); // Keep the original onChange for state management
+    };
+
     return (
         <div
-            className="form-group form-group--width-auto"
+            className={`form-group form-group--width-auto form-group--partial_lot ${error ? 'field-error' : ''}`}
             style={{ '--field-width': '10ch' }}
         >
             <label htmlFor="partial_lot">Partial Lot</label>
@@ -13,8 +30,8 @@ function PartialLotSelect({ value, onChange }) {
                     id="partial_lot"
                     name="partial_lot"
                     value={value}
-                    onChange={onChange}
-                    className="partial-lot-select--select"
+                    onChange={handleValidationPlusDataTransferToSoql}
+                    aria-describedby="partial-lot-description"
                 >
                     <option value="" className="partial-lot-select--option">Select</option>
                     <option value="P" className="partial-lot-select--option">Partial</option>
@@ -23,6 +40,12 @@ function PartialLotSelect({ value, onChange }) {
                 </select>
                 <span className="focus"></span>
             </div>
+            <span
+                className="field-description"
+                id="partial-lot-description"
+            >
+                {error}
+            </span>
         </div>
     )
 }

@@ -17,7 +17,21 @@
     margin: 0;
 }
 
-.api-response-details--container {}
+.api-table--container h2{
+    font-size: 1.5rem;
+}
+
+.api-response-details--container {
+    
+}
+
+.api-response-details--container h3{
+    font-size: 1.25rem;
+}
+
+.api-response-details--container li{
+    font-size: 1rem;
+}
 
 .api-table-form--container {
     display: flex;

@@ -7,10 +7,12 @@ const NameInput = ({
     handleErrorDisplay,
     error
 }) => {
-
+    
     const validateUserInput = (value) => {
         if (value.length > 70) {
             handleErrorDisplay('name', 'Name must be 70 characters or less.');
+        } else if (!value) {
+            handleErrorDisplay('name', 'This field is required for form submission');
         } else {
             handleErrorDisplay('name', null);
         }
@@ -22,7 +24,7 @@ const NameInput = ({
     };
 
     return (
-        <div className="form-group">
+        <div className={`form-group form-group--name ${error ? 'field-error' : ''}`}>
             <label
                 htmlFor="name"
             >
@@ -35,8 +37,15 @@ const NameInput = ({
                 value={value}
                 onChange={handleValidationPlusDataTransferToSoql}
                 className="form-field"
+                aria-describedby="party-name-description"
+                required
             />
-            <span className="error-msg-display">{error}</span>
+            <span
+                className="field-description"
+                id="party-name-description"
+            >
+                {error}
+            </span>
         </div>
 
     )

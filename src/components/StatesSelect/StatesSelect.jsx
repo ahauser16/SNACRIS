@@ -2,7 +2,11 @@ import React from "react";
 import statesData from "../StatesCheckboxes/mappedData/States.json";
 import "./StatesSelect.css";
 
-const StatesSelect = ({ selectedState, handleStateSelectChange, disabled }) => {
+const StatesSelect = ({ 
+  selectedState, 
+  handleStateSelectChange, 
+  disabled 
+}) => {
   const capitalizeDescription = (description) => {
     return (
       description.charAt(0).toUpperCase() + description.slice(1).toLowerCase()

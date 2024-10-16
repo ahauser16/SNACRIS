@@ -18,7 +18,7 @@ function StreetNumberInput({ value, onChange, handleErrorDisplay, error }) {
 
   return (
     <div
-      className="form-group form-group--width-auto"
+      className={`form-group form-group--width-auto form-group--street_number ${error ? 'field-error' : ''}`}
       style={{ '--field-width': '12ch' }}
     >
       <label htmlFor="street_number">Street Number</label>
@@ -30,8 +30,15 @@ function StreetNumberInput({ value, onChange, handleErrorDisplay, error }) {
         // onChange={onChange}
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
+        maxLength="12"
+        aria-describedby="street-number-description"
       />
-      <span className="error-msg-display">{error}</span>
+      <span
+        className="field-description"
+        id="street-number-description"
+      >
+        {error}
+      </span>
     </div>
   )
 }

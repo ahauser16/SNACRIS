@@ -1,11 +1,29 @@
 import React from 'react'
 import './EasementSelect.css'
 
-function EasementSelect({ value, onChange }) {
+const EasementSelect = ({
+    value,
+    onChange,
+    handleErrorDisplay,
+    error }) => {
+
+    const validateUserInput = (value) => {
+        // if (!value) {
+        //   handleErrorDisplay('borough', 'You must select a borough.');
+        // } else {
+        //   handleErrorDisplay('borough', null);
+        // }
+    };
+
+    const handleValidationPlusDataTransferToSoql = (e) => {
+        validateUserInput(e.target.value);
+        onChange(e); // Keep the original onChange for state management
+    };
+
     return (
-        <div 
-        className="form-group form-group--width-auto" 
-        style={{ '--field-width': '12ch' }}
+        <div
+            className={`form-group form-group--width-auto form-group--easement ${error ? 'field-error' : ''}`}
+            style={{ '--field-width': '10ch' }}
         >
             <label htmlFor="easement">Easement</label>
             <div className="form-field select">
@@ -13,7 +31,8 @@ function EasementSelect({ value, onChange }) {
                     id="easement"
                     name="easement"
                     value={value}
-                    onChange={onChange}
+                    onChange={handleValidationPlusDataTransferToSoql}
+                    aria-describedby="easement-description"
                 >
                     <option value="" className="easement-select--option">Select</option>
                     <option value="Y" className="easement-select--option">Yes</option>
@@ -21,6 +40,12 @@ function EasementSelect({ value, onChange }) {
                 </select>
                 <span className="focus"></span>
             </div>
+            <span
+                className="field-description"
+                id="easement-description"
+            >
+                {error}
+            </span>
         </div>
     )
 }

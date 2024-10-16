@@ -25,10 +25,19 @@ const SearchByDocTypeForm = ({ setData, setError, handleTableReset }) => {
   const [errorMessages, setErrorMessages] = useState([]);
 
   const handleErrorDisplay = (name, errorMessage) => {
-    setInputUserErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: errorMessage,
-    }));
+    console.log(`Error in ${name}: ${errorMessage}`);
+    setInputUserErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      if (errorMessage) {
+        newErrors[name] = errorMessage;
+        document.querySelector(`.form-group--${name}`).classList.add('field-error');
+      } else {
+        newErrors[name] = null; // Set to null if no error
+        document.querySelector(`.form-group--${name}`).classList.remove('field-error');
+      }
+      console.log('Updated inputUserErrors:', newErrors);
+      return newErrors;
+    });
   };
 
   const handleInputChange = (e) => {
@@ -93,10 +102,27 @@ const SearchByDocTypeForm = ({ setData, setError, handleTableReset }) => {
         handleErrorDisplay={handleErrorDisplay}
         inputUserErrors={inputUserErrors}
       />
-      <div className="flex-container">
-        <button type="submit">Search</button>
-        <button type="button" onClick={handleFormReset}>Reset</button>
-      </div>
+      <fieldset className="center">
+          <div className="form-row form-row--variable">
+            <div className="form-group">
+              <button
+                type="submit"
+                className="form-button infoBtn"
+              >
+                Search
+              </button>
+            </div>
+            <div className="form-group">
+              <button
+                type="button"
+                onClick={handleFormReset}
+                className="form-button warningBtn"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </fieldset>
       {errorMessages.length > 0 && (
         <div className="flex-container">
           <span className="error-msg-display">

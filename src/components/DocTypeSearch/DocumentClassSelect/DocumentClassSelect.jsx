@@ -1,5 +1,4 @@
 import React from 'react'
-import './DocumentClassSelect.css'
 
 function DocumentClassSelect() {
   return (
