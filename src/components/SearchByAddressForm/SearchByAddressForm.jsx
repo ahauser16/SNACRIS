@@ -134,9 +134,24 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
         handleErrorDisplay={handleErrorDisplay}
         inputUserErrors={inputUserErrors}
       />
-      <div className="flex-container">
-        <button type="submit">Search</button>
-        <button type="button" onClick={handleFormReset}>Reset</button>
+      <div className="form-row">
+        <div className="form-group">
+          <button
+            type="submit"
+            className="form-button infoBtn"
+          >
+            Search
+          </button>
+        </div>
+        <div className="form-group">
+          <button
+            type="button"
+            onClick={handleFormReset}
+            className="form-button warningBtn"
+          >
+            Reset
+          </button>
+        </div>
       </div>
       {errorMessages.length > 0 && (
         <div className="flex-container">

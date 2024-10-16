@@ -1,4 +1,4 @@
-.tax-block-input--container {
+/* .tax-block-input--container {
     display: flex;
     flex-direction: column;
 }
@@ -6,8 +6,6 @@
 .tax-block-input--label {}
 
 .tax-block-input--input {
-    /* width: 10ch; */
-    /* Width to accommodate up to 5 characters */
     border: 1px solid var(--address-search-color);
     border-radius: 4px;
 }
@@ -16,4 +14,4 @@
     color: red;
     background-color: antiquewhite;
     margin: .25rem;
-}
+} */

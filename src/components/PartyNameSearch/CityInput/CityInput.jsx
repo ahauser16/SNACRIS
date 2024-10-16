@@ -1,7 +1,7 @@
 import React from 'react'
 import './CityInput.css'
 
-function CityInput({ value, onChange, handleErrorDisplay, error }) {
+const CityInput = ({ value, onChange, handleErrorDisplay, error }) => {
 
     const validateUserInput = (value) => {
         if (value.length > 30) {
@@ -17,11 +17,8 @@ function CityInput({ value, onChange, handleErrorDisplay, error }) {
     };
 
     return (
-        <div className="city-input--container">
-            <label
-                htmlFor="city"
-                className="city-input--label"
-            >
+        <div className="form-group">
+            <label htmlFor="city" >
                 City:
             </label>
             <input
@@ -30,7 +27,7 @@ function CityInput({ value, onChange, handleErrorDisplay, error }) {
                 name="city"
                 value={value}
                 onChange={handleValidationPlusDataTransferToSoql}
-                className="city-input--input"
+                className="form-field"
             />
             <span className="error-msg-display">{error}</span>
         </div>

@@ -1,0 +1,54 @@
+legend {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 0.65em;
+}
+
+fieldset+fieldset {
+  margin-top: 2rem;
+}
+
+.form-row {
+  --field-col-width: 15ch;
+
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(var(--field-col-width), 1fr));
+}
+
+.form-row .form-group {
+  margin: 0;
+}
+
+.form-row .form-field {
+  width: 100%;
+}
+
+.form-row+.form-row {
+  margin-top: 2rem;
+}
+
+.form-row--mixed {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.form-row--mixed .form-group {
+  flex: 1 1 var(--field-col-width);
+}
+
+.form-row--mixed .form-group--width-auto {
+  flex: 0 1 auto;
+}
+
+.form-row--mixed .form-group--width-auto .form-field,
+.form-row--mixed .form-group--width-auto .form-control {
+  max-width: var(--field-width, 0);
+}
+
+.form-row--variable {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}

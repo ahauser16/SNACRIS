@@ -17,8 +17,11 @@ function StreetNumberInput({ value, onChange, handleErrorDisplay, error }) {
   };
 
   return (
-    <div className="street-number-input--container">
-      <label htmlFor="street_number" className="street-number-input--label">Street Number:</label>
+    <div
+      className="form-group form-group--width-auto"
+      style={{ '--field-width': '12ch' }}
+    >
+      <label htmlFor="street_number">Street Number</label>
       <input
         type="text"
         id="street_number"
@@ -26,7 +29,7 @@ function StreetNumberInput({ value, onChange, handleErrorDisplay, error }) {
         value={value}
         // onChange={onChange}
         onChange={handleValidationPlusDataTransferToSoql}
-        className="street-number-input--input"
+        className="form-field"
       />
       <span className="error-msg-display">{error}</span>
     </div>

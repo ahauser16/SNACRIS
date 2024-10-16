@@ -1,7 +1,7 @@
 import React from 'react'
 import './ZipInput.css'
 
-function ZipInput({ value, onChange, handleErrorDisplay, error }) {
+const ZipInput = ({ value, onChange, handleErrorDisplay, error }) => {
 
     const validateUserInput = (value) => {
         if (value.length > 9) {
@@ -17,11 +17,10 @@ function ZipInput({ value, onChange, handleErrorDisplay, error }) {
     };
 
     return (
-        <div className="zip-input--container">
-            <label
-                className="zip-input--container"
-                htmlFor="zip"
-            >
+        <div 
+        className="form-group form-group--width-auto" 
+        style={{ '--field-width': '8ch' }}>
+            <label htmlFor="zip" >
                 Zip:
             </label>
             <input
@@ -31,7 +30,7 @@ function ZipInput({ value, onChange, handleErrorDisplay, error }) {
                 value={value}
                 // onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
-                className="zip-input--input"
+                className="form-field"
             />
             <span className="error-msg-display">{error}</span>
         </div>

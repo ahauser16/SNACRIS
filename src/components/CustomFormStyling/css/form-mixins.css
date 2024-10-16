@@ -1,0 +1,16 @@
+.field-focus:focus {
+  border-color: var(--field-focus, var(--color-primary));
+  box-shadow: 0 0 0.35em -0.1em var(--field-focus, var(--color-primary));
+  outline: 2px solid transparent;
+}
+
+.field-disabled:disabled {
+  border-color: var(--color-disabled-border, var(--color-disabled));
+  background-color: var(--color-disabled-background, var(--color-disabled-background));
+  cursor: not-allowed;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.field-disabled:disabled option {
+  color: rgba(0, 0, 0, 0.45);
+}

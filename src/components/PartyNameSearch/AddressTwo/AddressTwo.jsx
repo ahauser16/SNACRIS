@@ -1,7 +1,7 @@
 import React from 'react'
 import './AddressTwo.css'
 
-function AddressTwo({ value, onChange, handleErrorDisplay, error }) {
+const AddressTwo = ({ value, onChange, handleErrorDisplay, error }) => {
 
     const validateUserInput = (value) => {
         if (value.length > 60) {
@@ -17,10 +17,8 @@ function AddressTwo({ value, onChange, handleErrorDisplay, error }) {
     };
 
     return (
-        <div className="address-2-input--container">
-            <label
-                className="address-2-input--label" htmlFor="address_2"
-            >
+        <div className="form-group">
+            <label htmlFor="address_2">
                 Address 2:
             </label>
             <input
@@ -29,7 +27,7 @@ function AddressTwo({ value, onChange, handleErrorDisplay, error }) {
                 name="address_2"
                 value={value}
                 onChange={handleValidationPlusDataTransferToSoql}
-                className="address-2-input--input"
+                className="form-field"
             />
             <span className="error-msg-display">{error}</span>
         </div>

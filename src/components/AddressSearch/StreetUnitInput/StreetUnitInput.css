@@ -1,4 +1,4 @@
-.street-unit-input--container {
+/* .street-unit-input--container {
     display: flex;
     flex-direction: column;
 }
@@ -7,7 +7,7 @@
 
 .street-unit-input--input {
     text-transform: 'uppercase';
-    /* width: 7ch; */
+    width: 7ch;
     border: 1px solid var(--address-search-color);
     border-radius: 4px;
     text-transform: 'uppercase';
@@ -17,4 +17,4 @@
     color: red;
     background-color: antiquewhite;
     margin: .25rem;
-}
+} */

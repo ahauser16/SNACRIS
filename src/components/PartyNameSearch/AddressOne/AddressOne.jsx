@@ -1,12 +1,12 @@
 import React from 'react'
 import './AddressOne.css'
 
-function AddressOne({
+const AddressOne = ({
     value,
     onChange,
     handleErrorDisplay,
     error
-}) {
+}) => {
 
     const validateUserInput = (value) => {
         if (value.length > 60) {
@@ -22,7 +22,7 @@ function AddressOne({
     };
 
     return (
-        <div className="address-1-input--container">
+        <div className="form-group">
             <label
                 htmlFor="address_1" className="address-1-input--label"
             >
@@ -35,10 +35,11 @@ function AddressOne({
                 value={value}
                 //onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
-                className="address-1-input--input"
+                // className="address-1-input--input"
+                className="form-field"
             />
             <span className="error-msg-display">{error}</span>
-        </div>
+        </div >
     )
 }
 

@@ -1,0 +1,182 @@
+.form-field {
+    --form-field-width: 35ch;
+
+    /* ACRIS dataset is uppercase so I want to communicate this to the user that their search query is not case sensitive */
+    text-transform: 'uppercase';
+
+
+    background-color: #fff;
+    border: 2px solid;
+    border-radius: var(--border-radius, 0.25em);
+    padding: 0.25em 0.5em;
+    /* these values are inherited from the :root location */
+    font-family: inherit;
+    font-family: inherit;
+    /* IOS text zoom prevention  */
+    /* fallback */
+    font-size: 16px;
+    font-size: max(16px, 1em);
+    max-width: 100%;
+    width: var(--form-field-width, 35ch);
+}
+
+.form-field:not(textarea):not(.select--multiple) {
+    line-height: 1;
+    height: 2.25rem;
+}
+
+.form-field select {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0 1m 0 0;
+    margin: 0;
+    width: 100%;
+
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    outline: none;
+}
+
+/* the `form-group` class is meant to contain the `label`, `input` and `error-message` elements and to control their styling in relation to each other but also between two adjacent elements with the class `form-group`.   */
+.form-group {}
+
+.form-group+.form-group {
+    margin-top: 1.5em;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.15em;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.form-group label + .form-field {
+    margin-top: 0.5em;
+  }
+
+.form-field {
+    /* WCAG guidelines state that the border color and the background must meet a 3:1 contrast ratio */
+    border-color: var(--form-field-border--default);
+}
+
+.form-field:focus {
+    /* WCAG guidelines state that the border-color and the border-color when focused must meet a 3:1 contrast ratio */
+    border-color: var(--form-field-border--focus, var(--grey-500));
+    box-shadow: 0 0 0.35em -0.1em var(--form-field-border--focus);
+    outline: 2px solid transparent;
+}
+
+.formField:disabled {
+    /* WCAG guidelines state that the border-color and the border-color when focused must meet a 3:1 contrast ratio */
+
+    /* NB--> screen readers and keyboards are not able to interact with disabled input elements */
+    border-color: var(--disabled-color-border);
+    background-color: var(--disabled-color-background);
+    color: rgba(black, 0.45);
+    cursor: not-allowed;
+}
+
+/* this is not applicable here but I left it as a note for later */
+/* fieldset+fieldset,
+section+section {
+    margin-top: 2rem;
+} */
+
+/* the initial state of our form-row class is a Grid that creates columns of equal width that are intrinsicly responsive based on the value of the '--minField-col-width' css variable.  */
+.form-row {
+    --minField-col-width: 20ch;
+
+    /* this css variable represents the minimum width of the zip code field */
+    --minField-width: 10ch;
+
+    display: grid;
+    grid-gap: 2rem;
+
+    /* the value assigned to the grid-template-columns property uses the  'repeat()' function and the auto-fit keyword which makes the grid algorithm to add columns as needed.  The 'minmax()' function is passed a css variable equal to 20ch which is the 'minimum allowed value' parameter and '1fr' as the 'maximum allowed value' parameter.  Once the formfields hit the minimum of 20ch the Grid algorithm drops those fields to their own row.  */
+
+    grid-template-columns: repeat(auto-fit,
+            minmax(var(--minField-col-width), 1fr));
+}
+
+.form-row .form-group {
+    margin: 0;
+}
+
+.form-row .formField {
+    width: 100%;
+}
+
+.form-row+.form-row {
+    margin-top: 2rem;
+}
+
+/* the "form-row--mixed" class is a modifier class that allows a mixed variety of field widths.  In this example another css variable was used to set the minimum width of the zip code field while its sibling 'form-group' class divs were set to another css variable*/
+.form-row--mixed {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.form-row--mixed .form-group {
+    flex: 1 1 var(--minField-col-width);
+}
+
+.form-row--mixed .form-group--width-auto {
+    flex: 0 1 auto;
+}
+
+.form-row--mixed .form-group--width-auto .form-field,
+.form-row--mixed .form-group--width-auto .form-control {
+    max-width: var(--minField-width, 0);
+}
+
+/* this '.form-row--variable' class allowed its child elements to take on a variable width.  This is used in addition to the formRow class on the parent of the div with class name "form-group" */
+
+.formRow--variable {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.error-msg-display {
+    color: red;
+    background-color: antiquewhite;
+    display: block;
+    margin-top: 0.5em;
+    opacity: 0.75;
+    letter-spacing: 0.015em;
+    font-size: 0.9rem;
+}
+
+.field-error {
+    --field-focus: var(--accent-error);
+    color: var(--accent-error);
+}
+
+.field-error .form-control {
+    --default-color: var(--accent-error);
+}
+
+.field-error .error-msg-display {
+    display: flex;
+    align-items: center;
+    opacity: 1;
+}
+
+
+.name-input--input {
+    
+}
+
+.field-error .error-msg-display:before {
+    content: "";
+    width: 0.8em;
+    height: 0.8em;
+    margin-right: 0.5em;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50' stroke='#{svgColor(error)}' stroke-width='10' stroke-linecap='round'%3E%3Cdefs/%3E%3Cpath d='M5 5l40 40M45 5L5 45'/%3E%3C/svg%3E");
+}

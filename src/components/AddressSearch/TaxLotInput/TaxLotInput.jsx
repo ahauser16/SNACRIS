@@ -1,11 +1,11 @@
 import React from 'react'
 import './TaxLotInput.css'
 
-function TaxLotInput({ 
-    value, 
-    onChange, 
-    handleErrorDisplay, 
-    error 
+function TaxLotInput({
+    value,
+    onChange,
+    handleErrorDisplay,
+    error
 }) {
 
     const validateUserInput = (value) => {
@@ -22,8 +22,12 @@ function TaxLotInput({
     };
 
     return (
-        <div className="tax-lot-input--container">
-            <label htmlFor="lot" className="tax-lot-input--label">Lot:</label>
+        <div
+            className="form-group form-group--width-auto"
+            style={{ '--field-width': '8ch' }}
+        >
+            <label
+                htmlFor="lot">Lot</label>
             <input
                 type="number"
                 id="lot"
@@ -31,7 +35,7 @@ function TaxLotInput({
                 value={value}
                 // onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
-                className="tax-lot-input--input"
+                className="form-field"
             />
             <span className="error-msg-display">{error}</span>
         </div>

@@ -17,16 +17,20 @@ function TaxBlockInput({ value, onChange, handleErrorDisplay, error }) {
     };
 
     return (
-        <div className="tax-block-input--container">
-            <label htmlFor="block" className="tax-block-input--label">Block:</label>
+        <div 
+        className="form-group form-group--width-auto"
+        style={{ '--field-width': '10ch' }}
+        >
+            <label htmlFor="block">
+                Block
+            </label>
             <input
                 type="number"
                 id="block"
                 name="block"
                 value={value}
-                // onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
-                className="tax-block-input--input"
+                className="form-field"
                 maxLength="5"
             />
             <span className="error-msg-display">{error}</span>

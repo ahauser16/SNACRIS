@@ -21,12 +21,12 @@ function StreetNameInput({
     };
 
     return (
-        <div className="street-name-input--container">
-            <label
-                htmlFor="street_name"
-                className="street-name-input--label"
-            >
-                Street Name:
+        <div 
+        className="form-group"
+        style={{ '--field-width': '32ch' }}
+        >
+            <label htmlFor="street_name" >
+                Street Name
             </label>
             <input
                 type="text"
@@ -35,7 +35,7 @@ function StreetNameInput({
                 value={value}
                 onChange={handleValidationPlusDataTransferToSoql}
                 // onChange={onChange}
-                className="street-name-input--input"
+                className="form-field"
             />
             <span className="error-msg-display">{error}</span>
         </div>

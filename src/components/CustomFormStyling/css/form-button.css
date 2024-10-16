@@ -1,0 +1,68 @@
+.form-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: #fff;
+  border-radius: var(--border-radius);
+  padding: 0.25em 0.75em;
+  /* WCAG recommended min-width and min-height values for touch sizes */
+  min-width: 10ch;
+  min-height: 44px;
+  text-align: center;
+  line-height: 1;
+  transition: 180ms all ease-in-out;
+}
+
+.form-button:hover {
+  /* this needs to be 40% darker than the primary color */
+  background-color: var(--color-primary-dark); 
+}
+
+.form-button:focus {
+  outline-style: solid;
+  outline-color: transparent;
+/* there needs to be a 3:1 contrast ratio     */
+  box-shadow: 0 0 0 0.05em currentColor, 0 0 0.15em 0.15em var(--color-primary);
+}
+
+.form-button:disabled {
+  border-color: var(--color-disabled-border);
+  background-color: var(--color-disabled-background);
+  color: rgba(0, 0, 0, 0.45);
+  cursor: not-allowed;
+}
+
+/* Additional classes for background colors */
+.successBtn {
+  background-color: var(--accent-success);
+}
+
+.warningBtn {
+  background-color: var(--accent-warning);
+}
+
+.errorBtn {
+  background-color: var(--accent-error);
+}
+
+.infoBtn {
+  background-color: var(--accent-info);
+}
+
+/* Hover states for additional classes */
+.successBtn:hover {
+  background-color: var(--accent-success--dark);
+}
+
+.warningBtn:hover {
+  background-color: var(--accent-warning--dark);
+}
+
+.errorBtn:hover {
+  background-color: var(--accent-error--dark);
+}
+
+.infoBtn:hover {
+  background-color: var(--accent-info--dark);
+}

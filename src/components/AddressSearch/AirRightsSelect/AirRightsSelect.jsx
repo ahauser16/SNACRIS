@@ -3,27 +3,31 @@ import './AirRightsSelect.css'
 
 function AirRightsSelect({ value, onChange }) {
     return (
-        <div className="air-rights-select--container">
-            <label htmlFor="air_rights" className="air-rights-select--label">
-                Air Rights:
+        <div
+            className="form-group form-group--width-auto"
+            style={{ '--field-width': '12ch' }}
+        >
+            <label htmlFor="air_rights">
+                Air Rights
             </label>
-            <select
-                id="air_rights"
-                name="air_rights"
-                value={value}
-                onChange={onChange}
-                className="air-rights-select--select"
-            >
-                <option value="" className="air-rights-select--option">
-                    Select an option
-                </option>
-                <option value="Y" className="air-rights-select--option">
-                    Yes
-                </option>
-                <option value="N" className="air-rights-select--option">
-                    No
-                </option>
-            </select>
+            <div className="form-field select">
+                <select
+                    id="air_rights"
+                    name="air_rights"
+                    value={value}
+                    onChange={onChange}
+                >
+                    <option value="">
+                        Select
+                    </option>
+                    <option value="Y">
+                        Yes
+                    </option>
+                    <option value="N">
+                        No
+                    </option>
+                </select>
+            </div>
         </div>
     )
 }

@@ -20,33 +20,35 @@ const CountrySelect = ({
   };
 
   return (
-    <div className="countries-select-container">
+    <div className="form-group">
       <label htmlFor="countries-select">Select a Country:</label>
-      <select
-        id="countries-select"
-        name="country"
-        value={selectedCountry || ""} // Set value to an empty string if no country is selected
-        onChange={(e) => handleCountrySelectChange(e.target.value)}
-        disabled={disabled} // Disable when multiple countries are selected
-      >
-        {/* Show special text for multiple selected countries */}
-        {selectedCountry === "multiple" ? (
-          <option value="">You Selected Multiple Countries</option>
-        ) : (
-          <option value="">Select a Country</option>
-        )}
+      <div className="form-field select">
+        <select
+          id="countries-select"
+          name="country"
+          value={selectedCountry || ""} // Set value to an empty string if no country is selected
+          onChange={(e) => handleCountrySelectChange(e.target.value)}
+          disabled={disabled} // Disable when multiple countries are selected
+        >
+          {/* Show special text for multiple selected countries */}
+          {selectedCountry === "multiple" ? (
+            <option value="">You Selected Multiple Countries</option>
+          ) : (
+            <option value="">Select a Country</option>
+          )}
 
-        {/* Display each country with its current time */}
-        {CountryCodes.map((country) => {
-          const timezone = getTimezone(country.country_code);
-          return (
-            <option key={country.country_code} value={country.country_code}>
-              {capitalizeDescription(country.description)} -{" "}
-              <TimezoneClock timezone={timezone} className="time-display" />
-            </option>
-          );
-        })}
-      </select>
+          {/* Display each country with its current time */}
+          {CountryCodes.map((country) => {
+            const timezone = getTimezone(country.country_code);
+            return (
+              <option key={country.country_code} value={country.country_code}>
+                {capitalizeDescription(country.description)} -{" "}
+                <TimezoneClock timezone={timezone} className="time-display" />
+              </option>
+            );
+          })}
+        </select>
+      </div>
     </div>
   );
 };

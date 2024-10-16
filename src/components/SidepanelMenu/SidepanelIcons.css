@@ -1,0 +1,35 @@
+.icon-user,
+.icon-office,
+.icon-folder,
+.icon-document-notes,
+.icon-receipt,
+.icon-library,
+.icon-film,
+.icon-information,
+.icon-launch {
+    width: 1rem;
+}
+
+.icon-user .secondary,
+.icon-office .primary,
+.icon-folder .secondary,
+.icon-document-notes .secondary,
+.icon-receipt .secondary,
+.icon-library .primary,
+.icon-film .primary,
+.icon-information .primary,
+.icon-launch .primary {
+    fill: var(--blue-100);
+}
+
+.icon-user .primary,
+.icon-office .secondary,
+.icon-folder .primary,
+.icon-document-notes .primary,
+.icon-receipt .primary,
+.icon-library .secondary,
+.icon-film .secondary,
+.icon-information .secondary,
+.icon-launch .secondary {
+    fill: var(--yellow-300);
+}

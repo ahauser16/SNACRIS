@@ -1,4 +1,4 @@
-/* src/components/PartyNameSearch/PartyNameSearch.css */
+/* src/components/PartyNameSearch/PartyNameSearch.css
 
 :root {
   --address-search-color: lightblue;
@@ -30,7 +30,6 @@
   border: 2px solid var(--address-search-color);
   margin: 0;
   padding: 0;
-  /* width: 100%; */
 }
 
 .address-search--legend {
@@ -47,7 +46,6 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  /* margin: 1rem; */
   border: 1px solid var(--address-search-color);
 }
 
@@ -64,9 +62,8 @@
 .property-type-select-checkbox-container {
 }
 
-/* Container query for states-columns--container */
 @container (min-width: 540px) {
   .bbl-street-address--container {
     flex-direction: row;
   }
-}
+} */

@@ -17,8 +17,11 @@ function StreetUnitInput({ value, onChange, handleErrorDisplay, error }) {
     };
 
     return (
-        <div className="street-unit-input--container">
-            <label htmlFor="unit" className="street-unit-input--label">Unit:</label>
+        <div
+            className="form-group form-group--width-auto"
+            style={{ '--field-width': '7ch' }}
+        >
+            <label htmlFor="unit" className="street-unit-input--label">Unit</label>
             <input
                 type="text"
                 id="unit"
@@ -26,7 +29,7 @@ function StreetUnitInput({ value, onChange, handleErrorDisplay, error }) {
                 value={value}
                 // onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
-                className="street-unit-input--input"
+                className="form-field"
             />
             <span className="error-msg-display">{error}</span>
         </div>

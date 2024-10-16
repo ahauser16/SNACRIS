@@ -39,30 +39,26 @@ function AddressSearch({
             <legend className="address-search--legend">
                 Search By Property
             </legend>
-            <div className="bbl-street-address--container">
-                <fieldset className="bbl-container">
-                    <legend className="bbl-legend">Borough/Block/Lot</legend>
-                    <BoroughSelect
-                        value={addressSoql.borough}
-                        onChange={handleInputChange}
-                        handleErrorDisplay={handleErrorDisplay}
-                        error={inputUserErrors.borough}
-                    />
-                    <TaxBlockInput
-                        value={addressSoql.block}
-                        onChange={handleInputChange}
-                        handleErrorDisplay={handleErrorDisplay}
-                        error={inputUserErrors.block}
-                    />
-                    <TaxLotInput
-                        value={addressSoql.lot}
-                        onChange={handleInputChange}
-                        handleErrorDisplay={handleErrorDisplay}
-                        error={inputUserErrors.lot}
-                    />
-                </fieldset>
-                <fieldset className="street-address-container">
-                    <legend className="street-address-legend">Street Address</legend>
+            <div className="form-row form-row--mixed">
+                <BoroughSelect
+                    value={addressSoql.borough}
+                    onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.borough}
+                />
+                <TaxBlockInput
+                    value={addressSoql.block}
+                    onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.block}
+                />
+                <TaxLotInput
+                    value={addressSoql.lot}
+                    onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
+                    error={inputUserErrors.lot}
+                />
+                <div className="form-row form-row--mixed">
                     <StreetNumberInput
                         value={addressSoql.street_number}
                         onChange={handleInputChange}
@@ -81,9 +77,9 @@ function AddressSearch({
                         handleErrorDisplay={handleErrorDisplay}
                         error={inputUserErrors.unit}
                     />
-                </fieldset>
+                </div>
             </div>
-            <div className="easement-partialLot--container">
+            <div className="form-row form-row--mixed">
                 <EasementSelect
                     value={addressSoql.easement}
                     onChange={handleInputChange}
@@ -92,9 +88,6 @@ function AddressSearch({
                     value={addressSoql.partial_lot}
                     onChange={handleInputChange}
                 />
-
-            </div>
-            <div className="airRights-subRights--container">
                 <AirRightsSelect
                     value={addressSoql.air_rights}
                     onChange={handleInputChange}
@@ -104,9 +97,6 @@ function AddressSearch({
                     onChange={handleInputChange}
                     className="subterranean-rights-select--select"
                 />
-            </div>
-            {/* Property Type Field */}
-            <div className="property-type-select-checkbox-container">
                 <PropertyTypeSelect
                     selectedPropertyType={
                         addressSoql.property_type.length > 1
@@ -118,7 +108,8 @@ function AddressSearch({
                     handlePropertyTypeSelectChange={handlePropertyTypeSelectChange}
                     disabled={isUsingMultiplePropertyTypes}
                 />
-                <button type="button" onClick={togglePropertyTypesCheckboxes}>
+            </div>
+            {/* <button type="button" onClick={togglePropertyTypesCheckboxes}>
                     {showPropertyTypeCheckboxes
                         ? "Hide Multiple Property Types"
                         : "Select Multiple Property Types"}
@@ -128,8 +119,7 @@ function AddressSearch({
                         selectedPropertyTypes={addressSoql.property_type}
                         handlePropertyTypeChange={handlePropertyTypeChange}
                     />
-                )}
-            </div>
+                )} */}
         </fieldset>
     )
 }

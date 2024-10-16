@@ -1,0 +1,78 @@
+.form-field {
+  border-color: var(--color-default);
+}
+
+.form-field:focus {
+  border-color: var(--field-focus, var(--color-primary));
+  box-shadow: 0 0 0.35em -0.1em var(--field-focus, var(--color-primary));
+  outline: 2px solid transparent;
+}
+
+.form-field:disabled {
+  border-color: var(--color-disabled-border);
+  background-color: var(--color-disabled-background);
+  color: rgba(0, 0, 0, 0.45);
+  cursor: not-allowed;
+}
+
+.form-field.select {
+  position: relative;
+  display: grid;
+  grid-template-areas: "select";
+  align-items: center;
+  background-image: linear-gradient(
+    to top,
+    var(--color-white-dark),
+    var(--color-white) 33%
+  );
+}
+
+.form-field.select select,
+.form-field.select::after {
+  grid-area: select;
+}
+
+.form-field.select:not(.select--multiple)::after {
+  content: "";
+  width: 0.8em;
+  height: 0.5em;
+  background-color: var(--color-default);
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  justify-self: end;
+}
+
+.form-field.select select {
+  z-index: 1;
+}
+
+.form-field.select select[multiple] {
+  padding-right: 0;
+}
+
+.form-field.select .focus {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: inherit;
+  border: 2px solid transparent;
+}
+
+.form-field.select select:focus + .focus {
+  border-color: var(--field-focus, var(--color-primary));
+  box-shadow: 0 0 0.35em -0.1em var(--field-focus, var(--color-primary));
+  outline: 2px solid transparent;
+}
+
+.form-field.select--disabled {
+  border-color: var(--color-disabled-border);
+  background-color: var(--color-disabled-background);
+  color: rgba(0, 0, 0, 0.45);
+  cursor: not-allowed;
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.08),
+    rgba(255, 255, 255, 0) 33%
+  );
+}

@@ -1,4 +1,4 @@
-.street-number-input--container {
+/* .street-number-input--container {
     display: flex;
     flex-direction: column;
 }
@@ -6,7 +6,6 @@
 .street-number-input--label {}
 
 .street-number-input--input {
-    /* width: 12ch; */
     border: 1px solid var(--address-search-color);
     border-radius: 4px;
     text-transform: 'uppercase'
@@ -16,4 +15,4 @@
     color: red;
     background-color: antiquewhite;
     margin: .25rem;
-}
+} */

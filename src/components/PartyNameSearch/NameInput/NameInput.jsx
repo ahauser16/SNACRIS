@@ -1,12 +1,12 @@
 import React from 'react'
 import './NameInput.css'
 
-function NameInput({
+const NameInput = ({
     value,
     onChange,
     handleErrorDisplay,
     error
-}) {
+}) => {
 
     const validateUserInput = (value) => {
         if (value.length > 70) {
@@ -22,9 +22,8 @@ function NameInput({
     };
 
     return (
-        <div className="name-input--container">
+        <div className="form-group">
             <label
-                className="name-input--label"
                 htmlFor="name"
             >
                 Name:
@@ -34,12 +33,12 @@ function NameInput({
                 id="name"
                 name="name"
                 value={value}
-                // onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
-                className="name-input--input"
+                className="form-field"
             />
             <span className="error-msg-display">{error}</span>
         </div>
+
     )
 }
 

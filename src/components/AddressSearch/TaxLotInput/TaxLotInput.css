@@ -1,4 +1,4 @@
-.tax-lot-input--container {
+/* .tax-lot-input--container {
     display: flex;
     flex-direction: column;
 }
@@ -6,8 +6,6 @@
 .tax-lot-input--label {}
 
 .tax-lot-input--input {
-    /* width: 10ch; */
-    /* Width to accommodate up to 4 characters */
     border: 1px solid var(--address-search-color);
     border-radius: 4px;
 }
@@ -16,4 +14,4 @@
     color: red;
     background-color: antiquewhite;
     margin: .25rem;
-}
+} */
