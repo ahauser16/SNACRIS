@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from 'react';
 import CountryCodes from "../CountriesCheckboxes/mappedData/CountryCodes.json";
 import { countriesMappedToTimezones } from "../CountriesCheckboxes/mappedData/CountriesMappedToTimezones";
 import TimezoneClock from "../CountriesCheckboxes/TimezoneClock/TimezoneClock";
+import InfoIcon from '../InfoIcon/InfoIcon';
 
 const CountrySelect = ({
   selectedCountry,
   handleCountrySelectChange,
   disabled,
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+
   const capitalizeDescription = (description) => {
     return (
       description.charAt(0).toUpperCase() + description.slice(1).toLowerCase()
@@ -19,9 +23,18 @@ const CountrySelect = ({
     return countriesMappedToTimezones[countryCode]?.[0] || "UTC";
   };
 
+  const hoverMessage = 'Country is NOT required for form submission.';
+
   return (
     <div className="form-group">
-      <label htmlFor="countries-select">Select a Country:</label>
+      <label htmlFor="countries-select">
+        <span>Select a Country</span>
+        <InfoIcon
+          isHovered={isHovered}
+          setIsHovered={setIsHovered}
+          hoverMessage={hoverMessage}
+        />
+      </label>
       <div className="form-field select">
         <select
           id="countries-select"

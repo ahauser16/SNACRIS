@@ -1,0 +1,100 @@
+label .icon-help {
+    width: 1.25rem;
+    position: absolute;
+    right: 0;
+    top: -25%;
+}
+
+legend .icon-help {
+    width: 1.25rem;
+    position: absolute;
+    right: -10%;
+    top: 0%;
+}
+
+.icon-help .primary {
+    fill: var(--blue-500);
+}
+
+.icon-help .secondary {
+    fill: var(--yellow-500);
+}
+
+.hover-container {
+    /* position: relative;
+    display: inline-block; */
+}
+
+label .hover-message {
+    visibility: visible;
+    background-color: var(--blue-500);
+    color: var(--yellow-700);
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    /* Position above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: wrap;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: absolute;
+}
+
+label .hover-message::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--blue-500) transparent transparent transparent;
+    max-width: 100%;
+}
+
+legend .hover-message {
+    visibility: visible;
+    background-color: var(--blue-500);
+    color: var(--yellow-700);
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1000;
+    top: 125%;
+    /* Position above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: wrap;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: absolute;
+}
+
+legend .hover-message::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--blue-500) transparent transparent transparent;
+    max-width: 100%;
+}
+
+.ucc-fed-lien-search--container .hover-message {
+    width: 40ch;
+    white-space: normal;
+    left: 30%;
+}
+
+.form-group--lot .hover-message {
+    width: 30ch;
+    white-space: normal;
+    left: -10%;
+}

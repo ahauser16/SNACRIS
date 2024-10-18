@@ -3,11 +3,11 @@ import './BoroughSelect.css';
 
 
 //this validation does not work as intended because the user can still submit the form without selecting a borough only when the the page first loads.  If the user selects a borough and then selects the default "Select a borough" option, the error message will display which disables the form from being submitted.
-const BoroughSelect = ({ 
-  value, 
-  onChange, 
-  handleErrorDisplay, 
-  error 
+const BoroughSelect = ({
+  value,
+  onChange,
+  handleErrorDisplay,
+  error
 }) => {
   const validateUserInput = (value) => {
     if (!value) {
@@ -25,7 +25,8 @@ const BoroughSelect = ({
   return (
     <div
       className={`form-group form-group--width-auto form-group--borough ${error ? 'field-error' : ''}`}
-      style={{ '--field-width': '15ch' }}>
+      style={{ '--field-width': '15ch' }}
+    >
       <label htmlFor="borough" >
         Borough
       </label>

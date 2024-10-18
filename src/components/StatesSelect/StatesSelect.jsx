@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from 'react';
+import InfoIcon from '../InfoIcon/InfoIcon';
 import statesData from "../StatesCheckboxes/mappedData/States.json";
-import "./StatesSelect.css";
 
-const StatesSelect = ({ 
-  selectedState, 
-  handleStateSelectChange, 
-  disabled 
+const StatesSelect = ({
+  selectedState,
+  handleStateSelectChange,
+  disabled
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const hoverMessage = 'State is optional.';
+
   const capitalizeDescription = (description) => {
     return (
       description.charAt(0).toUpperCase() + description.slice(1).toLowerCase()
@@ -15,7 +19,14 @@ const StatesSelect = ({
 
   return (
     <div className="form-group form-group--width-auto" style={{ '--field-width': '10ch' }}>
-      <label htmlFor="states-select">State</label>
+      <label htmlFor="states-select">
+        <span>State</span>
+        {/* <InfoIcon
+          isHovered={isHovered}
+          setIsHovered={setIsHovered}
+          hoverMessage={hoverMessage}
+        /> */}
+      </label>
       <div className="form-field select">
         <select
           id="states-select"

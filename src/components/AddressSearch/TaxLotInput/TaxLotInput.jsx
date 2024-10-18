@@ -1,12 +1,15 @@
-import React from 'react'
-import './TaxLotInput.css'
+import React, { useState } from 'react';
+import InfoIcon from '../../InfoIcon/InfoIcon';
 
-function TaxLotInput({
+const TaxLotInput = ({
     value,
     onChange,
     handleErrorDisplay,
     error
-}) {
+}) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    const hoverMessage = 'Entry of "0000" or no unit number indicates all lots';
 
     const validateUserInput = (value) => {
         if (!/^\d*$/.test(value)) {
@@ -28,14 +31,19 @@ function TaxLotInput({
             className={`form-group form-group--width-auto form-group--lot ${error ? 'field-error' : ''}`}
             style={{ '--field-width': '6ch' }}
         >
-            <label
-                htmlFor="lot">Lot</label>
+            <label htmlFor="lot">
+                <span>Lot</span>
+                <InfoIcon
+                    isHovered={isHovered}
+                    setIsHovered={setIsHovered}
+                    hoverMessage={hoverMessage}
+                />
+            </label>
             <input
                 type="text"
                 id="lot"
                 name="lot"
                 value={value}
-                // onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
                 className="form-field"
                 maxLength="4"

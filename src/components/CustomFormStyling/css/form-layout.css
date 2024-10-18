@@ -6,6 +6,7 @@ legend {
   font-weight: bold;
   font-size: 1.5rem;
   margin-bottom: 0.65em;
+  position: relative;
 }
 
 fieldset+fieldset {
@@ -30,7 +31,7 @@ fieldset+fieldset {
 }
 
 .form-row+.form-row {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 /* IN ORDER TO USE this rule it MUST be applied to an element with the class `form-row` when you have a `form-group` class element that you know doesn't need to take up the same width as its siblings (e.g. an input field for a zip code which only requires 5 digits)  */

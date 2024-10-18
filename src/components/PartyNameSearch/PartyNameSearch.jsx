@@ -1,9 +1,9 @@
 // src/components/PartyNameSearch/PartyNameSearch.jsx
 import React, { useState } from 'react';
-import StatesCheckboxes from '../StatesCheckboxes/StatesCheckboxes';
+// import StatesCheckboxes from '../StatesCheckboxes/StatesCheckboxes';
+// import MultiStateSelect from '../StatesSelect/MultiStateSelect';
+// import CountriesCheckboxes from '../CountriesCheckboxes/CountriesCheckboxes';
 import StatesSelect from "../StatesSelect/StatesSelect";
-import MultiStateSelect from '../StatesSelect/MultiStateSelect';
-import CountriesCheckboxes from '../CountriesCheckboxes/CountriesCheckboxes';
 import CountrySelect from "../CountrySelect/CountrySelect";
 import NameInput from "./NameInput/NameInput";
 import AddressOne from "./AddressOne/AddressOne";
@@ -48,7 +48,6 @@ const PartyNameSearch = ({
   };
 
   return (
-    // <main>
       <fieldset className="party-name-search--container">
         <legend className="party-name-search--legend">
           Search By Party Name
@@ -99,21 +98,6 @@ const PartyNameSearch = ({
             handleErrorDisplay={handleErrorDisplay}
             error={inputUserErrors.state}
           />
-
-          {/* Toggle Button for States Checkboxes */}
-          {/* <button type="button" onClick={toggleStatesCheckboxes} className="multi-state-toggle-vis">
-          {showStatesCheckboxes
-            ? "Hide Multiple States"
-            : "Select Multiple States"}
-        </button>
-
-        {showStatesCheckboxes && (
-          <StatesCheckboxes
-            selectedStates={partyNameSoql.state}
-            handleStateChange={handleStateChange}
-          />
-        )} */}
-
           <ZipInput
             value={partyNameSoql.zip}
             onChange={handleInputChange}
@@ -121,9 +105,6 @@ const PartyNameSearch = ({
             error={inputUserErrors.zip}
           />
         </div>
-
-
-        {/* Country Selection */}
         <div className="form-row">
           <CountrySelect
             selectedCountry={
@@ -136,22 +117,8 @@ const PartyNameSearch = ({
             handleCountrySelectChange={handleCountrySelectChange}
             disabled={isUsingMultipleCountries}
           />
-
-          {/* <button type="button" onClick={toggleCountriesCheckboxes}>
-            {showCountriesCheckboxes
-              ? "Hide Multiple Countries"
-              : "Select Multiple Countries"}
-          </button>
-
-          {showCountriesCheckboxes && (
-            <CountriesCheckboxes
-              selectedCountries={partyNameSoql.country}
-              handleCountryChange={handleCountryChange}
-            />
-          )} */}
         </div>
       </fieldset>
-    // </main>
   );
 };
 

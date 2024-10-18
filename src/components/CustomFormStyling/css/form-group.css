@@ -1,17 +1,23 @@
-.form-group + .form-group {
-  margin-top: 1.5em;
+.form-group+.form-group {
+  margin-top: 1.25em;
 }
 
 .form-group label {
-  font-size: 1.15em;
-  font-weight: 500;
+  font-size: 1.25em;
+  font-weight: 600;
   line-height: 1;
+  /* this change was required to add the InfoIcon component which has a `position: absolute` rule and is contained within the label.  this refactor allowed for a tooltip to be displayed in each input component without disrupting the CSS in this file. */
+  position: relative
+    /* refactor complete (see above)  */
 }
 
 .form-group label:not(.form-control) {
   display: block;
+  /* refactor complete (see above) */
+  position: relative
+    /* refactor complete (see above)  */
 }
 
-.form-group label + .form-field {
+.form-group label+.form-field {
   margin-top: 0.5em;
 }

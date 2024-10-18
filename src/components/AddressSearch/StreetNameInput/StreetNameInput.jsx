@@ -1,5 +1,4 @@
 import React from 'react'
-import './StreetNameInput.css'
 
 function StreetNameInput({
     value,
@@ -9,7 +8,7 @@ function StreetNameInput({
 
     const validateUserInput = (value) => {
         if (value.length > 32) {
-            handleErrorDisplay('street_name', 'Street name must be 32 numbers or less.');
+            handleErrorDisplay('street_name', 'Street name must be 32 characters or less.');
         } else {
             handleErrorDisplay('street_name', '');
         }

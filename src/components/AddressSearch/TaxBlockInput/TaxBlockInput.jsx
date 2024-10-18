@@ -1,7 +1,15 @@
 import React from 'react';
-import './TaxBlockInput.css';
+// import React, { useState } from 'react';
+// import InfoIcon from '../../InfoIcon/InfoIcon';
 
-function TaxBlockInput({ value, onChange, handleErrorDisplay, error }) {
+const TaxBlockInput = ({
+    value,
+    onChange,
+    handleErrorDisplay,
+    error }) => {
+    // const [isHovered, setIsHovered] = useState(false);
+
+    // const hoverMessage = 'Block must be 5 numbers or less.';
 
     const validateUserInput = (value) => {
         if (!/^\d*$/.test(value)) {
@@ -24,7 +32,12 @@ function TaxBlockInput({ value, onChange, handleErrorDisplay, error }) {
             style={{ '--field-width': '8ch' }}
         >
             <label htmlFor="block">
-                Block
+                <span>Block</span>
+                {/* <InfoIcon
+                    isHovered={isHovered}
+                    setIsHovered={setIsHovered}
+                    hoverMessage={hoverMessage}
+                /> */}
             </label>
             <input
                 type="text"

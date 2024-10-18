@@ -39,7 +39,7 @@ const FormTableContainer = ({ activeForm: ActiveForm, colorClass }) => {
   const fetchFunction = getFetchFunction();
 
   return (
-    <div className={`form-container ${colorClass}`}>
+    <main className={`form-container ${colorClass}`}>
       <ActiveForm 
       setData={setData} 
       setError={setError} 
@@ -51,7 +51,7 @@ const FormTableContainer = ({ activeForm: ActiveForm, colorClass }) => {
       setData={setData} 
       setError={setError} 
       fetchFunction={fetchFunction} />
-    </div>
+    </main>
   );
 };
 

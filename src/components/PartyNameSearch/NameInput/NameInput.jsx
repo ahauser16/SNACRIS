@@ -1,5 +1,5 @@
-import React from 'react'
-import './NameInput.css'
+import React, { useState } from 'react';
+import InfoIcon from '../../InfoIcon/InfoIcon';
 
 const NameInput = ({
     value,
@@ -7,7 +7,10 @@ const NameInput = ({
     handleErrorDisplay,
     error
 }) => {
+    const [isHovered, setIsHovered] = useState(false);
     
+    const hoverMessage = 'Name must be 70 characters or less and is required for form submission.';
+
     const validateUserInput = (value) => {
         if (value.length > 70) {
             handleErrorDisplay('name', 'Name must be 70 characters or less.');
@@ -25,10 +28,13 @@ const NameInput = ({
 
     return (
         <div className={`form-group form-group--name ${error ? 'field-error' : ''}`}>
-            <label
-                htmlFor="name"
-            >
-                Name:
+            <label htmlFor="name" >
+                <span>Name</span>
+                <InfoIcon
+                    isHovered={isHovered}
+                    setIsHovered={setIsHovered}
+                    hoverMessage={hoverMessage}
+                />
             </label>
             <input
                 type="text"
@@ -38,6 +44,8 @@ const NameInput = ({
                 onChange={handleValidationPlusDataTransferToSoql}
                 className="form-field"
                 aria-describedby="party-name-description"
+                placeholder="Enter a party name"
+                maxLength="70"
                 required
             />
             <span

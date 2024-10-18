@@ -3,8 +3,7 @@ import { fetchRealPropertyLegalsData } from '../../api/api';
 import AddressSearch from '../AddressSearch/AddressSearch';
 import { uppercaseSoql } from '../Utils/uppercaseSoql';
 import { handleErrorsDuringSubmission } from '../Utils/handleErrorsDuringFormSubmission';
-import './SearchByAddressForm.css';
-// partyNameSoql / setPartyNameSoql
+
 const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
   const [addressSoql, setAddressSoql] = useState({
     borough: '',

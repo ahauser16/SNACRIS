@@ -27,7 +27,6 @@ function StreetUnitInput({ value, onChange, handleErrorDisplay, error }) {
                 id="unit"
                 name="unit"
                 value={value}
-                // onChange={onChange}
                 onChange={handleValidationPlusDataTransferToSoql}
                 className="form-field"
                 maxLength="7"

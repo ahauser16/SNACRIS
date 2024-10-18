@@ -1,11 +1,13 @@
-import React from 'react'
-import './AddressTwo.css'
+import React, { useState } from 'react';
+import InfoIcon from '../../InfoIcon/InfoIcon';
 
 const AddressTwo = ({
     value,
     onChange,
     handleErrorDisplay,
     error }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
 
     const validateUserInput = (value) => {
         if (value.length > 60) {
@@ -20,11 +22,18 @@ const AddressTwo = ({
         onChange(e); // Keep the original onChange for state management
     };
 
+    const hoverMessage = 'Address 2 must be 60 characters or less.';
+
     return (
         <div
             className={`form-group form-group--address_2 ${error ? 'field-error' : ''}`}>
             <label htmlFor="address_2">
-                Address 2:
+                <span>Address 2</span>
+                <InfoIcon
+                    isHovered={isHovered}
+                    setIsHovered={setIsHovered}
+                    hoverMessage={hoverMessage}
+                />
             </label>
             <input
                 type="text"
@@ -34,6 +43,8 @@ const AddressTwo = ({
                 onChange={handleValidationPlusDataTransferToSoql}
                 className="form-field"
                 aria-describedby="address-line-2-description"
+                placeholder="e.g. Suite 200"
+                maxLength="60"
             />
             <span
                 className="field-description"

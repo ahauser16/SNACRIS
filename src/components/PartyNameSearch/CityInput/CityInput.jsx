@@ -1,11 +1,13 @@
-import React from 'react'
-import './CityInput.css'
+import React, { useState } from 'react';
+import InfoIcon from '../../InfoIcon/InfoIcon';
 
 const CityInput = ({
     value,
     onChange,
     handleErrorDisplay,
     error }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
 
     const validateUserInput = (value) => {
         if (value.length > 30) {
@@ -20,12 +22,19 @@ const CityInput = ({
         onChange(e); // Keep the original onChange for state management
     };
 
+    const hoverMessage = 'City must be 30 characters or less.';
+
     return (
         <div
             className={`form-group form-group--city ${error ? 'field-error' : ''}`}
         >
             <label htmlFor="city" >
-                City:
+                <span>City</span>
+                <InfoIcon
+                    isHovered={isHovered}
+                    setIsHovered={setIsHovered}
+                    hoverMessage={hoverMessage}
+                />
             </label>
             <input
                 type="text"
@@ -35,6 +44,8 @@ const CityInput = ({
                 onChange={handleValidationPlusDataTransferToSoql}
                 className="form-field"
                 aria-describedby="city-description"
+                placeholder="e.g. New York"
+                maxLength="30"
             />
             <span
                 className="field-description"
