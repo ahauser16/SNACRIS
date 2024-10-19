@@ -1,6 +1,5 @@
 // src/components/FormTableContainer/FormTableContainer.jsx
 import React, { useState } from 'react';
-import DisplayApiDataTable from '../DisplayApiDataTable/DisplayApiDataTable';
 import {
   fetchRealPropertyPartiesData,
   fetchRealPropertyMasterData,
@@ -8,31 +7,32 @@ import {
   fetchRealPropertyReferencesData,
   fetchRealPropertyRemarksData
 } from '../../api/api';
+import DisplayApiDataTable from '../DisplayApiDataTable/DisplayApiDataTable';
 
-const FormTableContainer = ({ activeForm: ActiveForm, colorClass }) => {
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
-
+const FormTableContainer = ({ activeForm: ActiveForm, colorClass, data, error, setData, setError }) => {
   const handleTableReset = () => {
     setData([]);
     setError(null);
   };
 
-  // Determine the fetch function based on the active form
   const getFetchFunction = () => {
     switch (ActiveForm.name) {
       case 'SearchByPartyNameForm':
         return fetchRealPropertyPartiesData;
-      case 'SearchByMasterDataForm':
+      case 'SearchByAddressForm':
         return fetchRealPropertyMasterData;
-      case 'SearchByLegalsDataForm':
+      case 'SearchByDocIdCrfnForm':
         return fetchRealPropertyLegalsData;
-      case 'SearchByReferencesDataForm':
+      case 'SearchByDocTypeForm':
         return fetchRealPropertyReferencesData;
-      case 'SearchByRemarksDataForm':
+      case 'SearchByReelPageForm':
         return fetchRealPropertyRemarksData;
+      case 'SearchByTransNumForm':
+        return fetchRealPropertyMasterData;
+      case 'SearchByUccFedLienFileNumForm':
+        return fetchRealPropertyMasterData;
       default:
-        return fetchRealPropertyPartiesData; // Default fetch function
+        return fetchRealPropertyMasterData; 
     }
   };
 
@@ -41,16 +41,17 @@ const FormTableContainer = ({ activeForm: ActiveForm, colorClass }) => {
   return (
     <main className={`form-container ${colorClass}`}>
       <ActiveForm 
-      setData={setData} 
-      setError={setError} 
-      handleTableReset={handleTableReset} 
+        setData={setData} 
+        setError={setError} 
+        handleTableReset={handleTableReset} 
       />
       <DisplayApiDataTable 
-      data={data} 
-      error={error} 
-      setData={setData} 
-      setError={setError} 
-      fetchFunction={fetchFunction} />
+        data={data} 
+        error={error} 
+        setData={setData} 
+        setError={setError} 
+        fetchFunction={fetchFunction} 
+      />
     </main>
   );
 };

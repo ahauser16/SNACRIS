@@ -1,5 +1,6 @@
 // src/components/DisplayApiDataTable/DisplayApiDataTable.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useTable, usePagination, useSortBy, useFilters } from 'react-table';
 import './DisplayApiDataTable.css';
 
 const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) => {
@@ -15,7 +16,7 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
             setError(null);
         } catch (err) {
             setError(err.message);
-            setData([]);
+            setData({ data: [] });
         }
     };
 
@@ -28,22 +29,64 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
             setError(null);
         } catch (err) {
             setError(err.message);
-            setData([]);
+            setData({ data: [] });
         }
     };
 
+    const columns = React.useMemo(
+        () => [
+            {
+                Header: 'Document ID',
+                accessor: 'document_id',
+                Cell: ({ value }) => <a href={`https://example.com/document/${value}`}>{value}</a>,
+            },
+            { Header: 'Record Type', accessor: 'record_type' },
+            { Header: 'Party Type', accessor: 'party_type' },
+            { Header: 'Name', accessor: 'name' },
+            { Header: 'Address 1', accessor: 'address_1' },
+            { Header: 'Country', accessor: 'country' },
+            { Header: 'City', accessor: 'city' },
+            { Header: 'State', accessor: 'state' },
+            { Header: 'Zip', accessor: 'zip' },
+            {
+                Header: 'Good Through Date',
+                accessor: 'good_through_date',
+                Cell: ({ value }) => new Date(value).toLocaleDateString(),
+            },
+        ],
+        []
+    );
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        prepareRow,
+        page,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        state: { pageIndex },
+        gotoPage,
+        nextPage,
+        previousPage,
+        setPageSize,
+    } = useTable(
+        {
+            columns,
+            data: data.data || [],
+            initialState: { pageIndex: 0 },
+            manualPagination: true,
+            pageCount: Math.ceil((data.totalRecords || 0) / limit),
+        },
+        useFilters,
+        useSortBy,
+        usePagination
+    );
+
     if (error) {
-        console.log(error);
         return <p>No data available</p>;
     }
-
-    if (!data || !Array.isArray(data.data) || data.data.length === 0) {
-        return null;
-    }
-
-
-    const { data: records, totalRecords } = data;
-    const headers = Object.keys(records[0]).filter(header => header !== 'record_type' && header !== 'good_through_date' && header !== 'name');
 
     return (
         <div className="api-table--container">
@@ -51,33 +94,12 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
             <div className="api-response-details--container">
                 <h3>Response Details</h3>
                 <ul>
-                    <li className="api-response-detail">Total Records: {totalRecords}</li>
-                    <li className="api-response-detail">Displayed Records: {records.length}</li>
+                    <li className="api-response-detail">Total Records: {data.totalRecords}</li>
+                    <li className="api-response-detail">Displayed Records: {data.data.length}</li>
                     <li className="api-response-detail">API Call Status: Success</li>
                     <li className="api-response-detail">Timestamp: {new Date().toLocaleString()}</li>
                 </ul>
             </div>
-            {/* <fieldset className="center">
-          <div className="form-row form-row--variable">
-            <div className="form-group">
-              <button
-                type="submit"
-                className="form-button infoBtn"
-              >
-                Search
-              </button>
-            </div>
-            <div className="form-group">
-              <button
-                type="button"
-                onClick={handleFormReset}
-                className="form-button warningBtn"
-              >
-                Reset
-              </button>
-            </div>
-          </div>
-        </fieldset> */}
             <div className="api-table-form--container">
                 <fieldset>
                     <legend>Table Controls</legend>
@@ -86,7 +108,7 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
                             <button
                                 type="button"
                                 onClick={handlePrev}
-                                disabled={offset === 0}
+                                disabled={!canPreviousPage}
                                 className="form-button infoBtn"
                             >
                                 Prev
@@ -97,7 +119,7 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
                                 type="button"
                                 className="form-button infoBtn"
                                 onClick={handleNext}
-                                disabled={records.length < limit}
+                                disabled={!canNextPage}
                             >
                                 Next
                             </button>
@@ -105,24 +127,82 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
                     </div>
                 </fieldset>
             </div>
-            <table className="api-table">
+            <table {...getTableProps()} className="api-table">
                 <thead>
-                    <tr>
-                        {headers.map((header) => (
-                            <th key={header} className={header}>{header}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {records.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                            {headers.map((header) => (
-                                <td key={header} className={header}>{row[header]}</td>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.render('Header')}
+                                    <span>
+                                        {column.isSorted
+                                            ? column.isSortedDesc
+                                                ? ' 🔽'
+                                                : ' 🔼'
+                                            : ''}
+                                    </span>
+                                </th>
                             ))}
                         </tr>
                     ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {page.map(row => {
+                        prepareRow(row);
+                        return (
+                            <tr {...row.getRowProps()}>
+                                {row.cells.map(cell => (
+                                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                ))}
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
+            <div className="pagination">
+                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                    {'<<'}
+                </button>{' '}
+                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    {'<'}
+                </button>{' '}
+                <button onClick={() => nextPage()} disabled={!canNextPage}>
+                    {'>'}
+                </button>{' '}
+                <button onClick={() => gotoPage(pageOptions.length - 1)} disabled={!canNextPage}>
+                    {'>>'}
+                </button>{' '}
+                <span>
+                    Page{' '}
+                    <strong>
+                        {pageIndex + 1} of {pageOptions.length}
+                    </strong>{' '}
+                </span>
+                <span>
+                    | Go to page:{' '}
+                    <input
+                        type="number"
+                        defaultValue={pageIndex + 1}
+                        onChange={e => {
+                            const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                            gotoPage(page);
+                        }}
+                        style={{ width: '100px' }}
+                    />
+                </span>{' '}
+                <select
+                    value={limit}
+                    onChange={e => {
+                        setPageSize(Number(e.target.value));
+                    }}
+                >
+                    {[10, 20, 30, 40, 50].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </div>
     );
 };

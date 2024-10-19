@@ -4,7 +4,6 @@ import { fetchRealPropertyPartiesData } from '../../api/api';
 import PartyNameSearch from '../PartyNameSearch/PartyNameSearch';
 import { uppercaseSoql } from '../Utils/uppercaseSoql';
 import { handleErrorsDuringSubmission } from '../Utils/handleErrorsDuringFormSubmission';
-import './SearchByPartyNameForm.css';
 
 const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
   const [partyNameSoql, setPartyNameSoql] = useState({
@@ -170,7 +169,6 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
   };
 
   return (
-    <main>
       <form
         className="search-by-party-name-form"
         onSubmit={handleSubmit}>
@@ -215,7 +213,6 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
           </div>
         )}
       </form>
-    </main>
   );
 };
 

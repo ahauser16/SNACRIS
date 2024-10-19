@@ -1,527 +1,712 @@
-# refactor in progress
+# Searching By Party Name
 
-## Explanation
+## Plan to update the table component
 
-The `SearchByPartyNameForm.jsx` component incorporates the `PartyNameSearch.jsx` component to construct part of the SoQL query. The `PartyNameSearch.jsx` component allows users to add conditions to the query, which are then stored in the `queries` state of `SearchByPartyNameForm.jsx`. When the form is submitted, the `fetchRealPropertyPartiesData` function from `api.js` is called with the constructed SoQL query.
+### Option One - one table per form
 
-The `api.js` file contains the `RPMqueryBuilder` and `buildSoQLQuery` functions, which build the SoQL query string based on the conditions provided. The `fetchRealPropertyPartiesData` function constructs the URL for the API endpoint and makes the GET request using Axios.
+When searching by party name the API endpoint is `'https://data.cityofnewyork.us/resource/636b-3b5g.json'` and can be queried based on the data fields below.  
 
-## Plan to Incorporate `PartySelect.jsx`
+```mermaid
+erDiagram
+    ACRIS_REAL_PROPERTY_PARTIES {
+        TEXT document_id "16 characters, Format: CCCNNNNNNNNNNNNN"
+        TEXT record_type "1 character, ‘P’ for party record"
+        TEXT party_type "1 character, Party type code"
+        TEXT name "70 characters, Name of party (typically last name, first name, middle initial suffix for individuals)"
+        TEXT address_1 "60 characters, Name attention/address of party"
+        TEXT address_2 "60 characters, Street address of party"
+        TEXT country "2 characters, Country location of party"
+        TEXT city "30 characters, City location of party"
+        TEXT state "2 characters, State location of party"
+        TEXT zip "9 characters, Zip code of party"
+        TEXT good_through_date "10 characters, Format: MM/DD/YYYY"
+    }
+```
 
-1. Update State Management: Add state management for the selected checkboxes in SearchByPartyNameForm.jsx.
-2. Modify PartySelect.jsx: Update PartySelect.jsx to accept props for managing selected checkboxes.
-3. Update Query Construction: Modify the RPMqueryBuilder and buildSoQLQuery functions to include the selected checkboxes in the SoQL query.
+The typical API response contains the data below which can either be displayed in a table format or cross referenced with other API response(s) from other datasets that are queried by the user.  I need to refactor my `DisplayApiDataTable` to explicitly display each column for the `SearchByPartyNameForm` but also the other forms which include data from other datasets.  I think each form needs its own corresponding table that is customized for that form's queries and corresponding datasets.  I also want the state to be maintained for each form/table so that when the user switches from one form to the other they can "pick up from where they left off".  
 
-## Step-by-Step Implementation
+I need your advice about how to refactor my project based on the following information.  For background on the current data structure, the `SidepanelMenu` defines the `section` variable which is an array of objects with each object representing a form-component (e.g. `component: SearchByPartyNameForm,` ) and its associated navbar icon, color, etc.  `SidepanelMenu` also handles the `activeIndex` state of which form-component the user is currently viewing and changing views of through the navbar.  The `ActiveFormComponent` represents the `activeIndex` which is passed to the `FormTableContainer` through the `activeForm` prop.  From this point I have an architectural choice of creating a react-table component using `react-table`  that can display data for all of my form-components in the `SidepanelMenu` and passing state variables down to the `FormTableContainer` component OR defining the `"ActiveTableComponent"` using `react-table` in the `FormTableContainer` component.  Also, the `"ActiveTableComponent"` will need to make API calls in order to paginate through the API response data as well as filtering, sorting, etc.  Furthermore, my form-components (such as `SearchByPartyNameForm`) will need to pass the API response data to either the `SidepanelMenu` or to the `FormTableContainer` based on my limited understanding of how `react-table` works.  Which approach should I take based on the aforementioned behavior and code below?  Also, how should I approach this refactor based on the "best practices" of `React` and `react-table` design and working with API data and forms? 
 
-### 1. Update State Management in `SearchByPartyNameForm.jsx`
+```json
+{
+    "document_id": "2019012800445003",
+    "record_type": "P",
+    "party_type": "2",
+    "name": "NEWREZ LLC F/K/A NEW PENN FINANCIAL, LLC AS NOMINE",
+    "address_1": "4000 CHEMICAL ROAD, STE 200",
+    "country": "US",
+    "city": "PLYMOUTH MEETING",
+    "state": "PA",
+    "zip": "19462",
+    "good_through_date": "2019-01-31T00:00:00.000"
+}
+```
 
-Add state management for the selected checkboxes:
+The decision has been made to define the `"ActiveTableComponent"` in the `FormTableContainer` component and refactor the `DisplayApiDataTable` component to render a unique table depending on which form-component that is rendered by the `ActiveForm` component.  Main reasons are that this allows logic to be encapsulated within the `FormTableContainer` and it will be easier to manage and extend individual table components.
+
+**Refactor Steps:**
+1. Update `FormTableContainer` to include logic for rendering the correct table component.
+2. Refactor `DisplayApiDataTable` to handle different table structures.
+
+
+Updated `FormTableContainer`:
 
 ```javascript
+// src/components/FormTableContainer/FormTableContainer.jsx
 import React, { useState } from 'react';
 import {
   fetchRealPropertyPartiesData,
   fetchRealPropertyMasterData,
+  fetchRealPropertyLegalsData,
+  fetchRealPropertyReferencesData,
+  fetchRealPropertyRemarksData
 } from '../../api/api';
-import PartyNameSearch from '../PartyNameSearch/PartyNameSearch';
-import PartySelect from '../PartySelect/PartySelect';
-import DateSelect from '../DateSelect/DateSelect';
-import BoroughSelect from '../BoroughSelect/BoroughSelect';
+import SearchByPartyNameTable from '../Tables/SearchByPartyNameTable';
+import SearchByAddressTable from '../Tables/SearchByAddressTable';
+import SearchByDocIdCrfnTable from '../Tables/SearchByDocIdCrfnTable';
+import SearchByDocTypeTable from '../Tables/SearchByDocTypeTable';
+import SearchByReelPageTable from '../Tables/SearchByReelPageTable';
+import SearchByTransNumTable from '../Tables/SearchByTransNumTable';
+import SearchByUccFedLienFileNumTable from '../Tables/SearchByUccFedLienFileNumTable';
 
-import './SearchByPartyNameForm.css';
+const FormTableContainer = ({ activeForm: ActiveForm, colorClass }) => {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
 
-const SearchByPartyNameForm = ({ setData, setError }) => {
-  const [selectedBoroughs, setSelectedBoroughs] = useState([]);
-  const [selectedPartyType, setSelectedPartyType] = useState([]);
-  const [selectedDocTypeCheckboxes, setSelectedDocTypeCheckboxes] = useState(
-    []
-  ); // New state for selected checkboxes
-  const [soql, setSoql] = useState({
-    name: '',
-    party_type: '',
-    document_date_start: '',
-    document_date_end: '',
-    borough: [],
-    doc_type: '',
-  });
-  const [queries, setQueries] = useState([]);
-
-  const handlePartyName = (e) => {
-    const { name, value } = e.target;
-    setSoql((prevSoql) => ({
-      ...prevSoql,
-      [name]: value,
-    }));
+  const handleTableReset = () => {
+    setData([]);
+    setError(null);
   };
 
-  const handleBoroughChange = (selectedBoroughs) => {
-    setSelectedBoroughs(selectedBoroughs);
-    setSoql((prevSoql) => ({
-      ...prevSoql,
-      borough: selectedBoroughs,
-    }));
-  };
-
-  const handlePartySelect = (value) => {
-    setSelectedPartyType(value);
-    setSoql((prevSoql) => ({
-      ...prevSoql,
-      party_type: value,
-    }));
-  };
-
-  const handleCheckboxChange = (selectedIds) => {
-    setSelectedCheckboxes(selectedIds);
-  };
-
-  const handleAddQuery = (query) => {
-    setQueries((prevQueries) => [...prevQueries, query]);
-  };
-
-  const handleResetQueries = (newQueries = []) => {
-    setQueries(newQueries);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('Submitting with SoQL:', soql, 'Queries:', queries);
-
-    try {
-      const response = await fetchRealPropertyPartiesData({
-        ...soql,
-        queries,
-        selectedCheckboxes,
-      });
-      setData(response);
-      setError(null); // Reset error state on successful fetch
-    } catch (error) {
-      console.error('Error fetching data:', error); // Log the error
-      setError(error.message);
-      setData([]); // Clear data on error
+  const getFetchFunction = () => {
+    switch (ActiveForm.name) {
+      case 'SearchByPartyNameForm':
+        return fetchRealPropertyPartiesData;
+      case 'SearchByAddressForm':
+        return fetchRealPropertyMasterData;
+      case 'SearchByDocIdCrfnForm':
+        return fetchRealPropertyLegalsData;
+      case 'SearchByDocTypeForm':
+        return fetchRealPropertyReferencesData;
+      case 'SearchByReelPageForm':
+        return fetchRealPropertyRemarksData;
+      case 'SearchByTransNumForm':
+        return fetchRealPropertyMasterData;
+      case 'SearchByUccFedLienFileNumForm':
+        return fetchRealPropertyMasterData;
+      default:
+        return fetchRealPropertyMasterData; 
     }
   };
 
+  const getTableComponent = () => {
+    switch (ActiveForm.name) {
+      case 'SearchByPartyNameForm':
+        return SearchByPartyNameTable;
+      case 'SearchByAddressForm':
+        return SearchByAddressTable;
+      case 'SearchByDocIdCrfnForm':
+        return SearchByDocIdCrfnTable;
+      case 'SearchByDocTypeForm':
+        return SearchByDocTypeTable;
+      case 'SearchByReelPageForm':
+        return SearchByReelPageTable;
+      case 'SearchByTransNumForm':
+        return SearchByTransNumTable;
+      case 'SearchByUccFedLienFileNumForm':
+        return SearchByUccFedLienFileNumTable;
+      default:
+        return SearchByPartyNameTable;
+    }
+  };
+
+  const fetchFunction = getFetchFunction();
+  const TableComponent = getTableComponent();
+
   return (
-    <form onSubmit={handleSubmit}>
-      <PartyNameSearch
-        soql={soql}
-        queries={queries}
-        handlePartyName={handlePartyName}
-        handleAddQuery={handleAddQuery}
-        handleResetQueries={handleResetQueries}
+    <main className={`form-container ${colorClass}`}>
+      <ActiveForm 
+        setData={setData} 
+        setError={setError} 
+        handleTableReset={handleTableReset} 
       />
-      <PartySelect
-        selectedPartyType={selectedPartyType}
-        setSelectedPartyType={handlePartySelect}
-        selectedDocTypeCheckboxes={selectedDocTypeCheckboxes}
-        setSelectedDocTypeCheckboxes={handleCheckboxChange}
+      <TableComponent 
+        data={data} 
+        error={error} 
+        setData={setData} 
+        setError={setError} 
+        fetchFunction={fetchFunction} 
       />
-      <DateSelect soql={soql} setSoql={setSoql} />
-      <BoroughSelect
-        selectedBoroughs={selectedBoroughs}
-        handleBoroughChange={handleBoroughChange}
-      />
-      <button type="submit">Search</button>
-    </form>
+    </main>
   );
 };
 
-export default SearchByPartyNameForm;
+export default FormTableContainer;
 ```
 
-### 2. Modify `PartySelect.jsx`
+```javascript
 
-Update `PartySelect.jsx` to accept props for managing selected checkboxes:
+// src/components/Tables/SearchByPartyNameTable.jsx
+import React, { useState } from 'react';
+import './SearchByPartyNameTable.css';
+
+const SearchByPartyNameTable = ({ data, error, setData, setError, fetchFunction }) => {
+    const [offset, setOffset] = useState(0);
+    const limit = 10;
+
+    const handleNext = async () => {
+        const newOffset = offset + limit;
+        setOffset(newOffset);
+        try {
+            const response = await fetchFunction({ limit, offset: newOffset });
+            setData(response);
+            setError(null);
+        } catch (err) {
+            setError(err.message);
+            setData([]);
+        }
+    };
+
+    const handlePrev = async () => {
+        const newOffset = Math.max(offset - limit, 0);
+        setOffset(newOffset);
+        try {
+            const response = await fetchFunction({ limit, offset: newOffset });
+            setData(response);
+            setError(null);
+        } catch (err) {
+            setError(err.message);
+            setData([]);
+        }
+    };
+
+    if (error) {
+        console.log(error);
+        return <p>No data available</p>;
+    }
+
+    if (!data || !Array.isArray(data.data) || data.data.length === 0) {
+        return null;
+    }
+
+    const { data: records, totalRecords } = data;
+
+    return (
+        <div className="api-table--container">
+            <h2>Results</h2>
+            <div className="api-response-details--container">
+                <h3>Response Details</h3>
+                <ul>
+                    <li className="api-response-detail">Total Records: {totalRecords}</li>
+                    <li className="api-response-detail">Displayed Records: {records.length}</li>
+                    <li className="api-response-detail">API Call Status: Success</li>
+                    <li className="api-response-detail">Timestamp: {new Date().toLocaleString()}</li>
+                </ul>
+            </div>
+            <div className="api-table-form--container">
+                <fieldset>
+                    <legend>Table Controls</legend>
+                    <div className="form-row form-row--variable">
+                        <div className="form-group">
+                            <button
+                                type="button"
+                                onClick={handlePrev}
+                                disabled={offset === 0}
+                                className="form-button infoBtn"
+                            >
+                                Prev
+                            </button>
+                        </div>
+                        <div className="form-group">
+                            <button
+                                type="button"
+                                className="form-button infoBtn"
+                                onClick={handleNext}
+                                disabled={records.length < limit}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <table className="api-table">
+                <thead>
+                    <tr>
+                        <th>Document ID</th>
+                        <th>Record Type</th>
+                        <th>Party Type</th>
+                        <th>Name</th>
+                        <th>Address 1</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Zip</th>
+                        <th>Good Through Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {records.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                            <td><a href={`https://example.com/document/${row.document_id}`}>{row.document_id}</a></td>
+                            <td>{row.record_type}</td>
+                            <td>{row.party_type}</td>
+                            <td>{row.name}</td>
+                            <td>{row.address_1}</td>
+                            <td>{row.country}</td>
+                            <td>{row.city}</td>
+                            <td>{row.state}</td>
+                            <td>{row.zip}</td>
+                            <td>{new Date(row.good_through_date).toLocaleDateString()}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export default SearchByPartyNameTable;
+
+```
+
+### Option Two - one table for all forms using `react-table`
+
+1. **Create a Single Table Component Using `react-table`**: This component will be flexible enough to handle different datasets and queries from various forms.
+2. **Maintain State for Each Form/Table**: Use the `SidepanelMenu` to manage the state for each form and its corresponding table. This ensures that when the user switches between forms, they can "pick up from where they left off."
+3. **Use `react-table` for Table Rendering**: Utilize `react-table` to handle table rendering, pagination, sorting, and filtering.
+
+Step 1: Update `FormTableContainer` to Use a Single Table Component
+
+First, update the `FormTableContainer` to import and use a single table component based on the active form component.
 
 ```javascript
-import React, { useState, useEffect } from 'react';
-import './PartySelect.css';
-import partyMap from './partyMap.json';
-import { groupByClassCodeDescription } from './utils/groupByClassCodeDescription';
-import { checkboxGenerator } from './utils/checkboxGenerator';
-import { toCamelCase } from './utils/toCamelCase';
-import { toKebabCase } from './utils/toKebabCase';
+// src/components/FormTableContainer/FormTableContainer.jsx
+import React, { useState } from 'react';
+import {
+  fetchRealPropertyPartiesData,
+  fetchRealPropertyMasterData,
+  fetchRealPropertyLegalsData,
+  fetchRealPropertyReferencesData,
+  fetchRealPropertyRemarksData
+} from '../../api/api';
+import DisplayApiDataTable from '../DisplayApiDataTable/DisplayApiDataTable';
 
-const PartySelect = ({ selectedCheckboxes, setSelectedCheckboxes }) => {
-  const [visibleGroups, setVisibleGroups] = useState({});
+const FormTableContainer = ({ activeForm: ActiveForm, colorClass, data, error, setData, setError }) => {
+  const handleTableReset = () => {
+    setData([]);
+    setError(null);
+  };
+
+  const getFetchFunction = () => {
+    switch (ActiveForm.name) {
+      case 'SearchByPartyNameForm':
+        return fetchRealPropertyPartiesData;
+      case 'SearchByAddressForm':
+        return fetchRealPropertyMasterData;
+      case 'SearchByDocIdCrfnForm':
+        return fetchRealPropertyLegalsData;
+      case 'SearchByDocTypeForm':
+        return fetchRealPropertyReferencesData;
+      case 'SearchByReelPageForm':
+        return fetchRealPropertyRemarksData;
+      case 'SearchByTransNumForm':
+        return fetchRealPropertyMasterData;
+      case 'SearchByUccFedLienFileNumForm':
+        return fetchRealPropertyMasterData;
+      default:
+        return fetchRealPropertyMasterData; 
+    }
+  };
+
+  const fetchFunction = getFetchFunction();
+
+  return (
+    <main className={`form-container ${colorClass}`}>
+      <ActiveForm 
+        setData={setData} 
+        setError={setError} 
+        handleTableReset={handleTableReset} 
+      />
+      <DisplayApiDataTable 
+        data={data} 
+        error={error} 
+        setData={setData} 
+        setError={setError} 
+        fetchFunction={fetchFunction} 
+      />
+    </main>
+  );
+};
+
+export default FormTableContainer;
+```
+
+Step 2: Create a Single Table Component Using `react-table`
+
+Create a single table component that can handle different datasets and queries from various forms.
+
+```javascript
+// src/components/DisplayApiDataTable/DisplayApiDataTable.jsx
+import React, { useState, useEffect } from 'react';
+import { useTable, usePagination, useSortBy, useFilters } from 'react-table';
+import './DisplayApiDataTable.css';
+
+const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) => {
+    const [offset, setOffset] = useState(0);
+    const limit = 10;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetchFunction({ limit, offset });
+                setData(response);
+                setError(null);
+            } catch (err) {
+                setError(err.message);
+                setData([]);
+            }
+        };
+        fetchData();
+    }, [offset, fetchFunction, setData, setError]);
+
+    const handleNext = () => setOffset((prevOffset) => prevOffset + limit);
+    const handlePrev = () => setOffset((prevOffset) => Math.max(prevOffset - limit, 0));
+
+    const columns = React.useMemo(
+        () => [
+            {
+                Header: 'Document ID',
+                accessor: 'document_id',
+                Cell: ({ value }) => <a href={`https://example.com/document/${value}`}>{value}</a>,
+            },
+            { Header: 'Record Type', accessor: 'record_type' },
+            { Header: 'Party Type', accessor: 'party_type' },
+            { Header: 'Name', accessor: 'name' },
+            { Header: 'Address 1', accessor: 'address_1' },
+            { Header: 'Country', accessor: 'country' },
+            { Header: 'City', accessor: 'city' },
+            { Header: 'State', accessor: 'state' },
+            { Header: 'Zip', accessor: 'zip' },
+            {
+                Header: 'Good Through Date',
+                accessor: 'good_through_date',
+                Cell: ({ value }) => new Date(value).toLocaleDateString(),
+            },
+        ],
+        []
+    );
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        prepareRow,
+        page,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        state: { pageIndex },
+        gotoPage,
+        nextPage,
+        previousPage,
+        setPageSize,
+    } = useTable(
+        {
+            columns,
+            data: data.data || [],
+            initialState: { pageIndex: 0 },
+            manualPagination: true,
+            pageCount: Math.ceil((data.totalRecords || 0) / limit),
+        },
+        useFilters,
+        useSortBy,
+        usePagination
+    );
+
+    if (error) {
+        return <p>No data available</p>;
+    }
+
+    return (
+        <div className="api-table--container">
+            <h2>Results</h2>
+            <div className="api-response-details--container">
+                <h3>Response Details</h3>
+                <ul>
+                    <li className="api-response-detail">Total Records: {data.totalRecords}</li>
+                    <li className="api-response-detail">Displayed Records: {data.data.length}</li>
+                    <li className="api-response-detail">API Call Status: Success</li>
+                    <li className="api-response-detail">Timestamp: {new Date().toLocaleString()}</li>
+                </ul>
+            </div>
+            <div className="api-table-form--container">
+                <fieldset>
+                    <legend>Table Controls</legend>
+                    <div className="form-row form-row--variable">
+                        <div className="form-group">
+                            <button
+                                type="button"
+                                onClick={handlePrev}
+                                disabled={!canPreviousPage}
+                                className="form-button infoBtn"
+                            >
+                                Prev
+                            </button>
+                        </div>
+                        <div className="form-group">
+                            <button
+                                type="button"
+                                className="form-button infoBtn"
+                                onClick={handleNext}
+                                disabled={!canNextPage}
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <table {...getTableProps()} className="api-table">
+                <thead>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.render('Header')}
+                                    <span>
+                                        {column.isSorted
+                                            ? column.isSortedDesc
+                                                ? ' 🔽'
+                                                : ' 🔼'
+                                            : ''}
+                                    </span>
+                                </th>
+                            ))}
+                        </tr>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {page.map(row => {
+                        prepareRow(row);
+                        return (
+                            <tr {...row.getRowProps()}>
+                                {row.cells.map(cell => (
+                                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                ))}
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+            <div className="pagination">
+                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                    {'<<'}
+                </button>{' '}
+                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    {'<'}
+                </button>{' '}
+                <button onClick={() => nextPage()} disabled={!canNextPage}>
+                    {'>'}
+                </button>{' '}
+                <button onClick={() => gotoPage(pageOptions.length - 1)} disabled={!canNextPage}>
+                    {'>>'}
+                </button>{' '}
+                <span>
+                    Page{' '}
+                    <strong>
+                        {pageIndex + 1} of {pageOptions.length}
+                    </strong>{' '}
+                </span>
+                <span>
+                    | Go to page:{' '}
+                    <input
+                        type="number"
+                        defaultValue={pageIndex + 1}
+                        onChange={e => {
+                            const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                            gotoPage(page);
+                        }}
+                        style={{ width: '100px' }}
+                    />
+                </span>{' '}
+                <select
+                    value={limit}
+                    onChange={e => {
+                        setPageSize(Number(e.target.value));
+                    }}
+                >
+                    {[10, 20, 30, 40, 50].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        </div>
+    );
+};
+
+export default DisplayApiDataTable;
+```
+
+Step 3: Update `SidepanelMenu` to Maintain State for Each Form/Table
+
+Ensure that the `SidepanelMenu` maintains the state for each form and its corresponding table.
+
+```javascript
+// src/components/SidepanelMenu/SidepanelMenu.jsx
+import React, { useState, useEffect } from "react";
+import FormTableContainer from "../FormTableContainer/FormTableContainer";
+import SearchByPartyNameForm from "../SearchByPartyNameForm/SearchByPartyNameForm";
+import SearchByAddressForm from "../SearchByAddressForm/SearchByAddressForm";
+import SearchByDocTypeForm from "../SearchByDocTypeForm/SearchByDocTypeForm";
+import SearchByDocIdCrfnForm from "../SearchByDocIdCrfnForm/SearchByDocIdCrfnForm";
+import SearchByTransNumForm from "../SearchByTransNumForm/SearchByTransNumForm";
+import SearchByReelPageForm from "../SearchByReelPageForm/SearchByReelPageForm";
+import SearchByUccFedLienFileNumForm from "../SearchByUccFedLienFileNumForm/SearchByUccFedLienFileNumForm";
+import FormTestArea from "../CustomFormStyling/FormTestArea.jsx";
+import { PartyNameIcon, BBLIcon, DocTypeIcon, DocIdCrfnIcon, TransNumIcon, UccLienIcon, ReelPageIcon, FormTestAreaIcon } from "./SidepanelIcons.jsx";
+
+import "./SidepanelMenu.css";
+import "../CustomFormStyling/css/CustomFormStyling.css";
+
+const SidepanelMenu = () => {
+  const sections = [
+    {
+      sectionName: "Party Name",
+      sectionNameDesc: "Search by Party Name",
+      colorClass: "color1",
+      sectionNameAbbreviated: "PN",
+      component: SearchByPartyNameForm,
+      sectionIcon: <PartyNameIcon />,
+    },
+    {
+      sectionName: "Borough Block Lot",
+      sectionNameDesc: "Search by property identifier of borough, block and lot",
+      colorClass: "color2",
+      sectionNameAbbreviated: "BBL",
+      component: SearchByAddressForm,
+      sectionIcon: <BBLIcon />,
+    },
+    {
+      sectionName: "Document Type",
+      sectionNameDesc: "Search by type of document",
+      colorClass: "color3",
+      sectionNameAbbreviated: "DT",
+      component: SearchByDocTypeForm,
+      sectionIcon: <DocTypeIcon />,
+    },
+    {
+      sectionName: "Transaction Number",
+      sectionNameDesc: "Search by Transaction Number assigned to cover pages on or after January 2, 2003.",
+      colorClass: "color5",
+      sectionNameAbbreviated: "TN",
+      component: SearchByTransNumForm,
+      sectionIcon: <TransNumIcon />,
+    },
+    {
+      sectionName: "Document ID & CRFN",
+      sectionNameDesc: "Search by Document ID or CRFN assigned to documents recorded on or after January 2, 2003",
+      colorClass: "color4",
+      sectionNameAbbreviated: "DC",
+      component: SearchByDocIdCrfnForm,
+      sectionIcon: <DocIdCrfnIcon />,
+    },
+    {
+      sectionName: "UCC & Lien",
+      sectionNameDesc: "Search by file number assigned to UCC/Federal Liens prior to January 2, 2003.",
+      colorClass: "color6",
+      sectionNameAbbreviated: "FN",
+      component: SearchByUccFedLienFileNumForm,
+      sectionIcon: <UccLienIcon />,
+    },
+    {
+      sectionName: "Reel & Page",
+      sectionNameDesc: "Search by microfilm reel/page assigned to documents prior to January 2, 2003",
+      colorClass: "color7",
+      sectionNameAbbreviated: "RP",
+      component: SearchByReelPageForm,
+      sectionIcon: <ReelPageIcon />,
+    },
+    {
+      sectionName: "Form Test Area",
+      sectionNameDesc: "This is a test area for custom form styling",
+      colorClass: "color8",
+      sectionNameAbbreviated: "TA",
+      component: FormTestArea,
+      sectionIcon: <FormTestAreaIcon />,
+    },
+  ];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [formStates, setFormStates] = useState(sections.map(() => ({ data: [], error: null })));
+
+  const handleNavClick = (index) => {
+    setActiveIndex(index);
+  };
+
+  const ActiveFormComponent = sections[activeIndex].component;
+  const activeColorClass = sections[activeIndex].colorClass;
 
   useEffect(() => {
-    setSelectedCheckboxes(selectedCheckboxes);
-  }, [selectedCheckboxes, setSelectedCheckboxes]);
+    document.documentElement.className = activeColorClass;
+  }, [activeColorClass]);
 
-  const handleCheckboxChange = (
-    event,
-    docTypeId,
-    party1Id,
-    party2Id,
-    party3Id
-  ) => {
-    const checkedId = event.target.id;
-    const isChecked = event.target.checked;
-
-    setSelectedCheckboxes((prevSelectedIds) => {
-      let updatedSelectedIds = [...prevSelectedIds];
-
-      if (isChecked) {
-        updatedSelectedIds.push(checkedId);
-      } else {
-        updatedSelectedIds = updatedSelectedIds.filter(
-          (id) => id !== checkedId
-        );
-      }
-
-      const allParties = [party1Id, party2Id, party3Id].filter(Boolean);
-      const isAnyPartySelected = allParties.some((id) =>
-        updatedSelectedIds.includes(id)
-      );
-
-      if (isAnyPartySelected && !updatedSelectedIds.includes(docTypeId)) {
-        updatedSelectedIds.push(docTypeId); // Check parent doc__type checkbox
-      } else if (
-        !isAnyPartySelected &&
-        updatedSelectedIds.includes(docTypeId)
-      ) {
-        updatedSelectedIds = updatedSelectedIds.filter(
-          (id) => id !== docTypeId
-        ); // Uncheck parent doc__type checkbox
-      }
-
-      return updatedSelectedIds;
+  const setData = (index, data) => {
+    setFormStates((prevStates) => {
+      const newStates = [...prevStates];
+      newStates[index].data = data;
+      return newStates;
     });
   };
 
-  const handleDocAndPartiesCheckboxChange = (
-    event,
-    docTypeId,
-    party1Id,
-    party2Id,
-    party3Id
-  ) => {
-    const isChecked = event.target.checked;
-
-    const allParties = [docTypeId, party1Id, party2Id, party3Id].filter(
-      Boolean
-    );
-
-    setSelectedCheckboxes((prevSelectedIds) => {
-      if (isChecked) {
-        return [...new Set([...prevSelectedIds, ...allParties])];
-      } else {
-        return prevSelectedIds.filter((id) => !allParties.includes(id));
-      }
+  const setError = (index, error) => {
+    setFormStates((prevStates) => {
+      const newStates = [...prevStates];
+      newStates[index].error = error;
+      return newStates;
     });
-  };
-
-  const handleDocClassCheckboxChange = (event, group) => {
-    const isChecked = event.target.checked;
-
-    const allIds = group
-      .flatMap((item) => [
-        `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-          item.doc__type
-        )}`,
-        item.party1_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party1_type)}`
-          : null,
-        item.party2_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party2_type)}`
-          : null,
-        item.party3_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party3_type)}`
-          : null,
-      ])
-      .filter(Boolean); // Remove null values
-
-    setSelectedCheckboxes((prevSelectedIds) =>
-      isChecked
-        ? [...new Set([...prevSelectedIds, ...allIds])]
-        : prevSelectedIds.filter((id) => !allIds.includes(id))
-    );
-  };
-
-  const hasParty3Type = (group) => group.some((item) => !!item.party3_type);
-
-  const isDocTypeChecked = (docTypeId, party1Id, party2Id, party3Id) => {
-    const allParties = [party1Id, party2Id, party3Id].filter(Boolean);
-    return (
-      allParties.some((id) => selectedCheckboxes.includes(id)) ||
-      selectedCheckboxes.includes(docTypeId)
-    );
-  };
-
-  const areAllDocsSelected = (group) => {
-    const allIds = group
-      .flatMap((item) => [
-        `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-          item.doc__type
-        )}`,
-        item.party1_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party1_type)}`
-          : null,
-        item.party2_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party2_type)}`
-          : null,
-        item.party3_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party3_type)}`
-          : null,
-      ])
-      .filter(Boolean); // Remove null values
-
-    return allIds.every((id) => selectedCheckboxes.includes(id));
-  };
-
-  const handleParty1CheckboxChange = (event, group) => {
-    const isChecked = event.target.checked;
-    const allParty1Ids = group
-      .map((item) =>
-        item.party1_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party1_type)}`
-          : null
-      )
-      .filter(Boolean); // Filter out null values
-
-    setSelectedCheckboxes((prevSelectedIds) =>
-      isChecked
-        ? [...new Set([...prevSelectedIds, ...allParty1Ids])]
-        : prevSelectedIds.filter((id) => !allParty1Ids.includes(id))
-    );
-  };
-
-  const areAllParty1Selected = (group) => {
-    const allParty1Ids = group
-      .map((item) =>
-        item.party1_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party1_type)}`
-          : null
-      )
-      .filter(Boolean); // Filter out null values
-    return allParty1Ids.every((id) => selectedCheckboxes.includes(id));
-  };
-
-  const handleParty2CheckboxChange = (event, group) => {
-    const isChecked = event.target.checked;
-    const allParty2Ids = group
-      .map((item) =>
-        item.party2_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party2_type)}`
-          : null
-      )
-      .filter(Boolean); // Filter out null values
-
-    setSelectedCheckboxes((prevSelectedIds) =>
-      isChecked
-        ? [...new Set([...prevSelectedIds, ...allParty2Ids])]
-        : prevSelectedIds.filter((id) => !allParty2Ids.includes(id))
-    );
-  };
-
-  const areAllParty2Selected = (group) => {
-    const allParty2Ids = group
-      .map((item) =>
-        item.party2_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party2_type)}`
-          : null
-      )
-      .filter(Boolean); // Filter out null values
-    return allParty2Ids.every((id) => selectedCheckboxes.includes(id));
-  };
-
-  const handleParty3CheckboxChange = (event, group) => {
-    const isChecked = event.target.checked;
-    const allParty3Ids = group
-      .map((item) =>
-        item.party3_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party3_type)}`
-          : null
-      )
-      .filter(Boolean); // Filter out null values
-
-    setSelectedCheckboxes((prevSelectedIds) =>
-      isChecked
-        ? [...new Set([...prevSelectedIds, ...allParty3Ids])]
-        : prevSelectedIds.filter((id) => !allParty3Ids.includes(id))
-    );
-  };
-
-  const areAllParty3Selected = (group) => {
-    const allParty3Ids = group
-      .map((item) =>
-        item.party3_type
-          ? `checkbox${toCamelCase(item.class_code_description)}${toCamelCase(
-              item.doc__type
-            )}${toCamelCase(item.party3_type)}`
-          : null
-      )
-      .filter(Boolean); // Filter out null values
-    return allParty3Ids.every((id) => selectedCheckboxes.includes(id));
-  };
-
-  const groupedData = groupByClassCodeDescription(partyMap);
-
-  const toggleVisibility = (groupTitle) => {
-    setVisibleGroups((prevVisibleGroups) => ({
-      ...prevVisibleGroups,
-      [groupTitle]: !prevVisibleGroups[groupTitle],
-    }));
   };
 
   return (
-    <div className="party-select-container">
-      {Object.entries(groupedData).map(([groupTitle, groupData]) => (
-        <fieldset
-          key={groupTitle}
-          className={`party-group ${toKebabCase(groupTitle)}-grp`}
-        >
-          <div className="fieldset-toolbar">
-            <div className="select-all-docs-container">
-              <label className="doc-group-checkbox-controller-label custom-checkbox-label">
-                <input
-                  className="doc-group-checkbox-controller-input"
-                  type="checkbox"
-                  onChange={(event) =>
-                    handleDocClassCheckboxChange(event, groupData)
-                  }
-                  checked={areAllDocsSelected(groupData)} // Update to reflect all checkboxes
-                />
-                Select All
-              </label>
-            </div>
-            <button
-              className="toggle-button"
-              onClick={() => toggleVisibility(groupTitle)}
+    <div className="nav-form-container">
+      <nav className="nav nav--active">
+        <ul className="nav-list">
+          {sections.map((section, index) => (
+            <li
+              key={index}
+              className="nav-item"
             >
-              {visibleGroups[groupTitle] ? 'Hide All' : 'Show All'}
-            </button>
-          </div>
-          <legend>
-            <span className="hide-when-sidepanel-is-small">Filter By</span>
-            {groupTitle}
-          </legend>
-
-          <div
-            className="fieldset-content"
-            style={{
-              display: visibleGroups[groupTitle] ? 'inline-block' : 'none',
-            }}
-          >
-            <div className="master-checkbox-row">
-              <label className="all-party1-in-group-checkbox-controller-label custom-checkbox-label">
-                <input
-                  className="all-party1-in-group-checkbox-controller-input custom-checkbox"
-                  type="checkbox"
-                  onChange={(event) =>
-                    handleParty1CheckboxChange(event, groupData)
-                  }
-                  checked={areAllParty1Selected(groupData)}
-                />
-                Party 1
-              </label>
-
-              <label className="all-party2-in-group-checkbox-controller-label custom-checkbox-label">
-                <input
-                  className="all-party2-in-group-checkbox-controller-input custom-checkbox"
-                  type="checkbox"
-                  onChange={(event) =>
-                    handleParty2CheckboxChange(event, groupData)
-                  }
-                  checked={areAllParty2Selected(groupData)}
-                />
-                Party 2
-              </label>
-
-              {hasParty3Type(groupData) && (
-                <label className="all-party3-in-group-checkbox-controller-label custom-checkbox-label">
-                  <input
-                    className="all-party3-in-group-checkbox-controller-input custom-checkbox"
-                    type="checkbox"
-                    onChange={(event) =>
-                      handleParty3CheckboxChange(event, groupData)
-                    }
-                    checked={areAllParty3Selected(groupData)}
-                  />
-                  Party 3
-                </label>
-              )}
-            </div>
-
-            {checkboxGenerator(
-              groupData,
-              handleCheckboxChange,
-              handleDocAndPartiesCheckboxChange,
-              isDocTypeChecked,
-              selectedCheckboxes
-            )}
-          </div>
-        </fieldset>
-      ))}
+              <a
+                href="#"
+                className="nav-link"
+                onClick={() => handleNavClick(index)}
+              >
+                <div className="nav-icon--container">
+                  {section.sectionIcon}
+                </div>
+                <p className="nav-section-name-text">{section.sectionName}</p>
+                <p className="nav-section-desc-text">{section.sectionNameDesc}</p>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="icon-information"><path className="primary" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20z"></path><path className="secondary" d="M11 12a1 1 0 0 1 0-2h2a1 1 0 0 1 .96 1.27L12.33 17H13a1 1 0 0 1 0 2h-2a1 1 0 0 1-.96-1.27L11.67 12H11zm2-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div className={`pageViewer ${activeColorClass}`}>
+        <FormTableContainer
+          activeForm={ActiveFormComponent}
+          colorClass={activeColorClass}
+          data={formStates[activeIndex].data}
+          error={formStates[activeIndex].error}
+          setData={(data) => setData(activeIndex, data)}
+          setError={(error) => setError(activeIndex, error)}
+        />
+      </div>
     </div>
   );
 };
 
-export default PartySelect;
+export default SidepanelMenu;
 ```
-
-### 3. Update Query Construction in `api.js`
-
-Modify the `RPMqueryBuilder` and `buildSoQLQuery` functions to include the selected checkboxes in the SoQL query:
-
-```javascript
-const RPMqueryBuilder = (soql = {}, endpoint, fields) => {
-  const soqlQuery = buildSoQLQuery(soql, fields);
-  const url = `${endpoint}?${soqlQuery}`;
-  console.log('Constructed URL:', url);
-  return url;
-};
-
-const buildSoQLQuery = (soql, fields) => {
-  const whereClauses = [];
-
-  if (soql.queries && soql.queries.length > 0) {
-    const queryClauses = soql.queries
-      .map((query, index) => {
-        const { query: condition, booleanOperator } = query;
-        const clause = `${
-          index > 0 ? booleanOperator : ''
-        } ${buildSoqlFieldQuery('name', condition)}`;
-        console.log('Constructed clause:', clause);
-        return clause.trim();
-      })
-      .join(' ');
-    whereClauses.push(queryClauses);
-  }
-
-  if (soql.selectedCheckboxes && soql.selectedCheckboxes.length > 0) {
-    const checkboxClauses = soql.selectedCheckboxes
-      .map((id) => `id='${id}'`)
-      .join(' OR ');
-    whereClauses.push(`(${checkboxClauses})`);
-  }
-
-  return `$where=${encodeURIComponent(whereClauses.join(' AND '))}`;
-};
-```
-
-This plan and implementation should help you incorporate the `PartySelect.jsx` component into the `SearchByPartyNameForm.jsx` file, allowing the selected checkboxes to be included in the SoQL query.

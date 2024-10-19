@@ -1,3 +1,4 @@
+// src/components/SidepanelMenu/SidepanelMenu.jsx
 import React, { useState, useEffect } from "react";
 import FormTableContainer from "../FormTableContainer/FormTableContainer";
 import SearchByPartyNameForm from "../SearchByPartyNameForm/SearchByPartyNameForm";
@@ -8,16 +9,12 @@ import SearchByTransNumForm from "../SearchByTransNumForm/SearchByTransNumForm";
 import SearchByReelPageForm from "../SearchByReelPageForm/SearchByReelPageForm";
 import SearchByUccFedLienFileNumForm from "../SearchByUccFedLienFileNumForm/SearchByUccFedLienFileNumForm";
 import FormTestArea from "../CustomFormStyling/FormTestArea.jsx";
-// import SubNav from "../SubNav/SubNav";
 import { PartyNameIcon, BBLIcon, DocTypeIcon, DocIdCrfnIcon, TransNumIcon, UccLienIcon, ReelPageIcon, FormTestAreaIcon } from "./SidepanelIcons.jsx";
 
 import "./SidepanelMenu.css";
 import "../CustomFormStyling/css/CustomFormStyling.css";
 
-
-
 const SidepanelMenu = () => {
-
   const sections = [
     {
       sectionName: "Party Name",
@@ -86,7 +83,7 @@ const SidepanelMenu = () => {
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [formStates, setFormStates] = useState(sections.map(() => ({ data: [], error: null })));
+  const [formStates, setFormStates] = useState(sections.map(() => ({ data: { data: [] }, error: null })));
 
   const handleNavClick = (index) => {
     setActiveIndex(index);
