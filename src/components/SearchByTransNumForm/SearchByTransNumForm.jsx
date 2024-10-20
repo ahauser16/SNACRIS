@@ -1,7 +1,7 @@
 // src/components/SearchByTransNumForm/SearchByTransNumForm.jsx
 import React, { useState } from "react";
 import { uppercaseSoql } from "../Utils/uppercaseSoql";
-import { fetchRealPropertyPartiesData } from "../../api/api";
+import { fetchRealPropertyMasterData } from "../../api/api";
 import { handleErrorsDuringSubmission } from "../Utils/handleErrorsDuringFormSubmission";
 import TransNumSearch from "../TransNumSearch/TransNumSearch";
 
@@ -75,7 +75,7 @@ const SearchByTransNumForm = ({ setData, setError, handleTableReset }) => {
     console.log("Submitting with SoQL:", transNumSoql);
 
     try {
-      const response = await fetchRealPropertyPartiesData(transNumSoql);
+      const response = await fetchRealPropertyMasterData(transNumSoql);
       console.log("API response:", response);
       setData(response);
       setError(null);

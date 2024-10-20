@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { uppercaseSoql } from "../Utils/uppercaseSoql";
 import { handleErrorsDuringSubmission } from "../Utils/handleErrorsDuringFormSubmission";
-import { fetchRealPropertyPartiesData } from "../../api/api";
+import { fetchRealPropertyMasterData } from "../../api/api";
 import DocIdCrfnSearch from "../DocIdCrfnSearch/DocIdCrfnSearch";
 
 const SearchByDocIdCrfnForm = ({ setData, setError, handleTableReset }) => {
@@ -72,7 +72,7 @@ const SearchByDocIdCrfnForm = ({ setData, setError, handleTableReset }) => {
     console.log("Submitting with SoQL:", docIdCrfnSoql);
 
     try {
-      const response = await fetchRealPropertyPartiesData(docIdCrfnSoql);
+      const response = await fetchRealPropertyMasterData(docIdCrfnSoql);
       console.log("API response:", response);
       setData(response);
       setError(null);

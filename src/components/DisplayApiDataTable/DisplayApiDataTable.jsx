@@ -1,11 +1,25 @@
 // src/components/DisplayApiDataTable/DisplayApiDataTable.jsx
 import React, { useState, useEffect } from 'react';
 import { useTable, usePagination, useSortBy, useFilters } from 'react-table';
+import ResponsePane from './ResponsePane/ResponsePane';
+import PaginationPane from './PaginationPane/PaginationPane';
+import { columnsRealPropertyPartiesCompact, columnsRealPropertyPartiesFull, columnsRealPropertyLegals, columnsRealPropertyMaster, columnsPersonalPropertyMaster } from './ColumnsConfig/ColumnsConfig';
 import './DisplayApiDataTable.css';
 
-const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) => {
+const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction, formType, endpoint, responseSchema }) => {
     const [offset, setOffset] = useState(0);
+    const [isCompact, setIsCompact] = useState(window.innerWidth < 720);
     const limit = 10;
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsCompact(window.innerWidth < 720);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     const handleNext = async () => {
         const newOffset = offset + limit;
@@ -33,29 +47,23 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
         }
     };
 
-    const columns = React.useMemo(
-        () => [
-            {
-                Header: 'Document ID',
-                accessor: 'document_id',
-                Cell: ({ value }) => <a href={`https://example.com/document/${value}`}>{value}</a>,
-            },
-            { Header: 'Record Type', accessor: 'record_type' },
-            { Header: 'Party Type', accessor: 'party_type' },
-            { Header: 'Name', accessor: 'name' },
-            { Header: 'Address 1', accessor: 'address_1' },
-            { Header: 'Country', accessor: 'country' },
-            { Header: 'City', accessor: 'city' },
-            { Header: 'State', accessor: 'state' },
-            { Header: 'Zip', accessor: 'zip' },
-            {
-                Header: 'Good Through Date',
-                accessor: 'good_through_date',
-                Cell: ({ value }) => new Date(value).toLocaleDateString(),
-            },
-        ],
-        []
-    );
+    const columns = React.useMemo(() => {
+        switch (formType) {
+            case 'SearchByPartyNameForm':
+                return isCompact ? columnsRealPropertyPartiesCompact : columnsRealPropertyPartiesFull;
+            case 'SearchByAddressForm':
+                return columnsRealPropertyLegals;
+            case 'SearchByDocTypeForm':
+            case 'SearchByTransNumForm':
+            case 'SearchByDocIdCrfnForm':
+            case 'SearchByReelPageForm':
+                return columnsRealPropertyMaster;
+            case 'SearchByUccFedLienFileNumForm':
+                return columnsPersonalPropertyMaster;
+            default:
+                return columnsRealPropertyMaster; // Default to columnsRealPropertyMaster if formType is not recognized
+        }
+    }, [formType, isCompact]);
 
     const {
         getTableProps,
@@ -90,16 +98,7 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
 
     return (
         <div className="api-table--container">
-            <h2>Results</h2>
-            <div className="api-response-details--container">
-                <h3>Response Details</h3>
-                <ul>
-                    <li className="api-response-detail">Total Records: {data.totalRecords}</li>
-                    <li className="api-response-detail">Displayed Records: {data.data.length}</li>
-                    <li className="api-response-detail">API Call Status: Success</li>
-                    <li className="api-response-detail">Timestamp: {new Date().toLocaleString()}</li>
-                </ul>
-            </div>
+            <ResponsePane data={data} />
             <div className="api-table-form--container">
                 <fieldset>
                     <legend>Table Controls</legend>
@@ -132,7 +131,7 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                <th {...column.getHeaderProps({ className: column.className })}>
                                     {column.render('Header')}
                                     <span>
                                         {column.isSorted
@@ -152,57 +151,24 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction }) 
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map(cell => (
-                                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                    <td {...cell.getCellProps({ className: cell.column.className })}>{cell.render('Cell')}</td>
                                 ))}
                             </tr>
                         );
                     })}
                 </tbody>
             </table>
-            <div className="pagination">
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                    {'<<'}
-                </button>{' '}
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                    {'<'}
-                </button>{' '}
-                <button onClick={() => nextPage()} disabled={!canNextPage}>
-                    {'>'}
-                </button>{' '}
-                <button onClick={() => gotoPage(pageOptions.length - 1)} disabled={!canNextPage}>
-                    {'>>'}
-                </button>{' '}
-                <span>
-                    Page{' '}
-                    <strong>
-                        {pageIndex + 1} of {pageOptions.length}
-                    </strong>{' '}
-                </span>
-                <span>
-                    | Go to page:{' '}
-                    <input
-                        type="number"
-                        defaultValue={pageIndex + 1}
-                        onChange={e => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                            gotoPage(page);
-                        }}
-                        style={{ width: '100px' }}
-                    />
-                </span>{' '}
-                <select
-                    value={limit}
-                    onChange={e => {
-                        setPageSize(Number(e.target.value));
-                    }}
-                >
-                    {[10, 20, 30, 40, 50].map(pageSize => (
-                        <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            <PaginationPane
+                gotoPage={gotoPage}
+                previousPage={previousPage}
+                nextPage={nextPage}
+                pageOptions={pageOptions}
+                canPreviousPage={canPreviousPage}
+                canNextPage={canNextPage}
+                pageIndex={pageIndex}
+                limit={limit}
+                setPageSize={setPageSize}
+            />
         </div>
     );
 };

@@ -111,113 +111,68 @@
     border: 1px solid var(--table-row-border-color);
 }
 
-/* Column specific max-widths based on character limits */
-.api-table .document_id {
-    max-width: 20ch;
-}
-
-.api-table .record_type {
-    max-width: 3ch;
-}
-
-.api-table .party_type {
-    max-width: 12ch;
-}
-
-.api-table .name {
-    max-width: 70ch;
-}
-
-.api-table .address_1 {
-    max-width: 60ch;
-}
-
-.api-table .address_2 {
-    max-width: 60ch;
-}
-
-.api-table .country {
-    max-width: 4ch;
-}
-
-.api-table .city {
-    max-width: 30ch;
-}
-
+/* src/components/DisplayApiDataTable/DisplayApiDataTable.css */
 .api-table .state {
     max-width: 8ch;
 }
-
 .api-table .zip {
     max-width: 5ch;
 }
-
 .api-table .good_through_date {
     max-width: 10ch;
 }
-
 body {
     container-type: inline-size;
     container-name: sidepanel-body;
 }
-
-/* Container query for when the side panel body width is 350px or less */
-@container sidepanel-body (max-width: 350px) {
-
-    .name,
-    .party_type,
+/* Container query for when the side panel body width is 360px or less */
+@container sidepanel-body (max-width: 360px) {
+    .address-cell {
+        display: block;
+    }
     .address_1,
     .address_2,
     .city,
     .state,
     .zip,
-    .country {
+    .country,
+    .record_type,
+    .party_type,
+    .good_through_date {
         display: none;
     }
-
-    .api-table tbody {
-        margin: 0 .5rem;
-    }
 }
-
-/* Container query for when the side panel body width is 500px or less */
-@container sidepanel-body (max-width: 500px) {
-
+/* Container query for when the side panel body width is 720px or less */
+@container sidepanel-body (max-width: 720px) {
+    .address-cell {
+        display: block;
+    }
+    .address_1,
     .address_2,
     .city,
     .state,
     .zip,
-    .country {
+    .country,
+    .record_type,
+    .party_type,
+    .good_through_date {
         display: none;
     }
 }
-
-/* Container query for when the side panel body width is 600px or less */
-@container sidepanel-body (max-width: 650px) {
-
+/* Container query for when the side panel body width is more than 720px */
+@container sidepanel-body (min-width: 721px) {
+    .address-cell {
+        display: none;
+    }
+    .address_1,
+    .address_2,
     .city,
     .state,
     .zip,
-    .country {
-        display: none;
-    }
-
-    .hide-when-sidepanel-is-small {
-        display: none;
-    }
-}
-
-/* Container query for when the side panel body width is 700px or less */
-@container sidepanel-body (max-width: 700px) {
-
-    .city,
-    .state,
-    .zip,
-    .country {
-        display: none;
-    }
-
-    .hide-when-sidepanel-is-small {
-        display: none;
+    .country,
+    .record_type,
+    .party_type,
+    .good_through_date {
+        display: table-cell;
     }
 }

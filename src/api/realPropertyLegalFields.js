@@ -16,8 +16,5 @@ const realPropertyLegalFields = {
     good_through_date: 'floating_timestamp',
 
   };
-  
-
-
-  
+    
   export default realPropertyLegalFields;
