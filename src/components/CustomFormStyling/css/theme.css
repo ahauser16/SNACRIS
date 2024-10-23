@@ -89,7 +89,7 @@
 /* mix(#fff, $color-primary, 95%) */
 --color-text: var(--grey-100);
 /* scale-color($color-background, $lightness: -65%) */
---color-default: #b3b3b3;
+--form-border: var(--grey-500);
 /* scale-color($color-background, $lightness: -40%, $saturation: -50%) */
 --color-disabled-border: #e0e0e0;
 /* scale-color($color-default, $lightness: 40%) */

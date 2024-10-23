@@ -4,7 +4,7 @@
 }
 
 .field-error .form-control {
-  --color-default: var(--color-error);
+  --form-border: var(--color-error);
 }
 
 .field-error .field-description {

@@ -2,14 +2,31 @@
 import React, { useState, useEffect } from 'react';
 import { useTable, usePagination, useSortBy, useFilters } from 'react-table';
 import ResponsePane from './ResponsePane/ResponsePane';
+import Table from './Table/Table';
 import PaginationPane from './PaginationPane/PaginationPane';
-import { columnsRealPropertyPartiesCompact, columnsRealPropertyPartiesFull, columnsRealPropertyLegals, columnsRealPropertyMaster, columnsPersonalPropertyMaster } from './ColumnsConfig/ColumnsConfig';
+import {
+    columnsRealPropertyPartiesCompact,
+    columnsRealPropertyPartiesFull,
+    columnsRealPropertyLegals,
+    columnsRealPropertyMaster,
+    columnsPersonalPropertyMaster
+} from './ColumnsConfig/ColumnsConfig';
 import './DisplayApiDataTable.css';
 
-const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction, formType, endpoint, responseSchema }) => {
+const DisplayApiDataTable = ({
+    data,
+    error,
+    setData,
+    setError,
+    fetchFunction,
+    formType,
+    endpoint,
+    responseSchema
+}) => {
     const [offset, setOffset] = useState(0);
+    const [limit, setLimit] = useState(10);
     const [isCompact, setIsCompact] = useState(window.innerWidth < 720);
-    const limit = 10;
+    const limitOptions = [10, 20, 30, 40, 50];
 
     useEffect(() => {
         const handleResize = () => {
@@ -20,32 +37,15 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction, fo
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-
-    const handleNext = async () => {
-        const newOffset = offset + limit;
-        setOffset(newOffset);
-        try {
-            const response = await fetchFunction({ limit, offset: newOffset });
-            setData(response);
-            setError(null);
-        } catch (err) {
-            setError(err.message);
-            setData({ data: [] });
-        }
-    };
-
-    const handlePrev = async () => {
-        const newOffset = Math.max(offset - limit, 0);
-        setOffset(newOffset);
-        try {
-            const response = await fetchFunction({ limit, offset: newOffset });
-            setData(response);
-            setError(null);
-        } catch (err) {
-            setError(err.message);
-            setData({ data: [] });
-        }
-    };
+    // this useEffect hook caused the error:
+    // The `useEffect` hook below will only trigger when `formType`, `limit`, or `offset` changes. This ensures the API is not called unnecessarily on re-renders or when unrelated state updates occur.
+    // useEffect(() => {
+    //     if (limit > 0 && offset >= 0 && typeof fetchFunction === 'function' && formType && formType !== "") {
+    //     fetchFunction(formType, limit, offset)
+    //         .then((response) => setData(response))
+    //         .catch((error) => setError(error));
+    // }
+    // }, [formType, limit, offset]);
 
     const columns = React.useMemo(() => {
         switch (formType) {
@@ -96,79 +96,42 @@ const DisplayApiDataTable = ({ data, error, setData, setError, fetchFunction, fo
         return <p>No data available</p>;
     }
 
+    const hasData = data.data && data.data.length > 0;
+
     return (
         <div className="api-table--container">
-            <ResponsePane data={data} />
-            <div className="api-table-form--container">
-                <fieldset>
-                    <legend>Table Controls</legend>
-                    <div className="form-row form-row--variable">
-                        <div className="form-group">
-                            <button
-                                type="button"
-                                onClick={handlePrev}
-                                disabled={!canPreviousPage}
-                                className="form-button infoBtn"
-                            >
-                                Prev
-                            </button>
-                        </div>
-                        <div className="form-group">
-                            <button
-                                type="button"
-                                className="form-button infoBtn"
-                                onClick={handleNext}
-                                disabled={!canNextPage}
-                            >
-                                Next
-                            </button>
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-            <table {...getTableProps()} className="api-table">
-                <thead>
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps({ className: column.className })}>
-                                    {column.render('Header')}
-                                    <span>
-                                        {column.isSorted
-                                            ? column.isSortedDesc
-                                                ? ' 🔽'
-                                                : ' 🔼'
-                                            : ''}
-                                    </span>
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {page.map(row => {
-                        prepareRow(row);
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map(cell => (
-                                    <td {...cell.getCellProps({ className: cell.column.className })}>{cell.render('Cell')}</td>
-                                ))}
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-            <PaginationPane
-                gotoPage={gotoPage}
-                previousPage={previousPage}
-                nextPage={nextPage}
-                pageOptions={pageOptions}
-                canPreviousPage={canPreviousPage}
-                canNextPage={canNextPage}
-                pageIndex={pageIndex}
-                limit={limit}
-                setPageSize={setPageSize}
-            />
+            {hasData && <ResponsePane data={data} />}
+            {hasData && (
+                <Table
+                    getTableProps={getTableProps}
+                    getTableBodyProps={getTableBodyProps}
+                    headerGroups={headerGroups}
+                    prepareRow={prepareRow}
+                    page={page}
+                />
+            )}
+            {hasData && (
+                <PaginationPane
+                    gotoPage={gotoPage}
+                    previousPage={() => {
+                        setOffset((prevOffset) => Math.max(0, prevOffset - limit));
+                        previousPage();
+                    }}
+                    nextPage={() => {
+                        setOffset((prevOffset) => prevOffset + limit);
+                        nextPage();
+                    }}
+                    pageOptions={pageOptions}
+                    canPreviousPage={canPreviousPage}
+                    canNextPage={canNextPage}
+                    pageIndex={pageIndex}
+                    limit={limit}
+                    setPageSize={(newLimit) => {
+                        setLimit(newLimit);
+                        setOffset(0); // Reset to first page when page size changes
+                    }}
+                />
+            )}
         </div>
     );
 };

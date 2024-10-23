@@ -29,15 +29,20 @@ const RPMqueryBuilder = (soql = {}, endpoint, fields, limit = 10, offset = 0) =>
 
 // Build SoQL query string
 const buildSoQLQuery = (soql, fields, limit, offset) => {
+  // Define the fields you want to skip
+  const fieldsToSkip = ['document_class', 'document_party_type'];
+
   const whereClauses = Object.entries(soql)
-    .filter(([_, value]) => value && String(value).trim() !== '')
-    .map(([key, value]) => buildSoqlFieldQuery(key, value))
+    // Skip fields like 'document_class' and 'document_party_type'
+    .filter(([key]) => !fieldsToSkip.includes(key)) // Explicitly skip the unwanted fields
+    .filter(([key, value]) => value && String(value).trim() !== '') // Ensure valid key-value pairs
+    .map(([key, value]) => buildSoqlFieldQuery(key, value)) // Build the query for each field
     .join(' AND ');
 
   // Log the constructed where clause before encoding
   console.log('Raw SoQL Query:', whereClauses);
 
-  // Ensure that the query is properly encoded and limit the results to 10 records
+  // Ensure that the query is properly encoded and limit the results to the specified number of records
   return `$where=${encodeURIComponent(whereClauses)}&$limit=${limit}&$offset=${offset}&$order=:id`;
 };
 

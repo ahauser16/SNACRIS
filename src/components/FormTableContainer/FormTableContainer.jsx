@@ -18,7 +18,7 @@ const FormTableContainer = ({
 }) => {
   
   const handleTableReset = () => {
-    setData([]);
+    setData({ data: [], totalRecords: 0 });
     setError(null);
   };
 

@@ -5,7 +5,7 @@ import PartyNameSearch from '../PartyNameSearch/PartyNameSearch';
 import { uppercaseSoql } from '../Utils/uppercaseSoql';
 import { handleErrorsDuringSubmission } from '../Utils/handleErrorsDuringFormSubmission';
 
-const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
+const SearchByPartyNameForm = ({ setData, setError, handleTableReset, limit, offset }) => {
   const [partyNameSoql, setPartyNameSoql] = useState({
     name: '',
     address_1: '',
@@ -133,7 +133,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset }) => {
     console.log("Submitting with SoQL:", partyNameSoql);
 
     try {
-      const response = await fetchRealPropertyPartiesData(partyNameSoql);
+      const response = await fetchRealPropertyPartiesData(partyNameSoql, limit, offset);
       console.log('API response:', response);
       setData(response);
       setError(null);

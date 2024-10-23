@@ -15,7 +15,8 @@ body {
 /* FYI, 60ch is roughly 400px when 1rem is 16px.  This is impacted by the Font Family and Font Size being used since the 1ch is equal to the "0" character which is different for font families and sizes.  I've adjusted the width to "54ch" which is equal to "360px" and is the default width of the sidepanel of chrome extensions.     */
 
 /* when thereare multiple fields the first field tha tis invalid should be focused and it would be a good idea to have a list of invalid fields with anchor links that allow the user to navigate to those fields. */
-    min-width: 54ch;
-    max-width: 100%;
-    margin: 1rem auto;
+    min-width: 343px;
+    padding: .35rem;
+    /* max-width: 100%; */
+    /* margin: 1rem auto; */
   }

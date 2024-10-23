@@ -9,7 +9,7 @@ import DocTypeSearch from "../DocTypeSearch/DocTypeSearch";
 const SearchByDocTypeForm = ({ setData, setError, handleTableReset }) => {
   const [docTypeSoql, setDocTypeSoql] = useState({
     document_class: "",
-    document_type: "",
+    doc_type: "",
     document_party_type: "",
     document_date: "",
     recorded_borough: "",
@@ -17,7 +17,7 @@ const SearchByDocTypeForm = ({ setData, setError, handleTableReset }) => {
 
   const [inputUserErrors, setInputUserErrors] = useState({
     document_class: null,
-    document_type: null,
+    doc_type: null,
     document_party_type: null,
     document_date: null,
     recorded_borough: null,
@@ -83,14 +83,14 @@ const SearchByDocTypeForm = ({ setData, setError, handleTableReset }) => {
   const handleFormReset = () => {
     setDocTypeSoql({
       document_class: "",
-      document_type: "",
+      doc_type: "",
       document_party_type: "",
       document_date: "",
       recorded_borough: "",
     });
     setInputUserErrors({
       document_class: null,
-      document_type: null,
+      doc_type: null,
       document_party_type: null,
       document_date: null,
       recorded_borough: null,

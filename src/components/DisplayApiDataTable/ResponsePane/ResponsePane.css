@@ -1,13 +1,14 @@
 .response-pane--container {
-    border: 1px solid blue;
-    width: 100%;
+    border: 2.5px solid var(--yellow-300);
+    background-color: var(--grey-200);
+    color: var(--grey-1000);
+    font-size: .85rem;
 }
 
 .api-response-details--container {
-    border: 1px solid red;
 }
 
-.api-response-details--container h3 {
+.api-response-details--container h2 {
     margin: .125rem;
     padding: 0;
 }
@@ -26,4 +27,12 @@
     /* Remove default padding */
     margin: .125rem;
     /* Remove default margin */
+}
+
+.api-response-details--container li {
+    font-size: 1rem;
+}
+
+.pagination-btn {
+    margin: .5rem;
 }

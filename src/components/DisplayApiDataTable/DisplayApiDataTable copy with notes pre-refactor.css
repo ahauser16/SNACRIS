@@ -1,0 +1,189 @@
+/* src/components/DisplayApiDataTable/DisplayApiDataTable.css */
+
+:root {
+    --table-header-bg-color: var(--grey-200);
+    --table-header-border-color: var(--yellow-500);
+    --table-header-font-color: var(--grey-1000);
+    --table-row-bg-color: whitesmoke;
+    --table-row-border-color: var(--grey-300);
+    --table-row-font-color: var(--grey-100);
+}
+
+.api-table--container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+}
+
+.api-table--container h2 {
+    font-size: 1.5rem;
+}
+
+.api-response-details--container {}
+
+.api-response-details--container h3 {
+    font-size: 1.25rem;
+}
+
+.api-response-details--container li {
+    font-size: 1rem;
+}
+
+.api-table-form--container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.pagination-btn {
+    margin: .5rem;
+}
+
+/* REFACTOR IN PROGRESS BELOW THIS LINE FOR THE DISPLAY API DATA TABLE COMPONENT */
+
+table {
+    MARGIN: 1em 0;
+    border-collapse: collapse;
+    font-size: .75rem;
+    width: 100%;
+}
+
+caption {
+    text-align: left;
+    font-style: italic;
+    padding: 0.25em 0.5em 0.5em 0.5em;
+}
+
+
+
+
+
+.api-table thead {
+    background-color: var(--table-header-bg-color);
+    color: var(--table-header-font-color);
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 2px solid red;
+}
+
+.api-table tbody {
+    background-color: var(--table-row-bg-color);
+    color: var(--table-row-font-color);
+    border: 1px solid var(--table-row-border-color);
+}
+
+.api-table th {
+    padding: .125rem;
+    text-align: left;
+    vertical-align: top;
+    /* change these below */
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: clip;
+    word-break: normal;
+    min-width: 10ch;
+}
+
+.api-table td {
+    padding: .125rem;
+    text-align: left;
+    vertical-align: top;
+    /* change these below */
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: clip;
+    word-break: normal;
+    overflow-wrap: break-word;
+    /* max-width: 30ch; */
+}
+
+.api-table th {
+    color: whitesmoke;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.api-table td {
+    color: #282c34;
+    font-weight: normal;
+    margin: .5rem;
+    border: 1px solid var(--table-row-border-color);
+}
+
+/* src/components/DisplayApiDataTable/DisplayApiDataTable.css */
+.api-table .state {
+    max-width: 8ch;
+}
+
+.api-table .zip {
+    max-width: 5ch;
+}
+
+.api-table .good_through_date {
+    max-width: 10ch;
+}
+
+body {
+    container-type: inline-size;
+    container-name: sidepanel-body;
+}
+
+/* Container query for when the side panel body width is 360px or less */
+@container sidepanel-body (max-width: 360px) {
+    .address-cell {
+        display: block;
+    }
+
+    .address_1,
+    .address_2,
+    .city,
+    .state,
+    .zip,
+    .country,
+    .record_type,
+    .party_type,
+    .good_through_date {
+        display: none;
+    }
+}
+
+/* Container query for when the side panel body width is 720px or less */
+@container sidepanel-body (max-width: 720px) {
+    .address-cell {
+        display: block;
+    }
+
+    .address_1,
+    .address_2,
+    .city,
+    .state,
+    .zip,
+    .country,
+    .record_type,
+    .party_type,
+    .good_through_date {
+        display: none;
+    }
+}
+
+/* Container query for when the side panel body width is more than 720px */
+@container sidepanel-body (min-width: 721px) {
+    .address-cell {
+        display: none;
+    }
+
+    .address_1,
+    .address_2,
+    .city,
+    .state,
+    .zip,
+    .country,
+    .record_type,
+    .party_type,
+    .good_through_date {
+        display: table-cell;
+    }
+}

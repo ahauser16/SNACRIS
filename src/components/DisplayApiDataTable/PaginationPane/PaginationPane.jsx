@@ -1,7 +1,17 @@
 // src/components/DisplayApiDataTable/PaginationPane.jsx
 import React from 'react';
 
-const PaginationPane = ({ gotoPage, previousPage, nextPage, pageOptions, canPreviousPage, canNextPage, pageIndex, limit, setPageSize }) => {
+const PaginationPane = ({ 
+    gotoPage, 
+    previousPage, 
+    nextPage, 
+    pageOptions, 
+    canPreviousPage, 
+    canNextPage, 
+    pageIndex, 
+    limit, 
+    setPageSize 
+}) => {
     return (
         <div className="pagination">
             <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>

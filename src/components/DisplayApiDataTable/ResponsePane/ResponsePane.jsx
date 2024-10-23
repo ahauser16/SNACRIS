@@ -19,7 +19,7 @@ const getRecordTypeName = (recordType) => {
     return recordTypeMapping[recordType] || 'Unknown Record Type';
 };
 
-const ResponsePane = ({ data }) => {
+const ResponsePane = ({ data = { data: [], totalRecords: 0 } }) => {
     // Extract the record_type from the first record in the data array
     const recordType = data.data.length > 0 ? data.data[0].record_type : 'N/A';
     const recordTypeName = getRecordTypeName(recordType);
@@ -27,7 +27,7 @@ const ResponsePane = ({ data }) => {
     return (
         <div className="response-pane--container">
             <div className="api-response-details--container">
-                <h3>Response Details</h3>
+                <h2>Response Details</h2>
                 <ul>
                     <li className="api-response-detail">Total Records: {data.totalRecords}</li>
                     <li className="api-response-detail">Displayed Records: {data.data.length}</li>

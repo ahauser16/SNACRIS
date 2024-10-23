@@ -102,7 +102,7 @@ function DocTypeSearch({
         onChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
         errorClass={inputUserErrors.document_class}
-        errorType={inputUserErrors.document_type}
+        errorType={inputUserErrors.doc_type}
         errorParty={inputUserErrors.document_party_type}
       />
       <BoroughSelect

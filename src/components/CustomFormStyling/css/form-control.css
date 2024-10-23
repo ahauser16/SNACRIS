@@ -12,7 +12,7 @@
   height: 1em;
 }
 
-.form-control input:focus + .input__control {
+.form-control input:focus+.input__control {
   box-shadow: 0 0 0 0.05em #fff, 0 0 0.15em 0.15em var(--color-primary);
 }
 
@@ -23,7 +23,7 @@
   font-size: 1em;
 }
 
-.form-control__input > * {
+.form-control__input>* {
   grid-area: input;
 }
 
@@ -32,7 +32,7 @@
   place-content: center;
   width: 1em;
   height: 1em;
-  border: 0.1em solid var(--color-default);
+  border: 0.1em solid var(--form-border);
 }
 
 .form-control:focus-within {
@@ -64,7 +64,7 @@
   transition: 180ms transform ease-in-out;
 }
 
-.radio input:checked + .input__control::before {
+.radio input:checked+.input__control::before {
   transform: scale(1);
 }
 
@@ -84,6 +84,6 @@
   transform-origin: bottom left;
 }
 
-.checkbox input:checked + .input__control svg {
+.checkbox input:checked+.input__control svg {
   transform: scale(1);
 }

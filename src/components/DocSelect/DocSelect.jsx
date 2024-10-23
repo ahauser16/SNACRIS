@@ -24,7 +24,7 @@ const DocSelect = ({
 
   // Filter party types based on selected document type
   const filteredParties = docMap.filter(
-    (doc) => doc.doc__type === value.document_type
+    (doc) => doc.doc__type === value.doc_type
   );
 
   // Get unique party types from filtered documents
@@ -44,10 +44,10 @@ const DocSelect = ({
     validateUserInput(inputValue);
 
     if (name === "document_class") {
-      // Reset document_type and document_party_type when class changes
-      onChange({ target: { name: "document_type", value: "" } });
+      // Reset doc_type and document_party_type when class changes
+      onChange({ target: { name: "doc_type", value: "" } });
       onChange({ target: { name: "document_party_type", value: "" } });
-    } else if (name === "document_type") {
+    } else if (name === "doc_type") {
       // Reset document_party_type when document type changes
       onChange({ target: { name: "document_party_type", value: "" } });
     }
@@ -65,9 +65,8 @@ const DocSelect = ({
   return (
     <div className="form-row">
       <div
-        className={`form-group form-group--document_class ${
-          errorClass ? "field-error" : ""
-        }`}
+        className={`form-group form-group--document_class ${errorClass ? "field-error" : ""
+          }`}
       >
         <label htmlFor="doc-class-select">Class</label>
         <div className="form-field select">
@@ -93,16 +92,15 @@ const DocSelect = ({
       </div>
 
       <div
-        className={`form-group form-group--document_type ${
-          errorType ? "field-error" : ""
-        }`}
+        className={`form-group form-group--doc_type ${errorType ? "field-error" : ""
+          }`}
       >
         <label htmlFor="doc-type-select">Document</label>
         <div className="form-field select">
           <select
             id="doc-type-select"
-            name="document_type"
-            value={value.document_type} // From docTypeSoql
+            name="doc_type"
+            value={value.doc_type} // From docTypeSoql
             onChange={handleValidationPlusDataTransferToSoql}
             aria-describedby="document-type-description"
             disabled={!value.document_class} // Disable if no class selected
@@ -122,9 +120,8 @@ const DocSelect = ({
       </div>
 
       <div
-        className={`form-group form-group--document_party_type ${
-          errorParty ? "field-error" : ""
-        }`}
+        className={`form-group form-group--document_party_type ${errorParty ? "field-error" : ""
+          }`}
       >
         <label htmlFor="document-party-type-select">Party</label>
         <div className="form-field select">
@@ -134,7 +131,7 @@ const DocSelect = ({
             value={value.document_party_type} // From docTypeSoql
             onChange={handleValidationPlusDataTransferToSoql}
             aria-describedby="document-party-type-description"
-            disabled={!value.document_type} // Disable if no document type selected
+            disabled={!value.doc_type} // Disable if no document type selected
           >
             <option value="">Select</option>
             {uniqueParties.map((partyType, index) => (

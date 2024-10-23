@@ -1,5 +1,5 @@
 .form-field {
-  border-color: var(--color-default);
+  border-color: var(--form-border);
 }
 
 .form-field:focus {
@@ -20,11 +20,9 @@
   display: grid;
   grid-template-areas: "select";
   align-items: center;
-  background-image: linear-gradient(
-    to top,
-    var(--color-white-dark),
-    var(--color-white) 33%
-  );
+  background-image: linear-gradient(to top,
+      var(--color-white-dark),
+      var(--color-white) 33%);
 }
 
 .form-field.select select,
@@ -36,7 +34,7 @@
   content: "";
   width: 0.8em;
   height: 0.5em;
-  background-color: var(--color-default);
+  background-color: var(--form-border);
   clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   justify-self: end;
 }
@@ -59,7 +57,7 @@
   border: 2px solid transparent;
 }
 
-.form-field.select select:focus + .focus {
+.form-field.select select:focus+.focus {
   border-color: var(--field-focus, var(--color-primary));
   box-shadow: 0 0 0.35em -0.1em var(--field-focus, var(--color-primary));
   outline: 2px solid transparent;
@@ -70,9 +68,7 @@
   background-color: var(--color-disabled-background);
   color: rgba(0, 0, 0, 0.45);
   cursor: not-allowed;
-  background-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.08),
-    rgba(255, 255, 255, 0) 33%
-  );
+  background-image: linear-gradient(to top,
+      rgba(0, 0, 0, 0.08),
+      rgba(255, 255, 255, 0) 33%);
 }
