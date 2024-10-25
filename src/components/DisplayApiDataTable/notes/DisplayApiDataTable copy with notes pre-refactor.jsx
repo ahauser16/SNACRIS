@@ -1,8 +1,8 @@
 // src/components/DisplayApiDataTable/DisplayApiDataTable.jsx
 import React, { useState, useEffect } from 'react';
 import { useTable, usePagination, useSortBy, useFilters } from 'react-table';
-import ResponsePane from './ResponsePane/ResponsePane';
-import PaginationPane from './PaginationPane/PaginationPane';
+import ResponsePane from '../ResponsePane/ResponsePane';
+import PaginationPane from '../PaginationPane/PaginationPane';
 import { columnsRealPropertyPartiesCompact, columnsRealPropertyPartiesFull, columnsRealPropertyLegals, columnsRealPropertyMaster, columnsPersonalPropertyMaster } from './ColumnsConfig/ColumnsConfig';
 import './DisplayApiDataTable.css';
 

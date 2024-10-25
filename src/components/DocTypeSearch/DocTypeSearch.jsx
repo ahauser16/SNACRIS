@@ -6,12 +6,12 @@ import DateExactInput from "./DateExactInput/DateExactInput";
 import BoroughSelect from "../AddressSearch/BoroughSelect/BoroughSelect";
 import DocSelect from "../DocSelect/DocSelect";
 
-function DocTypeSearch({
+const DocTypeSearch = ({
   docTypeSoql,
   handleInputChange,
   handleErrorDisplay,
   inputUserErrors,
-}) {
+}) =>{
   const [dateInputType, setDateInputType] = useState("rangeSelect");
 
   const handleDateInputTypeChange = (e) => {
@@ -20,8 +20,8 @@ function DocTypeSearch({
   };
 
   return (
-    <fieldset className="doc-type-search--container">
-      <legend className="doc-type-search--legend">
+    <fieldset>
+      <legend>
         Search By Document Type or Class
       </legend>
       <div className="form-row form-row--mixed">

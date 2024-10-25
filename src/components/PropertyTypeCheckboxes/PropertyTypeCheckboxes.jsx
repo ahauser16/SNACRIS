@@ -1,6 +1,6 @@
 // src/components/PropertyTypeCheckboxes/PropertyTypeCheckboxes.jsx
 import React, { useState, useEffect } from "react";
-import PropertyTypeCodes from "./PropertyTypeCodes.json";
+import PropertyTypeCodes from "../AcrisData/PropertyTypeCodes.json";
 //TODO: create the utils functions and files below
 import { sortingMethods } from "./utils/sortingMethods";
 import { sortPropertyTypes } from "./utils/sortPropertyTypes";

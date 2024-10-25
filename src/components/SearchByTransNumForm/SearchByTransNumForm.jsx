@@ -5,7 +5,13 @@ import { fetchRealPropertyMasterData } from "../../api/api";
 import { handleErrorsDuringSubmission } from "../Utils/handleErrorsDuringFormSubmission";
 import TransNumSearch from "../TransNumSearch/TransNumSearch";
 
-const SearchByTransNumForm = ({ setData, setError, handleTableReset }) => {
+
+
+const SearchByTransNumForm = ({ 
+  setData, 
+  setError, 
+  handleTableReset 
+}) => {
   const [transNumSoql, setTransNumSoql] = useState({
     transNum: "",
   });
@@ -18,23 +24,16 @@ const SearchByTransNumForm = ({ setData, setError, handleTableReset }) => {
 
   const handleErrorDisplay = (name, errorMessage) => {
     console.log(`Error in ${name}: ${errorMessage}`);
-
     setInputUserErrors((prevErrors) => {
       const newErrors = { ...prevErrors };
-      const formGroupElement = document.querySelector(`.form-group--${name}`);
-
       if (errorMessage) {
         newErrors[name] = errorMessage;
-        if (formGroupElement) {
-          formGroupElement.classList.add("field-error");
-        }
+        document.querySelector(`.form-group--${name}`).classList.add('field-error');
       } else {
         newErrors[name] = null; // Set to null if no error
-        if (formGroupElement) {
-          formGroupElement.classList.remove("field-error");
-        }
+        document.querySelector(`.form-group--${name}`).classList.remove('field-error');
       }
-      console.log("Updated inputUserErrors:", newErrors);
+      console.log('Updated inputUserErrors:', newErrors);
       return newErrors;
     });
   };
@@ -52,12 +51,12 @@ const SearchByTransNumForm = ({ setData, setError, handleTableReset }) => {
     e.preventDefault();
 
     // Check for required fields
-    const requiredFields = ["name"];
+    const requiredFields = ["transNum"];
     let hasError = false;
 
     requiredFields.forEach((field) => {
       if (!transNumSoql[field]) {
-        console.log("The Name field has been left blank.");
+        console.log("The Transaction Number field has been left blank.");
         handleErrorDisplay(field, "This field is required for form submission");
         hasError = true;
       }
@@ -69,6 +68,7 @@ const SearchByTransNumForm = ({ setData, setError, handleTableReset }) => {
 
     console.log("Current inputUserErrors:", inputUserErrors);
     if (handleErrorsDuringSubmission(inputUserErrors, setErrorMessages)) {
+      console.log("Form submission halted due to validation errors.");
       return;
     }
 
@@ -89,7 +89,7 @@ const SearchByTransNumForm = ({ setData, setError, handleTableReset }) => {
 
   const handleFormReset = () => {
     setTransNumSoql({
-      transNum: "",
+      transNum: '',
     });
     setInputUserErrors({
       transNum: null,

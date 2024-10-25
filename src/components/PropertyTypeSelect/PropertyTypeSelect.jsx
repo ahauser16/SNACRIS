@@ -1,6 +1,6 @@
 // src/components/PropertyTypeSelect/PropertyTypeSelect.jsx
 import React from "react";
-import PropertyTypeCodes from '../PropertyTypeCheckboxes/PropertyTypeCodes.json'
+import PropertyTypeCodes from '../AcrisData/PropertyTypeCodes.json';
 import './PropertyTypeSelect.css'; // Import the CSS file
 
 

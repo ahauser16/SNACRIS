@@ -4,14 +4,12 @@ import { useTable, usePagination, useSortBy, useFilters } from 'react-table';
 import ResponsePane from './ResponsePane/ResponsePane';
 import Table from './Table/Table';
 import PaginationPane from './PaginationPane/PaginationPane';
-import {
-    columnsRealPropertyPartiesCompact,
-    columnsRealPropertyPartiesFull,
-    columnsRealPropertyLegals,
-    columnsRealPropertyMaster,
-    columnsPersonalPropertyMaster
-} from './ColumnsConfig/ColumnsConfig';
-import './DisplayApiDataTable.css';
+import { columnsRealPropertyPartiesCompact } from './ColumnsConfig/columnsRealPropertyPartiesCompact';
+import { columnsRealPropertyPartiesFull } from './ColumnsConfig/columnsRealPropertyPartiesFull';
+import { columnsRealPropertyLegalsCompact } from './ColumnsConfig/columnsRealPropertyLegalsCompact';
+import { columnsRealPropertyLegalsFull } from './ColumnsConfig/columnsRealPropertyLegalsFull';
+import { getColumnsRealPropertyMasterCompact } from './ColumnsConfig/columnsRealPropertyMasterCompact';
+import { columnsRealPropertyMasterFull } from './ColumnsConfig/columnsRealPropertyMasterFull';
 
 const DisplayApiDataTable = ({
     data,
@@ -37,33 +35,25 @@ const DisplayApiDataTable = ({
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-    // this useEffect hook caused the error:
-    // The `useEffect` hook below will only trigger when `formType`, `limit`, or `offset` changes. This ensures the API is not called unnecessarily on re-renders or when unrelated state updates occur.
-    // useEffect(() => {
-    //     if (limit > 0 && offset >= 0 && typeof fetchFunction === 'function' && formType && formType !== "") {
-    //     fetchFunction(formType, limit, offset)
-    //         .then((response) => setData(response))
-    //         .catch((error) => setError(error));
-    // }
-    // }, [formType, limit, offset]);
 
     const columns = React.useMemo(() => {
         switch (formType) {
             case 'SearchByPartyNameForm':
                 return isCompact ? columnsRealPropertyPartiesCompact : columnsRealPropertyPartiesFull;
             case 'SearchByAddressForm':
-                return columnsRealPropertyLegals;
+                return isCompact ? columnsRealPropertyLegalsCompact : columnsRealPropertyLegalsFull;
             case 'SearchByDocTypeForm':
+                return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
             case 'SearchByTransNumForm':
             case 'SearchByDocIdCrfnForm':
             case 'SearchByReelPageForm':
-                return columnsRealPropertyMaster;
+                return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
             case 'SearchByUccFedLienFileNumForm':
-                return columnsPersonalPropertyMaster;
+                return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
             default:
-                return columnsRealPropertyMaster; // Default to columnsRealPropertyMaster if formType is not recognized
+                return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
         }
-    }, [formType, isCompact]);
+    }, [formType, isCompact, data]);
 
     const {
         getTableProps,

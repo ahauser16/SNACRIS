@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import docMap from './docMap_2024-09-06.json';
+import docMap from '../AcrisData/DocMapClassTypeParties.json';
 import './DocSelect.css';
 
 const DocSelect = ({ setSelectedDocTypes }) => {

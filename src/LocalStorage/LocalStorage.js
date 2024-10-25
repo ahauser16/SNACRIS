@@ -1,7 +1,7 @@
 // src/localStorage/LocalStorage.js
 import CountryCodes from "../components/CountriesCheckboxes/mappedData/CountryCodes.json";
 import StateCodes from "../components/StatesCheckboxes/mappedData/States.json";
-import PropertyTypeCodes from "../components/PropertyTypeCheckboxes/PropertyTypeCodes.json";
+import PropertyTypeCodes from "../components/AcrisData/PropertyTypeCodes.json";
 
 let userFavorites = {
   categories: [

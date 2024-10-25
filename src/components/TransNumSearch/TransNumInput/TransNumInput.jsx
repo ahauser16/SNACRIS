@@ -5,7 +5,8 @@ const TransNumInput = ({
   value,
   onChange,
   handleErrorDisplay,
-  error }) => {
+  error
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const hoverMessage = 'Note: Transaction Number search only available for documents recorded or filed on or AFTER January 2, 2003';
@@ -52,7 +53,7 @@ const TransNumInput = ({
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
         aria-describedby="transaction-number-description"
-        placeholder="Please enter as 'YYYYMMDDNNNNN'"
+        placeholder="Enter as 'YYYYMMDDNNNNN'"
         maxLength="13"
         required
       />

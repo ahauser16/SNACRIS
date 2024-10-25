@@ -6,7 +6,11 @@ import { handleErrorsDuringSubmission } from "../Utils/handleErrorsDuringFormSub
 import DocTypeSearch from "../DocTypeSearch/DocTypeSearch";
 
 //The "Search By Document Type" feature of ACRIS includes the following fields: `class_code_description`, `doc__type`, `doc__type_description`, `document_date` (inputs include a select input with different ranges of dates as options and a range of dates input consisting of six text input fields) an dthe `recorded_recorded_borough` field.
-const SearchByDocTypeForm = ({ setData, setError, handleTableReset }) => {
+const SearchByDocTypeForm = ({ 
+  setData, 
+  setError, 
+  handleTableReset 
+}) => {
   const [docTypeSoql, setDocTypeSoql] = useState({
     document_class: "",
     doc_type: "",
@@ -68,8 +72,8 @@ const SearchByDocTypeForm = ({ setData, setError, handleTableReset }) => {
     console.log("Submitting with SoQL:", docTypeSoql);
 
     try {
-      //this is not the right function to call here
       const response = await fetchRealPropertyMasterData(docTypeSoql);
+      console.log("API response:", response);
       setData(response);
       setError(null);
       setErrorMessages([]); // Clear error messages on successful submission
