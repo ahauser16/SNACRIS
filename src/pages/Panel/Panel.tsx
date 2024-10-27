@@ -1,11 +1,12 @@
 //src/pages/Panel/Panel.tsx
 import React from 'react';
 import './Panel.css';
+import DisplayLocalStorage from '../../LocalStorage/DisplayLocalStorage/DisplayLocalStorage';
 
 const Panel: React.FC = () => {
   return (
     <div className="container">
-      <h1>Dev Tools Panel</h1>
+      <DisplayLocalStorage />
     </div>
   );
 };

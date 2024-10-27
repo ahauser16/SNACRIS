@@ -147,6 +147,7 @@ const SidepanelMenu = () => {
           setError={(error) => setError(activeIndex, error)}
         />
       </div>
+
     </div>
   );
 };

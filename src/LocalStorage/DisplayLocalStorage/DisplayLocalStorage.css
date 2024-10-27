@@ -1,0 +1,51 @@
+/* src/components/DisplayLocalStorage/DisplayLocalStorage.css */
+
+/* Container for the local storage display */
+.display-local-storage--container {
+    margin-bottom: 2em;
+  }
+  
+  /* List styling */
+  .display-local-storage--container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    
+  }
+  
+  /* List item styling */
+  .display-local-storage--container li {
+    padding: 0.5em;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Bold field names */
+  .display-local-storage--container li strong {
+    font-weight: bold;
+    color: white;
+  }
+  
+  /* Zebra striping for list items */
+  .display-local-storage--container li:nth-child(even) {
+    background-color: #bd3636;
+  }
+  
+  /* Responsive list */
+  @media (max-width: 600px) {
+    .display-local-storage--container li {
+      padding: 0.25em;
+    }
+  }
+  
+  /* Heading styling */
+  .display-local-storage--container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1em;
+  }
+  
+  .display-local-storage--container h3 {
+    font-size: 1.25rem;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    border-top: 3px solid blue;
+  }

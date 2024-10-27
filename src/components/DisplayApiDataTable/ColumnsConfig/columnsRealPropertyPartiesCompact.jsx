@@ -1,5 +1,10 @@
 // src/components/DisplayApiDataTable/ColumnsConfig/columnsRealPropertyPartiesCompact.jsx
-import React from 'react';
+import React, { useState } from 'react';
+import AddToLocalStorageIcon from '../../../LocalStorage/AddToLocalStorageIcon/AddToLocalStorageIcon';
+import { addBaseLevelValue } from '../../../LocalStorage/LocalStorage';
+
+const dataset = 'ACRIS_REAL_PROPERTY_PARTIES';
+
 
 export const columnsRealPropertyPartiesCompact = [
     {
@@ -17,14 +22,34 @@ export const columnsRealPropertyPartiesCompact = [
     {
         Header: 'Name',
         accessor: 'name',
-        Cell: ({ value, column }) => (
-            <>
-                <span className="header-name--compact">
-                    {column.Header}:
-                </span>
-                {value ? value : <span className="no-api-data-in-response" aria-live="polite">No Name Data</span>}
-            </>
-        ),
+        Cell: ({ value, column }) => {
+            const [isHovered, setIsHovered] = useState(false);
+
+            const handleAddToLocalStorage = () => {
+                console.log('Icon clicked, value:', value);
+                addBaseLevelValue(dataset, 'name', value);
+            };
+
+            return (
+                <>
+                    <span className="header-name--compact">
+                        {column.Header}:
+                    </span>
+                    {value ? (
+                        <>
+                            {value}
+                            <AddToLocalStorageIcon
+                                isHovered={isHovered}
+                                setIsHovered={setIsHovered}
+                                onClick={handleAddToLocalStorage}
+                            />
+                        </>
+                    ) : (
+                        <span className="no-api-data-in-response" aria-live="polite">No Name Data</span>
+                    )}
+                </>
+            );
+        },
     },
     {
         Header: 'Address',
@@ -42,15 +67,15 @@ export const columnsRealPropertyPartiesCompact = [
                     </span>
                     <>
                         {address_1 ? <>{address_1}<br /></> : <span className="no-api-data-in-response" aria-live="polite">No Address 1 Data</span>}
-                        {address_2 ? <>{address_2}<br /></> : <span className="no-api-data-in-response" aria-live="polite">No Address 2 Data</span>}
+                        {address_2 && <>{address_2}<br /></>}
                         {locationParts ? <>{locationParts}</> : <span className="no-api-data-in-response" aria-live="polite">No Location Data</span>}
                     </>
                 </>
             )
         },
     },
-    { 
-        Header: 'Party Type', 
+    {
+        Header: 'Party Type',
         accessor: 'party_type',
         Cell: ({ value, column }) => (
             <>

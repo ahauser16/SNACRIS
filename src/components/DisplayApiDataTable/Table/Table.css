@@ -74,7 +74,7 @@ print and (max-width: 5in) {
 
     td {
         display: grid;
-        grid-template-columns: minmax(7em, 20ch) auto;
+        grid-template-columns: minmax(5em, 20ch) auto;
         grid-gap: .5em 0.25em;
     }
 

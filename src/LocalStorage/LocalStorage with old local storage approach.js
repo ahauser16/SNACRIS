@@ -5,6 +5,30 @@ import UccCollateralCodes from "../components/AcrisData/UccCollateralCodes.json"
 import USstateCodes from "../components/AcrisData/USstateCodes.json";
 import CountryCodes from "../components/AcrisData/CountryCodes.json";
 
+
+let userFavorites = {
+  categories: [
+    {
+      category_name: "My Countries",
+      category_type: "chosen-by-user",
+      record_type_origin: "T",
+      items: []
+    },
+    {
+      category_name: "My States",
+      category_type: "chosen-by-user",
+      record_type_origin: "S",
+      items: []
+    },
+    {
+      category_name: "My Property Types",
+      category_type: "chosen-by-user",
+      record_type_origin: "G",
+      items: []
+    }
+  ]
+};
+
 let baseLevelValues = {
   ACRIS_REAL_PROPERTY_MASTER: {
     record_type: "A",
@@ -100,6 +124,19 @@ let baseLevelValues = {
   }
 };
 
+export const getFavorites = () => {
+  return new Promise((resolve) => {
+    resolve(userFavorites);
+  });
+};
+
+export const saveFavorites = (favorites) => {
+  return new Promise((resolve) => {
+    userFavorites = favorites;
+    resolve();
+  });
+};
+
 export const getBaseLevelValues = () => {
   return new Promise((resolve) => {
     resolve(baseLevelValues);
@@ -109,16 +146,14 @@ export const getBaseLevelValues = () => {
 export const saveBaseLevelValues = (values) => {
   return new Promise((resolve) => {
     baseLevelValues = values;
-    console.log('Saving to local storage:', values);
-    localStorage.setItem('baseLevelValues', JSON.stringify(values));
     resolve();
   });
 };
 
-const fieldValidations = {
-  ACRIS_REAL_PROPERTY_MASTER: {
-    document_id: (val) => val.length === 16,
+const validateValue = (dataset, fieldName, value) => {
+  const fieldValidations = {
     crfn: (val) => val.length === 13,
+    document_id: (val) => val.length === 16,
     recorded_borough: (val) => [1, 2, 3, 4, 5].includes(Number(val)),
     doc_type: (val) => val.length <= 8,
     document_date: (val) => /^\d{2}\/\d{2}\/\d{4}$/.test(val),
@@ -130,77 +165,20 @@ const fieldValidations = {
     reel_pg: (val) => /^\d{5}$/.test(val),
     percent_trans: (val) => /^\d+(\.\d{1,6})?$/.test(val),
     good_through_date: (val) => /^\d{2}\/\d{2}\/\d{4}$/.test(val),
-  },
-  ACRIS_REAL_PROPERTY_LEGALS: {
-    document_id: (val) => val.length === 16,
-    borough: (val) => [1, 2, 3, 4, 5].includes(Number(val)),
-    block: (val) => /^\d{5}$/.test(val),
-    lot: (val) => /^\d{4}$/.test(val),
-    easement: (val) => ['Y', 'N'].includes(val),
-    partial_lot: (val) => ['P', 'E', 'N'].includes(val),
-    air_rights: (val) => ['Y', 'N'].includes(val),
-    subterranean_rights: (val) => ['Y', 'N'].includes(val),
-    property_type: (val) => val.length <= 2,
-    street_number: (val) => val.length <= 12,
-    street_name: (val) => val.length <= 32,
-    unit_address: (val) => val.length <= 7,
-    good_through_date: (val) => /^\d{2}\/\d{2}\/\d{4}$/.test(val),
-  },
-  ACRIS_REAL_PROPERTY_PARTIES: {
-    document_id: (val) => val.length === 16,
-    party_type: (val) => val.length === 1,
-    name: (val) => val.length <= 70,
-    address_1: (val) => val.length <= 60,
-    address_2: (val) => val.length <= 60,
-    country: (val) => val.length === 2,
-    city: (val) => val.length <= 30,
-    state: (val) => val.length === 2,
-    zip: (val) => val.length <= 9,
-    good_through_date: (val) => /^\d{2}\/\d{2}\/\d{4}$/.test(val),
-  },
-  ACRIS_REAL_PROPERTY_REFERENCES: {
-    document_id: (val) => val.length === 16,
-    reference_by_crfn_: (val) => val.length === 13,
-    reference_by_doc_id: (val) => val.length === 16,
-    reference_by_reel_year: (val) => /^\d{4}$/.test(val),
-    reference_by_reel_borough: (val) => [1, 2, 3, 4, 5].includes(Number(val)),
-    reference_by_reel_nbr: (val) => /^\d{5}$/.test(val),
-    reference_by_reel_page: (val) => /^\d{5}$/.test(val),
-    good_through_date: (val) => /^\d{2}\/\d{2}\/\d{4}$/.test(val),
-  },
-  ACRIS_REAL_PROPERTY_REMARKS: {
-    document_id: (val) => val.length === 16,
-    sequence_number: (val) => /^\d{1,2}$/.test(val),
-    remark_text: (val) => val.length <= 232,
-    good_through_date: (val) => /^\d{2}\/\d{2}\/\d{4}$/.test(val),
-  },
-  DOCUMENT_CONTROL_CODES: {
     doc__type: (val) => val.length <= 8,
     doc__type_description: (val) => val.length <= 30,
     class_code_description: (val) => val.length <= 30,
     party1_type: (val) => val.length <= 20,
     party2_type: (val) => val.length <= 20,
     party3_type: (val) => val.length <= 20,
-  },
-  UCC_COLLATERAL_CODES: {
     ucc_collateral_code: (val) => val.length === 1,
     description: (val) => val.length <= 50,
-  },
-  PROPERTY_TYPE_CODES: {
     property_type: (val) => val.length <= 2,
-    description: (val) => val.length <= 50,
-  },
-  STATE_CODES: {
     state_code: (val) => val.length <= 2,
-    description: (val) => val.length <= 50,
-  },
-  COUNTRY_CODES: {
     country_code: (val) => val.length <= 2,
-    description: (val) => val.length <= 50,
-  }
-};
+    // Add other field validations as needed
+  };
 
-const validateValue = (dataset, fieldName, value) => {
   if (dataset === "DOCUMENT_CONTROL_CODES") {
     const docType = DocMapClassTypeParties.find(doc => doc.doc__type === value);
     if (!docType) {
@@ -257,25 +235,11 @@ const validateValue = (dataset, fieldName, value) => {
     }
   }
 
-  if (dataset === "COUNTRY_CODES") {
-    const countryCode = CountryCodes.find(country => country.country_code === value);
-    if (!countryCode) {
-      return false;
-    }
-
-    if (fieldName === "description" && countryCode.description !== value) {
-      return false;
-    }
-  }
-
-  return fieldValidations[dataset] && fieldValidations[dataset][fieldName]
-    ? fieldValidations[dataset][fieldName](value)
-    : true;
+  return fieldValidations[fieldName] ? fieldValidations[fieldName](value) : true;
 };
 
 export const addBaseLevelValue = async (dataset, fieldName, value) => {
   const values = await getBaseLevelValues();
-  console.log('Before adding value:', values);
   if (!validateValue(dataset, fieldName, value)) {
     throw new Error(`'${value}' cannot be a ${fieldName} because it is not valid.`);
   }
@@ -283,7 +247,6 @@ export const addBaseLevelValue = async (dataset, fieldName, value) => {
     values[dataset][fieldName] = [];
   }
   values[dataset][fieldName].push(value);
-  console.log('After adding value:', values);
   await saveBaseLevelValues(values);
 };
 
@@ -295,3 +258,145 @@ export const removeBaseLevelValue = async (dataset, fieldName, value) => {
   }
 };
 
+
+
+
+
+// Existing methods for adding/removing favorites
+export const addFavoriteCountry = async (countryCode) => {
+  const favorites = await getFavorites();
+  let category = favorites.categories.find(
+    (cat) => cat.category_name === "My Countries"
+  );
+
+  if (!category) {
+    category = {
+      category_name: "My Countries",
+      category_type: "chosen-by-user",
+      record_type_origin: "T",
+      items: [],
+    };
+    favorites.categories.push(category);
+  }
+
+  if (!category.items.some((item) => item.country_code === countryCode)) {
+    const countryData = CountryCodes.find(
+      (country) => country.country_code === countryCode
+    );
+    if (countryData) {
+      category.items.push({
+        country_code: countryCode,
+        description: countryData.description,
+        record_type: countryData.record_type,
+      });
+    }
+  }
+
+  await saveFavorites(favorites);
+};
+
+export const addFavoriteState = async (stateCode) => {
+  const favorites = await getFavorites();
+  let category = favorites.categories.find(
+    (cat) => cat.category_name === "My States"
+  );
+
+  if (!category) {
+    category = {
+      category_name: "My States",
+      category_type: "chosen-by-user",
+      record_type_origin: "S",
+      items: [],
+    };
+    favorites.categories.push(category);
+  }
+
+  if (!category.items.some((item) => item.state_code === stateCode)) {
+    const stateData = StateCodes.find(
+      (state) => state.state_code === stateCode
+    );
+    if (stateData) {
+      category.items.push({
+        state_code: stateCode,
+        description: stateData.description,
+        record_type: stateData.record_type,
+      });
+    }
+  }
+
+  await saveFavorites(favorites);
+};
+
+export const addFavoritePropertyType = async (propertyTypeCode) => {
+  const favorites = await getFavorites();
+  let category = favorites.categories.find(
+    (cat) => cat.category_name === "My Property Types"
+  );
+
+  if (!category) {
+    category = {
+      category_name: "My Property Types",
+      category_type: "chosen-by-user",
+      record_type_origin: "G",
+      items: [],
+    };
+    favorites.categories.push(category);
+  }
+
+  if (!category.items.some((item) => item.property_type === propertyTypeCode)) {
+    const propertyTypeData = PropertyTypeCodes.find(
+      (propertyType) => propertyType.property_type === propertyTypeCode
+    );
+    if (propertyTypeData) {
+      category.items.push({
+        property_type: propertyTypeCode,
+        description: propertyTypeData.description,
+        record_type: propertyTypeData.record_type,
+      });
+    }
+  }
+
+  await saveFavorites(favorites);
+};
+
+export const removeFavoriteCountry = async (countryCode) => {
+  const favorites = await getFavorites();
+  const category = favorites.categories.find(
+    (cat) => cat.category_name === "My Countries"
+  );
+
+  if (category) {
+    category.items = category.items.filter(
+      (item) => item.country_code !== countryCode
+    );
+    await saveFavorites(favorites);
+  }
+};
+
+export const removeFavoriteState = async (stateCode) => {
+  const favorites = await getFavorites();
+  const category = favorites.categories.find(
+    (cat) => cat.category_name === "My States"
+  );
+
+  if (category) {
+    category.items = category.items.filter(
+      (item) => item.state_code !== stateCode
+    );
+    await saveFavorites(favorites);
+  }
+};
+
+export const removeFavoritePropertyType = async (propertyTypeCode) => {
+  const favorites = await getFavorites();
+  const category = favorites.categories.find(
+    (cat) => cat.category_name === "My Property Types"
+  );
+
+  if (category) {
+    category.items = category.items.filter(
+      (item) => item.property_type !== propertyTypeCode
+    );
+    await saveFavorites(favorites);
+  }
+};
