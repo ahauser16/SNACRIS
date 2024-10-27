@@ -28,6 +28,18 @@
 - [IV `src/containers/`](#iv-srccontainers)
 
 # My ToDos:
+ - [ ] Local Storage
+   - [ ] Implement local storage for data based on the field names associated with each of the 15 datasets.  For example, the user should be able to save a text value associated with the `name`field from the **Real Property Parties dataset** (which is a `text` data type and must be 70 characters or less).  This is a good opportunity to make use of `Typescript`, however, refactoring the entire project to use `Typescript` will take longer than the Capstone 2 timeline and so this is note to start at this point when ready to implement `Typescript` as a stretch goal.
+   - [ ] Implement local storage for data that is aggregated from ACRIS data.  For example, I could allow the user to save the `borough`, `block` and `lot` as a new data type that I refer to as a `Property` or `Address`, however, it would be best to only let the user save data that is *returned* from one of the 15 ACRIS datasets.  The `borough`, `block` and `lot` data are field names contained in the **ACRIS Real Property LEGALS** dataset which also has the `property_type`, `street_number`, `street_name` and `unit_address` fields.  Literally as I'm typing this out I realize it would be worth separating the user's saved data into two categories: search query data (data the user is sending as a query to API datasets in forms) and verified query data (data that is verified as being in the API's datasets).  For example, a user may be working on a project where they need to check for any changes in ownership to a property with `Block` and `Lot` values "**5159**" and "**47**" in the `Borough` of "**Brooklyn**".  This is enough data to query any records associated with this **BBL** address reference but it is not a complete address where ACRIS is concerned because it lacks the `property_type`, `street_number`, `street_name` and `unit_address` fields.
+ - [ ] Update `SearchByPartyNameForm` to make multiple API GET requests to separate API datsets, cross reference user queried data between those datasets and display that data in the `DisplayApiDataTable` component.
+   - [ ] requires refactor to `SearchByPartyNameForm` include state variables for the components listed below.
+   - [ ] create/import `DateSelect`, `PartySelect`, `BoroughSelect` and `SelectDoc` components into the `SearchByPartyName` component and ensure they receive props from `SearchByPartyNameForm` via the `SearchByPartyName` component.
+   - [ ] update `api.js` so that the `fetchRealPropertyPartiesData` function knows to handle the new aforementioned components and stateful values.
+   - [ ] create a new `react-tables` column configuration for when there is data to display that contains data from two or more datasets (e.g. `columnsRealPropertyMaster_Legals--Compact.jsx` ).  Another possibility is to create a function that combines existing column configuration files dynamically instead of hard-coding all the permutations of the 5 or more datasets that contain data that can be cross referenced with each other.
+ - [ ] Refactor project to use `Typescript`
+
+
+
 
 ## FORMAT
 

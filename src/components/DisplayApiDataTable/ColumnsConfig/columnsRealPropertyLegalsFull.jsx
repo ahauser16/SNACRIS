@@ -28,6 +28,18 @@ const getBoroughName = (borough) => {
 
 export const columnsRealPropertyLegalsFull = [
     {
+        Header: 'Document ID',
+        accessor: 'document_id',
+        Cell: ({ value, column }) => (
+            <>
+                <span className="header-name--compact">{column.Header}:</span>
+                <a href={`https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentImageView?doc_id=${value}`}>
+                    {value ? value : <span className="no-api-data-in-response" aria-live="polite">No Document ID Data</span>}
+                </a>
+            </>
+        ),
+    },
+    {
         Header: 'Borough',
         accessor: 'borough',
         Cell: ({ value, column }) => {
