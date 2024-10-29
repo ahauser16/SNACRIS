@@ -46,6 +46,8 @@
     }
   ],
   "permissions": [
+    "offscreen",
+    "clipboardWrite",
     "sidePanel",
     "tabs",
     "activeTab",

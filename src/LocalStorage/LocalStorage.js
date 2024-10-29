@@ -102,6 +102,10 @@ let baseLevelValues = {
 
 export const getBaseLevelValues = () => {
   return new Promise((resolve) => {
+    const storedValues = localStorage.getItem('baseLevelValues');
+    if (storedValues) {
+      baseLevelValues = JSON.parse(storedValues);
+    }
     resolve(baseLevelValues);
   });
 };
@@ -273,11 +277,18 @@ const validateValue = (dataset, fieldName, value) => {
     : true;
 };
 
+const isDuplicateValue = (dataset, fieldName, value, values) => {
+  return values[dataset][fieldName] && values[dataset][fieldName].includes(value);
+};
+
 export const addBaseLevelValue = async (dataset, fieldName, value) => {
   const values = await getBaseLevelValues();
   console.log('Before adding value:', values);
   if (!validateValue(dataset, fieldName, value)) {
     throw new Error(`'${value}' cannot be a ${fieldName} because it is not valid.`);
+  }
+  if (isDuplicateValue(dataset, fieldName, value, values)) {
+    throw new Error(`'${value}' is a duplicate entry for ${fieldName} in ${dataset}.`);
   }
   if (!values[dataset][fieldName]) {
     values[dataset][fieldName] = [];
@@ -295,3 +306,7 @@ export const removeBaseLevelValue = async (dataset, fieldName, value) => {
   }
 };
 
+export const isValueInLocalStorage = async (dataset, fieldName, value) => {
+  const values = await getBaseLevelValues();
+  return isDuplicateValue(dataset, fieldName, value, values);
+};

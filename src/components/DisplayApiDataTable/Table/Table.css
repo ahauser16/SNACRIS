@@ -25,6 +25,7 @@ td {
     padding: 0.15em 0.15em 0.15em .15em;
     vertical-align: text-top;
     text-align: left;
+    margin-top: .25rem;
     /* text-indent: -0.5em; */
 }
 
@@ -53,6 +54,11 @@ tr:nth-child(odd) {
     color: red;
 }
 
+.docID-link{
+    display: inline;
+    width: 16ch;
+}
+
 @media screen and (max-width: 37em),
 print and (max-width: 5in) {
 
@@ -74,8 +80,8 @@ print and (max-width: 5in) {
 
     td {
         display: grid;
-        grid-template-columns: minmax(5em, 20ch) auto;
-        grid-gap: .5em 0.25em;
+        grid-template-columns: .5fr 1fr .25fr;
+        gap: .5em 0.25em;
     }
 
     caption {
