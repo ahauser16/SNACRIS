@@ -91,7 +91,7 @@ const SearchByUccFedLienFileNumForm = ({
 
   return (
     <form
-      className="search-by-ucc-fed-lien-file-num-form"
+      className="search-by-ucc-fed-lien-file-num-form custom-form--container"
       onSubmit={handleSubmit}
     >
       <UccFedLienSearch

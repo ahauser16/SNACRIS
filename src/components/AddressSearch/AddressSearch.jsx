@@ -58,8 +58,8 @@ function AddressSearch({
                     handleErrorDisplay={handleErrorDisplay}
                     error={inputUserErrors.lot}
                 />
-            </div>
-            <div className="form-row form-row--mixed">
+            {/* </div>
+            <div className="form-row form-row--mixed"> */}
                 <StreetNumberInput
                     value={addressSoql.street_number}
                     onChange={handleInputChange}

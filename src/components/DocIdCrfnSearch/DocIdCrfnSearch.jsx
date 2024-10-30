@@ -29,15 +29,15 @@ const DocIdCrfnSearch = ({
   return (
     <fieldset>
       <legend>Search By Document ID or CRFN</legend>
-      <div className="form-row">
+      <div className="form-row form-row--mixed">
         <DocIdInput
           value={docIdCrfnSoql.docId}
           onChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
           error={inputUserErrors.docId}
         />
-      </div>
-      <div className="form-row">
+      {/* </div>
+      <div className="form-row"> */}
         <CrfnInput
           value={docIdCrfnSoql.crfn}
           onChange={handleInputChange}

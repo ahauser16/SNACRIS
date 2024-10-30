@@ -26,7 +26,7 @@ const CountrySelect = ({
   const hoverMessage = 'Country is NOT required for form submission.';
 
   return (
-    <div className="form-group">
+    <div className="form-group form-group--width-auto" style={{ '--field-width': '20ch' }}>
       <label htmlFor="countries-select">
         <span>Select a Country</span>
         <InfoIcon

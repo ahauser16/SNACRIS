@@ -1,17 +1,32 @@
 // src/components/DisplayLocalStorage/DisplayLocalStorage.jsx
 import React, { useEffect, useState } from 'react';
 import './DisplayLocalStorage.css';
+import AddToLocalStorageIcon from '../AddToLocalStorageIcon/AddToLocalStorageIcon';
 
 const DisplayLocalStorage = () => {
   const [localStorageData, setLocalStorageData] = useState({});
 
-  useEffect(() => {
-    const fetchData = () => {
-      const data = JSON.parse(localStorage.getItem('baseLevelValues')) || {};
+  const fetchData = () => {
+    chrome.storage.local.get('baseLevelValues', (result) => {
+      const data = result.baseLevelValues || {};
       setLocalStorageData(data);
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+
+    const handleStorageChange = (changes, areaName) => {
+      if (areaName === 'local' && changes.baseLevelValues) {
+        fetchData();
+      }
     };
 
-    fetchData();
+    chrome.storage.onChanged.addListener(handleStorageChange);
+
+    return () => {
+      chrome.storage.onChanged.removeListener(handleStorageChange);
+    };
   }, []);
 
   const hasData = (data) => {
@@ -26,11 +41,23 @@ const DisplayLocalStorage = () => {
         <h3>{dataset}</h3>
         <ul>
           {Object.keys(data[dataset]).map((field) => (
-            <li key={field}>
-              <strong>{field}:</strong> {Array.isArray(data[dataset][field])
-                ? data[dataset][field].join(', ')
-                : data[dataset][field]}
-            </li>
+            Array.isArray(data[dataset][field]) && data[dataset][field].length > 0 && (
+              <li key={field}>
+                <strong>{field}:</strong>
+                <ul>
+                  {data[dataset][field].map((value, index) => (
+                    <li key={`${field}-${index}`}>
+                      {value}
+                      <AddToLocalStorageIcon
+                        dataset={dataset}
+                        fieldName={field}
+                        value={value}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            )
           ))}
         </ul>
       </div>

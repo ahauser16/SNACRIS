@@ -26,7 +26,8 @@ const CityInput = ({
 
     return (
         <div
-            className={`form-group form-group--city ${error ? 'field-error' : ''}`}
+            className={`form-group form-group--width-auto form-group--city ${error ? 'field-error' : ''}`}
+            style={{ '--field-width': '30ch' }}
         >
             <label htmlFor="city" >
                 <span>City</span>

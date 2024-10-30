@@ -99,7 +99,7 @@ const SearchByReelPageForm = ({
 
   return (
     <form
-      className="search-by-reel-page-form"
+      className="search-by-reel-page-form custom-form--container"
       onSubmit={handleSubmit}
     >
       <ReelPageSearch

@@ -6,7 +6,8 @@
 .icon-library,
 .icon-film,
 .icon-information,
-.icon-launch {
+.icon-launch,
+.icon-home {
     width: 1rem;
 }
 
@@ -18,7 +19,8 @@
 .icon-library .primary,
 .icon-film .primary,
 .icon-information .primary,
-.icon-launch .primary {
+.icon-launch .primary,
+.icon-home .secondary {
     fill: var(--blue-100);
 }
 
@@ -30,6 +32,18 @@
 .icon-library .secondary,
 .icon-film .secondary,
 .icon-information .secondary,
-.icon-launch .secondary {
+.icon-launch .secondary,
+.icon-home .primary {
     fill: var(--yellow-300);
+}
+
+
+.icon-menu{
+    width: 2rem;
+    cursor: pointer;
+}
+
+
+.icon-menu .secondary{
+    fill: var(--blue-100);
 }

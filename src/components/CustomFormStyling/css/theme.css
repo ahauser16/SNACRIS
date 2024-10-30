@@ -65,6 +65,7 @@
   --accent-success--dark: hsl(144, 100%, 18%);
   --accent-warning: hsl(38, 99%, 47%);
   --accent-warning--dark: hsl(38, 99%, 18%);
+  --accent-warning--light: hsl(38, 99%, 80%);
   --accent-error: hsl(357, 82%, 52%);
   --accent-error--dark: hsl(357, 82%, 18%);
   --accent-info: hsl(220, 84%, 51%);

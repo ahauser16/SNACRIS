@@ -27,7 +27,10 @@ const NameInput = ({
     };
 
     return (
-        <div className={`form-group form-group--name ${error ? 'field-error' : ''}`}>
+        <div 
+        className={`form-group form-group--width-auto form-group--name ${error ? 'field-error' : ''}`}
+        style={{ '--field-width': '30ch' }}
+        >
             <label htmlFor="name" >
                 <span>Name</span>
                 <InfoIcon

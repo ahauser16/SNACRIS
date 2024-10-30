@@ -29,11 +29,32 @@ const ResponsePane = ({ data = { data: [], totalRecords: 0 } }) => {
             <div className="api-response-details--container">
                 <h2>Response Details</h2>
                 <ul>
-                    <li className="api-response-detail">Total Records: {data.totalRecords}</li>
-                    <li className="api-response-detail">Displayed Records: {data.data.length}</li>
-                    <li className="api-response-detail">API Call Status: Success</li>
-                    <li className="api-response-detail">Timestamp: {new Date().toLocaleString()}</li>
-                    <li className="api-response-detail">Record Type(s): {recordTypeName} ({recordType})</li>
+                    <li className="api-response-metric">
+                        Total Records:
+                        <span className="api-response-value">
+                            {data.totalRecords}
+                        </span>
+                    </li>
+                    <li className="api-response-metric">
+                        Displayed Records:
+                        <span className="api-response-value">
+                            {data.data.length}
+                        </span>
+                    </li>
+                    {/* <li className="api-response-metric">
+                        API Call Status:
+                        <span className="api-response-value">{data.status}</span>
+                    </li> */}
+                    <li className="api-response-metric">
+                        Timestamp:
+                        <span className="api-response-value">{new Date().toLocaleString()}</span>
+                    </li>
+                    <li className="api-response-metric">
+                        Record Type(s):
+                        <span className="record-type api-response-value" title={recordTypeName}>
+                            {recordType}
+                        </span>
+                    </li>
                 </ul>
             </div>
         </div>

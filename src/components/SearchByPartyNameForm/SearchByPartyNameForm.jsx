@@ -170,7 +170,7 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset, limit, off
 
   return (
       <form
-        className="search-by-party-name-form"
+        className="search-by-party-name-form custom-form--container"
         onSubmit={handleSubmit}>
         <PartyNameSearch
           partyNameSoql={partyNameSoql}

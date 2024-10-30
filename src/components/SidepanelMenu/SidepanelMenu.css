@@ -1,9 +1,4 @@
 /* src/components/SidepanelMenu/SidepanelMenu.css */
-
-/* Define your colors */
-
-
-
 * {
   -webkit-tap-highlight-color: rgba(255,
       255,
@@ -27,7 +22,7 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  background: linear-gradient(var(--blue-200), var(--blue-400));
+  background: linear-gradient(var(--blue-900), var(--blue-600));
   color: var(--nav-form-container--text);
 }
 
@@ -37,17 +32,26 @@ body {
   perspective: 400px;
   overflow: hidden;
   transition: all 0.45s cubic-bezier(0.23, 1, 0.32, 1);
-  padding: 0.25rem;
   background-color: var(--pageviewer-bg);
 }
 
 .nav {
-  flex-direction: column;
+  flex-direction: row;
   display: flex;
-  /* position: relative; */
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
   container-name: nav__container;
 }
 
+
+.menu-icon--container{
+  display: block;
+  margin: .25rem .75rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 
 .nav-list {
   /* ul items remove base formatting */

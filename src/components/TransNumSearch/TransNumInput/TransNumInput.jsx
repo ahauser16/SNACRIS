@@ -34,8 +34,9 @@ const TransNumInput = ({
 
   return (
     <div
-      className={`form-group 
+      className={`form-group form-group--width-auto
       form-group--transNum ${error ? "field-error" : ""}`}
+      style={{ '--field-width': '20ch' }}      
     >
       <label htmlFor="transaction-number">
         <span>Transaction Number</span>
@@ -53,7 +54,7 @@ const TransNumInput = ({
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
         aria-describedby="transaction-number-description"
-        placeholder="Enter as 'YYYYMMDDNNNNN'"
+        placeholder="YYYYMMDDNNNNN"
         maxLength="13"
         required
       />

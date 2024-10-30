@@ -28,11 +28,12 @@ const CrfnInput = ({
 
   return (
     <div
-      className={`form-group 
+      className={`form-group form-group--width-auto
       form-group--crfn ${error ? "field-error" : ""}`}
+      style={{ '--field-width': '20ch' }}
     >
       <label htmlFor="city-register-filing-number">
-        <span>City Register Filing Number (CRFN)</span>
+        <span>CRFN</span>
         <InfoIcon
           isHovered={isHovered}
           setIsHovered={setIsHovered}
@@ -47,7 +48,7 @@ const CrfnInput = ({
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
         aria-describedby="city-register-filing-number-description"
-        placeholder="Please enter as 'YYYYNNNNNNNNN'"
+        placeholder="YYYYNNNNNNNNN"
       // maxLength="13"
       />
       <span

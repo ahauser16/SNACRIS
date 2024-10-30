@@ -12,7 +12,7 @@ const TransNumSearch = ({
   return (
     <fieldset>
       <legend>Search By Transaction Number</legend>
-      <div className="form-row">
+      <div className="form-row form-row--mixed">
         <TransNumInput
           value={transNumSoql.transNum}
           onChange={handleInputChange}

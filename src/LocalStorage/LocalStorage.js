@@ -102,20 +102,34 @@ let baseLevelValues = {
 
 export const getBaseLevelValues = () => {
   return new Promise((resolve) => {
-    const storedValues = localStorage.getItem('baseLevelValues');
-    if (storedValues) {
-      baseLevelValues = JSON.parse(storedValues);
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.get('baseLevelValues', (result) => {
+        if (result.baseLevelValues) {
+          baseLevelValues = result.baseLevelValues;
+        }
+        resolve(baseLevelValues);
+      });
+    } else {
+      const storedValues = localStorage.getItem('baseLevelValues');
+      if (storedValues) {
+        baseLevelValues = JSON.parse(storedValues);
+      }
+      resolve(baseLevelValues);
     }
-    resolve(baseLevelValues);
   });
 };
 
 export const saveBaseLevelValues = (values) => {
   return new Promise((resolve) => {
     baseLevelValues = values;
-    console.log('Saving to local storage:', values);
-    localStorage.setItem('baseLevelValues', JSON.stringify(values));
-    resolve();
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      chrome.storage.local.set({ baseLevelValues: values }, () => {
+        resolve();
+      });
+    } else {
+      localStorage.setItem('baseLevelValues', JSON.stringify(values));
+      resolve();
+    }
   });
 };
 

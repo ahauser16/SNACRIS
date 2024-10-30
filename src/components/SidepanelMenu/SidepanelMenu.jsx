@@ -9,13 +9,22 @@ import SearchByTransNumForm from "../SearchByTransNumForm/SearchByTransNumForm";
 import SearchByReelPageForm from "../SearchByReelPageForm/SearchByReelPageForm";
 import SearchByUccFedLienFileNumForm from "../SearchByUccFedLienFileNumForm/SearchByUccFedLienFileNumForm";
 import FormTestArea from "../CustomFormStyling/FormTestArea.jsx";
-import { PartyNameIcon, BBLIcon, DocTypeIcon, DocIdCrfnIcon, TransNumIcon, UccLienIcon, ReelPageIcon, FormTestAreaIcon } from "./SidepanelIcons.jsx";
+import SidepanelHomescreen from "../Home/SidepanelHomescreen.jsx";
+import { SidepanelHomescreenIcon, PartyNameIcon, BBLIcon, DocTypeIcon, DocIdCrfnIcon, TransNumIcon, UccLienIcon, ReelPageIcon, SidepanelMenuIcon, FormTestAreaIcon } from "./SidepanelIcons.jsx";
 
 import "./SidepanelMenu.css";
 import "../CustomFormStyling/css/CustomFormStyling.css";
 
 const SidepanelMenu = () => {
   const sections = [
+    {
+      sectionName: "Home",
+      sectionNameDesc: "Homepage",
+      colorClass: "color9",
+      sectionNameAbbreviated: "HOME",
+      component: SidepanelHomescreen,
+      sectionIcon: <SidepanelHomescreenIcon />,
+    },
     {
       sectionName: "Party Name",
       sectionNameDesc: "Search by Party Name",
@@ -84,9 +93,15 @@ const SidepanelMenu = () => {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [formStates, setFormStates] = useState(sections.map(() => ({ data: { data: [] }, error: null })));
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleNavClick = (index) => {
     setActiveIndex(index);
+    setMenuOpen(false); // Close the menu when an item is clicked
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
 
   const ActiveFormComponent = sections[activeIndex].component;
@@ -114,28 +129,49 @@ const SidepanelMenu = () => {
 
   return (
     <div className="nav-form-container">
-      <nav className="nav nav--active">
+      <nav className={`nav ${menuOpen ? 'nav--active' : ''}`}>
+
         <ul className="nav-list">
-          {sections.map((section, index) => (
-            <li
-              key={index}
-              className="nav-item"
-            >
+          {menuOpen ? (
+            sections.map((section, index) => (
+              <li
+                key={index}
+                className="nav-item"
+              >
+                <a
+                  href="#"
+                  className="nav-link"
+                  onClick={() => handleNavClick(index)}
+                >
+                  <div className="nav-icon--container">
+                    {section.sectionIcon}
+                  </div>
+                  <p className="nav-section-name-text">{section.sectionName}</p>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="icon-information"><path className="primary" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20z"></path><path className="secondary" d="M11 12a1 1 0 0 1 0-2h2a1 1 0 0 1 .96 1.27L12.33 17H13a1 1 0 0 1 0 2h-2a1 1 0 0 1-.96-1.27L11.67 12H11zm2-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path></svg>
+                </a>
+              </li>
+            ))
+          ) : (
+            <li className="nav-item">
               <a
                 href="#"
                 className="nav-link"
-                onClick={() => handleNavClick(index)}
+                onClick={toggleMenu}
               >
                 <div className="nav-icon--container">
-                  {section.sectionIcon}
+                  {sections[activeIndex].sectionIcon}
                 </div>
-                <p className="nav-section-name-text">{section.sectionName}</p>
-                <p className="nav-section-desc-text">{section.sectionNameDesc}</p>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="icon-information"><path className="primary" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20z"></path><path className="secondary" d="M11 12a1 1 0 0 1 0-2h2a1 1 0 0 1 .96 1.27L12.33 17H13a1 1 0 0 1 0 2h-2a1 1 0 0 1-.96-1.27L11.67 12H11zm2-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path></svg>
+                <p className="nav-section-name-text">{sections[activeIndex].sectionName}</p>
               </a>
             </li>
-          ))}
+          )}
         </ul>
+        <div
+          className="menu-icon--container"
+          onClick={toggleMenu}
+        >
+          <SidepanelMenuIcon />
+        </div>
       </nav>
       <div className={`pageViewer ${activeColorClass}`}>
         <FormTableContainer
@@ -147,7 +183,6 @@ const SidepanelMenu = () => {
           setError={(error) => setError(activeIndex, error)}
         />
       </div>
-
     </div>
   );
 };

@@ -104,7 +104,7 @@ const SearchByDocTypeForm = ({
   };
 
   return (
-    <form className="search-by-doc-type-form" onSubmit={handleSubmit}>
+    <form className="search-by-doc-type-form custom-form--container" onSubmit={handleSubmit}>
       <DocTypeSearch
         docTypeSoql={docTypeSoql}
         handleInputChange={handleInputChange}

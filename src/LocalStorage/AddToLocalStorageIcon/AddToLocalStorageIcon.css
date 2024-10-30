@@ -20,10 +20,15 @@
     fill: var(--accent-success);
 }
 
-.local-storage-icon--container .hover-message {
+.icon-add-square .secondary--warning {
+    fill: var(--red-500);
+}
+
+
+.local-storage-icon--container .hover-message--container {
     visibility: visible;
-    background-color: var(--blue-500);
-    color: var(--yellow-700);
+    /* background-color: var(--blue-500); */
+    /* color: var(--yellow-700); */
     text-align: center;
     border-radius: 5px;
     padding: 5px;
@@ -39,7 +44,7 @@
     display: absolute;
 }
 
-.local-storage-icon--container .hover-message::after {
+.local-storage-icon--container .hover-message--container::after {
     content: '';
     position: absolute;
     top: 100%;
@@ -49,4 +54,27 @@
     border-style: solid;
     border-color: var(--blue-500) transparent transparent transparent;
     max-width: 100%;
+}
+
+
+/* Styles for hover message when adding */
+.local-storage-icon--container .hover-message-add {
+    background-color: var(--blue-700);
+    color: var(--blue-100);
+    border: 2.5px solid var(--blue-100);
+}
+
+.local-storage-icon--container .hover-message-add::after {
+    border-color: var(--blue-100) transparent transparent transparent;
+}
+
+/* Styles for hover message when removing */
+.local-storage-icon--container .hover-message-remove {
+    background-color: var(--red-700);
+    color: var(--red-100);
+    border: 2.5px solid var(--red-100);
+}
+
+.local-storage-icon--container .hover-message-remove::after {
+    border-color: var(--red-100) transparent transparent transparent;
 }

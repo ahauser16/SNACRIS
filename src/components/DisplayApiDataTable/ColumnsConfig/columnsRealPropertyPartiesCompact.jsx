@@ -1,7 +1,6 @@
 // src/components/DisplayApiDataTable/ColumnsConfig/columnsRealPropertyPartiesCompact.jsx
 import React from 'react';
 import AddToLocalStorageIcon from '../../../LocalStorage/AddToLocalStorageIcon/AddToLocalStorageIcon';
-import CopyToClipboardIcon from '../../CopyToClipboardIcon/CopyToClipboardIcon';
 
 const dataset = 'ACRIS_REAL_PROPERTY_PARTIES';
 
@@ -12,7 +11,7 @@ export const columnsRealPropertyPartiesCompact = [
         Cell: ({ value, column }) => (
             <>
                 <span className="header-name--compact">{column.Header}:</span>
-                <a className="docID-link"href={`https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentImageView?doc_id=${value}`}>
+                <a className="docID-link" href={`https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentImageView?doc_id=${value}`}>
                     {value ? value : <span className="no-api-data-in-response" aria-live="polite">No Document ID Data</span>}
                 </a>
                 {value && (
@@ -22,7 +21,6 @@ export const columnsRealPropertyPartiesCompact = [
                             fieldName="document_id"
                             value={value}
                         />
-                        <CopyToClipboardIcon value={value} />
                     </>
                 )}
             </>
@@ -70,7 +68,7 @@ export const columnsRealPropertyPartiesCompact = [
                         {address_2 && <>{address_2}<br /></>}
                         {locationParts ? <>{locationParts}</> : <span className="no-api-data-in-response" aria-live="polite">No Location Data</span>}
                     </>
-                    
+
                 </>
             )
         },

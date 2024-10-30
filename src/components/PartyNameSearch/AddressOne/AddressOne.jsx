@@ -27,7 +27,8 @@ const AddressOne = ({
 
     return (
         <div
-            className={`form-group form-group--address_1 ${error ? 'field-error' : ''}`}
+            className={`form-group form-group--width-auto form-group--address_1 ${error ? 'field-error' : ''}`}
+            style={{ '--field-width': '30ch' }}
         >
             <label
                 htmlFor="address_1"

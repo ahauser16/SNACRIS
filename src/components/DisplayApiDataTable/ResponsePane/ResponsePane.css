@@ -14,25 +14,61 @@
 }
 
 .api-response-details--container ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     list-style-type: none;
-    /* Remove default bullet points */
     padding: 0;
-    /* Remove default padding */
     margin: 0;
-    /* Remove default margin */
 }
 
 .api-response-details--container li {
-    padding: 0;
-    /* Remove default padding */
-    margin: .125rem;
-    /* Remove default margin */
+    padding: .125rem;
+    margin: .35rem;
+    border-bottom: 1px solid var(--grey-1000);
 }
 
 .api-response-details--container li {
     font-size: 1rem;
 }
 
-.pagination-btn {
-    margin: .5rem;
+
+.record-type {
+    position: relative;
+    cursor: pointer;
+    margin: 0 .35rem;
+    color: var(--yellow-400);
+}
+
+.api-response-value{
+    color: var(--yellow-400);
+}
+
+.record-type:hover::after {
+    content: attr(title);
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    background-color: var(--grey-800);
+    color: var(--white);
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    white-space: nowrap;
+    z-index: 10;
+    transform: translateY(-0.5rem);
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.record-type::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    border-width: 0.5rem;
+    border-style: solid;
+    border-color: var(--grey-800) transparent transparent transparent;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
 }

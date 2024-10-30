@@ -25,8 +25,9 @@ const DocIdInput = ({
 
   return (
     <div
-      className={`form-group 
+      className={`form-group form-group--width-auto
       form-group--docId ${error ? "field-error" : ""}`}
+      style={{ '--field-width': '20ch' }}
     >
       <label htmlFor="document-id">
         <span>Document ID</span>
@@ -44,7 +45,7 @@ const DocIdInput = ({
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
         aria-describedby="document-id-description"
-        placeholder="Please enter as 'YYYYMMDDNNNNNSSS'"
+        placeholder="YYYYMMDDNNNNNSSS"
       // maxLength="16"
       />
       <span className="field-description" id="document-id-description">

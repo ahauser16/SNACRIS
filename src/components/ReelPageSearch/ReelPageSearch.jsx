@@ -14,7 +14,7 @@ const TransNumSearch = ({
 }) => {
 
     const [isHovered, setIsHovered] = useState(false);
-    
+
     const hoverMessage = 'Note: Reel & Page search only available for documents recorded or filed BEFORE January 2, 2003';
 
     return (
@@ -48,8 +48,8 @@ const TransNumSearch = ({
                     handleErrorDisplay={handleErrorDisplay}
                     error={inputUserErrors.reel_yr}
                 />
-            </div>
-            <div className="form-row form-row--variable">
+                {/* </div>
+            <div className="form-row form-row--variable"> */}
                 <BoroughSelect
                     value={reelPageSoql.recorded_borough}
                     onChange={(e) =>

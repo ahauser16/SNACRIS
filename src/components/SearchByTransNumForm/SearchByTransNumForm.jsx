@@ -99,7 +99,7 @@ const SearchByTransNumForm = ({
   };
 
   return (
-    <form className="search-by-trans-num-form" onSubmit={handleSubmit}>
+    <form className="search-by-trans-num-form custom-form--container" onSubmit={handleSubmit}>
       <TransNumSearch
         transNumSoql={transNumSoql}
         handleInputChange={handleInputChange}

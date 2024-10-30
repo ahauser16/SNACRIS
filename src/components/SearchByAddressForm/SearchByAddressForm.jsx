@@ -137,7 +137,7 @@ const SearchByAddressForm = ({ setData, setError, handleTableReset }) => {
 
   return (
     <form
-      className="search-by-address-form"
+      className="search-by-address-form custom-form--container"
       onSubmit={handleSubmit}
     >
       <AddressSearch

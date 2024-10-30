@@ -81,7 +81,7 @@ const FormTableContainer = ({
   const responseSchema = getResponseSchema();
 
   return (
-    <main className={`form-container ${colorClass}`}>
+    <main className={`${colorClass}`}>
       <ActiveForm 
         setData={setData} 
         setError={setError} 

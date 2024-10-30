@@ -9,7 +9,8 @@ const CopyToClipboardIcon = ({ value }) => {
 
     const handleClick = async () => {
         try {
-            console.log('Sending message to background script to copy to clipboard:', value); // Debugging statement
+            // Debugging statement
+            console.log('Sending message to background script to copy to clipboard:', value);
             await chrome.runtime.sendMessage({
                 type: 'copy-data-to-clipboard',
                 target: 'offscreen-doc',

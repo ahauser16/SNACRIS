@@ -51,6 +51,8 @@
     "sidePanel",
     "tabs",
     "activeTab",
-    "windows"
+    "windows",
+    "storage",
+    "scripting"
   ]
 }

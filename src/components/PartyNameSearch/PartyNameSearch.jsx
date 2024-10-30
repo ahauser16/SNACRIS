@@ -49,26 +49,26 @@ const PartyNameSearch = ({
 
   return (
       <fieldset className="party-name-search--container">
-        <legend className="party-name-search--legend">
+        <legend>
           Search By Party Name
           </legend>
-        <div className="form-row">
+        <div className="form-row form-row--mixed">
           <NameInput
             value={partyNameSoql.name}
             onChange={handleInputChange}
             handleErrorDisplay={handleErrorDisplay}
             error={inputUserErrors.name}
           />
-        </div>
-        <div className="form-row">
+        {/* </div> */}
+        {/* <div className="form-row"> */}
           <AddressOne
             value={partyNameSoql.address_1}
             onChange={handleInputChange}
             handleErrorDisplay={handleErrorDisplay}
             error={inputUserErrors.address_1}
           />
-        </div>
-        <div className="form-row">
+        {/* </div> */}
+        {/* <div className="form-row"> */}
           <AddressTwo
             value={partyNameSoql.address_2}
             onChange={handleInputChange}
@@ -83,7 +83,6 @@ const PartyNameSearch = ({
             handleErrorDisplay={handleErrorDisplay}
             error={inputUserErrors.city}
           />
-
           {/* State Select (Single) */}
           <StatesSelect
             selectedState={
@@ -104,8 +103,8 @@ const PartyNameSearch = ({
             handleErrorDisplay={handleErrorDisplay}
             error={inputUserErrors.zip}
           />
-        </div>
-        <div className="form-row">
+        {/* </div>
+        <div className="form-row"> */}
           <CountrySelect
             selectedCountry={
               partyNameSoql.country.length > 1

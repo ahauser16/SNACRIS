@@ -98,7 +98,7 @@ const SearchByDocIdCrfnForm = ({ setData, setError, handleTableReset }) => {
   };
 
   return (
-    <form className="search-by-doc-id-crfn-form" onSubmit={handleSubmit}>
+    <form className="search-by-doc-id-crfn-form custom-form--container" onSubmit={handleSubmit}>
       <DocIdCrfnSearch
         docIdCrfnSoql={docIdCrfnSoql}
         handleInputChange={handleInputChange}

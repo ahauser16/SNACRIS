@@ -1,0 +1,32 @@
+
+.icon-search,
+.icon-notification,
+.icon-heart,
+.icon-cog,
+.icon-document-notes,
+.icon-light,
+.icon-launch {
+    width: 1rem;
+    margin-left: .15rem;
+}
+
+.icon-search .secondary,
+.icon-notification .secondary,
+.icon-heart .secondary,
+.icon-cog .secondary,
+.icon-document-notes .secondary,
+.icon-light .secondary,
+.icon-launch .secondary {
+    fill: var(--blue-100);
+}
+
+
+.icon-search .primary,
+.icon-notification .primary,
+.icon-heart .primary,
+.icon-cog .primary,
+.icon-document-notes .primary,
+.icon-light .primary,
+.icon-launch .primary {
+    fill: var(--yellow-300);
+}

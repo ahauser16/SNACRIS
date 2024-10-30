@@ -75,29 +75,37 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
+
 // COPY TO CLIPBOARD RELATED CODE
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log('Received message:', message);
 
-// The value that will be written to the clipboard.
-const textToCopy = `Hello world!`;
+    if (message.type === 'copy-data-to-clipboard') {
+        console.log('Calling addToClipboard with value:', message.data); // Debugging statement
+        addToClipboard(message.data);
+    }
+});
 
-// When the browser action is clicked, `addToClipboard()` will use an offscreen document to write the value of `textToCopy` to the system clipboard.
-chrome.action.onClicked.addListener(async () => {
-    await addToClipboard(textToCopy);
-  });
 
 // Solution 1 - As of Jan 2023, service workers cannot directly interact with the system clipboard using either `navigator.clipboard` or `document.execCommand()`. To work around this, we'll create an offscreen document and pass it the data we want to write to the clipboard.
 async function addToClipboard(value) {
-    await chrome.offscreen.createDocument({
-      url: 'offscreen.html',
-      reasons: [chrome.offscreen.Reason.CLIPBOARD],
-      justification: 'Write text to the clipboard.'
-    });
-  
-    // Now that we have an offscreen document, we can dispatch the
-    // message.
-    chrome.runtime.sendMessage({
-      type: 'copy-data-to-clipboard',
-      target: 'offscreen-doc',
-      data: value
-    });
-  }
+    console.log('Creating offscreen document to copy to clipboard:', value); // Debugging statement
+    try {
+        await chrome.offscreen.createDocument({
+            url: 'src/components/CopyToClipboardIcon/offscreen.html',
+            reasons: [chrome.offscreen.Reason.CLIPBOARD],
+            justification: 'Write text to the clipboard.'
+        });
+        console.log('Offscreen document created successfully'); // Debugging statement
+
+        // Now that we have an offscreen document, we can dispatch the message.
+        console.log('Sending message to offscreen document:', value); // Debugging statement
+        chrome.runtime.sendMessage({
+            type: 'copy-data-to-clipboard',
+            target: 'offscreen-doc',
+            data: value
+        });
+    } catch (error) {
+        console.error('Error creating offscreen document:', error); // Debugging statement
+    }
+}
