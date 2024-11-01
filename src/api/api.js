@@ -17,6 +17,7 @@ import countryCodesFields from './countryCodesFields';
 import uccCollateralCodesFields from './uccCollateralCodesFields';
 import stateCodesFields from './stateCodesFields';
 import API_ENDPOINTS from './apiEndpoints';
+import DocMapClassTypeParties from '../components/AcrisData/DocMapClassTypeParties.json';
 
 const APP_TOKEN = secrets.appToken;
 
@@ -27,17 +28,33 @@ const RPMqueryBuilder = (soql = {}, endpoint, fields, limit = 10, offset = 0) =>
   return url;
 };
 
+// Function to map document_class to doc__type values
+const mapDocTypeBasedOnDocClass = (documentClass) => {
+  return DocMapClassTypeParties
+    .filter(doc => doc.class_code_description === documentClass)
+    .map(doc => doc.doc__type);
+};
+
 // Build SoQL query string
 const buildSoQLQuery = (soql, fields, limit, offset) => {
   // Define the fields you want to skip
   const fieldsToSkip = ['document_class', 'document_party_type'];
 
-  const whereClauses = Object.entries(soql)
+  let whereClauses = Object.entries(soql)
     // Skip fields like 'document_class' and 'document_party_type'
-    .filter(([key]) => !fieldsToSkip.includes(key)) // Explicitly skip the unwanted fields
+    .filter(([key]) => !fieldsToSkip.includes(key)) 
     .filter(([key, value]) => value && String(value).trim() !== '') // Ensure valid key-value pairs
     .map(([key, value]) => buildSoqlFieldQuery(key, value)) // Build the query for each field
     .join(' AND ');
+
+  // Handle document_class separately
+  if (soql.document_class) {
+    const docTypes = mapDocTypeBasedOnDocClass(soql.document_class);
+    if (docTypes.length > 0) {
+      const docTypeQuery = docTypes.map(docType => `doc_type='${docType}'`).join(' OR ');
+      whereClauses += ` AND (${docTypeQuery})`;
+    }
+  }
 
   // Log the constructed where clause before encoding
   console.log('Raw SoQL Query:', whereClauses);
@@ -66,8 +83,8 @@ const endQuery = (isString) => {
 
 // Function to build field queries based on field type (string or number)
 const buildSoqlFieldQuery = (key, value) => {
-  const exactMatchStringFields = ['street_name', 'unit', 'street_number', 'state', 'city'];
-  const exactMatchNumberFields = ['borough', 'block', 'lot', 'recorded_borough'];
+  const exactMatchStringFields = ['street_name', 'unit', 'street_number', 'state', 'city', 'party_type'];
+  const exactMatchNumberFields = ['borough', 'block', 'lot', 'recorded_borough', 'reel_pg', 'reel_nbr', 'reel_yr'];
 
   const isString = exactMatchStringFields.includes(key);
   const isNumber = exactMatchNumberFields.includes(key);
@@ -120,7 +137,7 @@ export const fetchPaginatedData = (soql, endpoint, fields, limit, offset) => {
   return fetchData(url);
 };
 
-//API endpoing specific functions
+//API endpoint specific functions
 export const fetchRealPropertyMasterData = (docTypeSoql, limit = 10, offset = 0) => {
   return fetchPaginatedData(docTypeSoql, API_ENDPOINTS.realPropertyMaster, realPropertyMasterFields, limit, offset);
 };

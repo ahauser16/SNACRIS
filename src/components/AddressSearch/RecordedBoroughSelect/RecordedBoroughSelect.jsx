@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import InfoIcon from '../../InfoIcon/InfoIcon';
 
-//this validation does not work as intended because the user can still submit the form without selecting a borough only when the the page first loads.  If the user selects a borough and then selects the default "Select a borough" option, the error message will display which disables the form from being submitted.
-const BoroughSelect = ({
+
+const RecordedBoroughSelect = ({
   value,
   onChange,
   handleErrorDisplay,
   error
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const validateUserInput = (value) => {
     if (!value) {
       handleErrorDisplay('borough', 'You must select a borough.');
@@ -20,21 +23,28 @@ const BoroughSelect = ({
     onChange(e); // Keep the original onChange for state management
   };
 
+  const hoverMessage = 'Borough is optional for form submission.';
+
   return (
     <div
-      className={`form-group form-group--width-auto form-group--borough ${error ? 'field-error' : ''}`}
+      className={`form-group form-group--width-auto form-group--recorded_borough ${error ? 'field-error' : ''}`}
       style={{ '--field-width': '15ch' }}
     >
-      <label htmlFor="borough" >
-        Borough
+      <label htmlFor="recorded_borough" >
+        <span>Borough</span>
+        <InfoIcon
+          isHovered={isHovered}
+          setIsHovered={setIsHovered}
+          hoverMessage={hoverMessage}
+        />
       </label>
       <div className="form-field select">
         <select
-          id="borough"
-          name="borough"
+          id="recorded_borough"
+          name="recorded_borough"
           value={value}
           onChange={handleValidationPlusDataTransferToSoql}
-          aria-describedby="borough-description"
+          aria-describedby="recorded-borough-description"
         >
           <option value="">Select</option>
           <option value="1">Manhattan</option>
@@ -46,9 +56,9 @@ const BoroughSelect = ({
         <span className="focus"></span>
       </div>
       <span className="field-description"
-        id="borough-description">{error}</span>
+        id="recorded-borough-description">{error}</span>
     </div>
   );
 };
 
-export default BoroughSelect;
+export default RecordedBoroughSelect

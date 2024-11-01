@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import docMap from "../AcrisData/DocMapClassTypeParties.json";
 
 const DocSelect = ({
@@ -9,8 +9,6 @@ const DocSelect = ({
   errorType,
   errorParty,
 }) => {
-  const [selectedClass, setSelectedClass] = useState("");
-  const [selectedType, setSelectedType] = useState("");
 
   // Get unique classes
   const uniqueClasses = [

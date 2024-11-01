@@ -120,17 +120,6 @@ function AddressSearch({
                     error={inputUserErrors.property_type}
                 />
             </div>
-            {/* <button type="button" onClick={togglePropertyTypesCheckboxes}>
-                    {showPropertyTypeCheckboxes
-                        ? "Hide Multiple Property Types"
-                        : "Select Multiple Property Types"}
-                </button>
-                {showPropertyTypeCheckboxes && (
-                    <PropertyTypeCheckboxes
-                        selectedPropertyTypes={addressSoql.property_type}
-                        handlePropertyTypeChange={handlePropertyTypeChange}
-                    />
-                )} */}
         </fieldset >
     )
 }

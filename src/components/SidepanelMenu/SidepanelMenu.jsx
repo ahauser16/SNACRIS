@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import FormTableContainer from "../FormTableContainer/FormTableContainer";
 import SearchByPartyNameForm from "../SearchByPartyNameForm/SearchByPartyNameForm";
+import SearchByPartyNameHybridForm from "../SearchByPartyNameHybridForm/SearchByPartyNameHybridForm";
 import SearchByAddressForm from "../SearchByAddressForm/SearchByAddressForm";
 import SearchByDocTypeForm from "../SearchByDocTypeForm/SearchByDocTypeForm";
 import SearchByDocIdCrfnForm from "../SearchByDocIdCrfnForm/SearchByDocIdCrfnForm";
@@ -24,6 +25,14 @@ const SidepanelMenu = () => {
       sectionNameAbbreviated: "HOME",
       component: SidepanelHomescreen,
       sectionIcon: <SidepanelHomescreenIcon />,
+    },
+    {
+      sectionName: "Party Name Hybrid",
+      sectionNameDesc: "Search by Party Name & Additional Criteria",
+      colorClass: "color10",
+      sectionNameAbbreviated: "PNH",
+      component: SearchByPartyNameHybridForm,
+      sectionIcon: <PartyNameIcon />,
     },
     {
       sectionName: "Party Name",

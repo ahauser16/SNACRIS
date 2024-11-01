@@ -8,7 +8,9 @@ import ReelPageSearch from '../ReelPageSearch/ReelPageSearch';
 const SearchByReelPageForm = ({
   setData,
   setError,
-  handleTableReset
+  handleTableReset,
+  limit, 
+  offset
 }) => {
 
   const [reelPageSoql, setReelPageSoql] = useState({

@@ -39,7 +39,6 @@ const AddressOne = ({
                     setIsHovered={setIsHovered}
                     hoverMessage={hoverMessage}
                 />
-
             </label>
             <input
                 type="text"

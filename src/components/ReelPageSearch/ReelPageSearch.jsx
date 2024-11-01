@@ -1,12 +1,13 @@
-// src/components/TransNumSearch/TransNumSearch.jsx
+// src/components/ReelPageSearch/ReelPageSearch.jsx
 import React, { useState } from 'react';
 import InfoIcon from '../InfoIcon/InfoIcon';
 import ReelPageInput from "./ReelPageInput/ReelPageInput";
 import ReelNbrInput from "./ReelNbrInput/ReelNbrInput";
 import ReelYearInput from "./ReelYearInput/ReelYearInput";
-import BoroughSelect from "../AddressSearch/BoroughSelect/BoroughSelect";
+import RecordedBoroughSelect from "../AddressSearch/RecordedBoroughSelect/RecordedBoroughSelect";
 
-const TransNumSearch = ({
+
+const ReelPageSearch = ({
     reelPageSoql,
     handleInputChange,
     handleErrorDisplay,
@@ -48,18 +49,10 @@ const TransNumSearch = ({
                     handleErrorDisplay={handleErrorDisplay}
                     error={inputUserErrors.reel_yr}
                 />
-                {/* </div>
-            <div className="form-row form-row--variable"> */}
-                <BoroughSelect
+                <RecordedBoroughSelect
                     value={reelPageSoql.recorded_borough}
-                    onChange={(e) =>
-                        handleInputChange({
-                            target: { name: "recorded_borough", value: e.target.value },
-                        })
-                    }
-                    handleErrorDisplay={(name, errorMessage) =>
-                        handleErrorDisplay("recorded_borough", errorMessage)
-                    }
+                    onChange={handleInputChange}
+                    handleErrorDisplay={handleErrorDisplay}
                     error={inputUserErrors.recorded_borough}
                 />
             </div>
@@ -67,6 +60,6 @@ const TransNumSearch = ({
     );
 };
 
-export default TransNumSearch;
+export default ReelPageSearch;
 
 

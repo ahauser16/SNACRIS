@@ -10,6 +10,7 @@ import { columnsRealPropertyLegalsCompact } from './ColumnsConfig/columnsRealPro
 import { columnsRealPropertyLegalsFull } from './ColumnsConfig/columnsRealPropertyLegalsFull';
 import { getColumnsRealPropertyMasterCompact } from './ColumnsConfig/columnsRealPropertyMasterCompact';
 import { columnsRealPropertyMasterFull } from './ColumnsConfig/columnsRealPropertyMasterFull';
+import { columnsRPMasterPartiesHybrid } from './ColumnsConfig/columnsRPMasterPartiesHybrid';
 
 const DisplayApiDataTable = ({
     data,
@@ -50,6 +51,8 @@ const DisplayApiDataTable = ({
                 return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
             case 'SearchByUccFedLienFileNumForm':
                 return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
+            case 'SearchByPartyNameHybridForm':
+                return columnsRPMasterPartiesHybrid;
             default:
                 return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
         }
