@@ -13,7 +13,7 @@ import { columnsRealPropertyMasterFull } from './ColumnsConfig/columnsRealProper
 import { columnsRPMasterPartiesHybrid } from './ColumnsConfig/columnsRPMasterPartiesHybrid';
 
 const DisplayApiDataTable = ({
-    data,
+    data = {},
     error,
     setData,
     setError,
@@ -41,20 +41,21 @@ const DisplayApiDataTable = ({
         switch (formType) {
             case 'SearchByPartyNameForm':
                 return isCompact ? columnsRealPropertyPartiesCompact : columnsRealPropertyPartiesFull;
+            case 'SearchByPartyNameHybridForm':
+                return columnsRPMasterPartiesHybrid;
             case 'SearchByAddressForm':
                 return isCompact ? columnsRealPropertyLegalsCompact : columnsRealPropertyLegalsFull;
             case 'SearchByDocTypeForm':
-                return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
+                return isCompact ? getColumnsRealPropertyMasterCompact(data.crossReferencedData || []) : columnsRealPropertyMasterFull;
             case 'SearchByTransNumForm':
             case 'SearchByDocIdCrfnForm':
             case 'SearchByReelPageForm':
-                return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
+                return isCompact ? getColumnsRealPropertyMasterCompact(data.crossReferencedData || []) : columnsRealPropertyMasterFull;
             case 'SearchByUccFedLienFileNumForm':
-                return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
-            case 'SearchByPartyNameHybridForm':
-                return columnsRPMasterPartiesHybrid;
+                return isCompact ? getColumnsRealPropertyMasterCompact(data.crossReferencedData || []) : columnsRealPropertyMasterFull;
+
             default:
-                return isCompact ? getColumnsRealPropertyMasterCompact(data.data || []) : columnsRealPropertyMasterFull;
+                return isCompact ? getColumnsRealPropertyMasterCompact(data.crossReferencedData || []) : columnsRealPropertyMasterFull;
         }
     }, [formType, isCompact, data]);
 
@@ -75,10 +76,10 @@ const DisplayApiDataTable = ({
     } = useTable(
         {
             columns,
-            data: data.data || [],
+            data: data.crossReferencedData || data.response?.data || [],
             initialState: { pageIndex: 0 },
             manualPagination: true,
-            pageCount: Math.ceil((data.totalRecords || 0) / limit),
+            pageCount: Math.ceil((data.crossReferencedData?.length || data.response?.data?.length || 0) / limit),
         },
         useFilters,
         useSortBy,
@@ -89,7 +90,7 @@ const DisplayApiDataTable = ({
         return <p>No data available</p>;
     }
 
-    const hasData = data.data && data.data.length > 0;
+    const hasData = (data.crossReferencedData && data.crossReferencedData.length > 0) || (data.response && data.response.data && data.response.data.length > 0);
 
     return (
         <div className="api-table--container">

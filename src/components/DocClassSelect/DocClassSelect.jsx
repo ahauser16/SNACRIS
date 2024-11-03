@@ -15,17 +15,25 @@ const DocClassSelect = ({
         ...new Set(DocMapClassTypeParties.map(doc => doc.class_code_description))
     ];
 
+    // Map class code descriptions to doc__type values
+    const mapClassCodeToDocType = (classCode) => {
+        return DocMapClassTypeParties
+            .filter(doc => doc.class_code_description === classCode)
+            .map(doc => doc.doc__type);
+    };
+
     // Validation function for input fields
     // Example validation, can be extended
     const validateUserInput = (inputValue) => {
-        // if (!inputValue) {
-        //     handleErrorDisplay("Input value cannot be empty"); 
-        // }
+        if (!inputValue) {
+            handleErrorDisplay("Input value cannot be empty"); 
+        }
     };
 
     const handleValidationPlusDataTransferToSoql = (e) => {
         validateUserInput(e.target.value);
-        onChange(e); // Keep the original onChange for state management
+        const docTypes = mapClassCodeToDocType(e.target.value);
+        onChange({ target: { name: 'doc_type', value: docTypes } });
     };
 
     const hoverMessage = 'Document Class is optional for form submission.';
@@ -33,7 +41,7 @@ const DocClassSelect = ({
     return (
         <div className="form-row">
             <div
-                className={`form-group form-group--document_class ${error ? "field-error" : ""
+                className={`form-group form-group--doc_type ${error ? "field-error" : ""
                     }`}
             >
                 <label htmlFor="document-class-select">
@@ -47,8 +55,8 @@ const DocClassSelect = ({
                 <div className="form-field select">
                     <select
                         id="document-class-select"
-                        name="document_class"
-                        value={value.document_class}
+                        name="doc_type"
+                        value={value.doc_type}
                         onChange={handleValidationPlusDataTransferToSoql}
                         aria-describedby="document-class-select"
                     >

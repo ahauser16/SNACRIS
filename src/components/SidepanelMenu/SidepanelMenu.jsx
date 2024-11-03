@@ -21,7 +21,6 @@ const SidepanelMenu = () => {
     {
       sectionName: "Home",
       sectionNameDesc: "Homepage",
-      colorClass: "color9",
       sectionNameAbbreviated: "HOME",
       component: SidepanelHomescreen,
       sectionIcon: <SidepanelHomescreenIcon />,
@@ -29,7 +28,6 @@ const SidepanelMenu = () => {
     {
       sectionName: "Party Name Hybrid",
       sectionNameDesc: "Search by Party Name & Additional Criteria",
-      colorClass: "color10",
       sectionNameAbbreviated: "PNH",
       component: SearchByPartyNameHybridForm,
       sectionIcon: <PartyNameIcon />,
@@ -37,7 +35,6 @@ const SidepanelMenu = () => {
     {
       sectionName: "Party Name",
       sectionNameDesc: "Search by Party Name",
-      colorClass: "color1",
       sectionNameAbbreviated: "PN",
       component: SearchByPartyNameForm,
       sectionIcon: <PartyNameIcon />,
@@ -45,7 +42,6 @@ const SidepanelMenu = () => {
     {
       sectionName: "Borough Block Lot",
       sectionNameDesc: "Search by property identifier of borough, block and lot",
-      colorClass: "color2",
       sectionNameAbbreviated: "BBL",
       component: SearchByAddressForm,
       sectionIcon: <BBLIcon />,
@@ -53,7 +49,6 @@ const SidepanelMenu = () => {
     {
       sectionName: "Document Type",
       sectionNameDesc: "Search by type of document",
-      colorClass: "color3",
       sectionNameAbbreviated: "DT",
       component: SearchByDocTypeForm,
       sectionIcon: <DocTypeIcon />,
@@ -61,7 +56,6 @@ const SidepanelMenu = () => {
     {
       sectionName: "Transaction Number",
       sectionNameDesc: "Search by Transaction Number assigned to cover pages on or after January 2, 2003.",
-      colorClass: "color5",
       sectionNameAbbreviated: "TN",
       component: SearchByTransNumForm,
       sectionIcon: <TransNumIcon />,
@@ -69,7 +63,6 @@ const SidepanelMenu = () => {
     {
       sectionName: "Document ID & CRFN",
       sectionNameDesc: "Search by Document ID or CRFN assigned to documents recorded on or after January 2, 2003",
-      colorClass: "color4",
       sectionNameAbbreviated: "DC",
       component: SearchByDocIdCrfnForm,
       sectionIcon: <DocIdCrfnIcon />,
@@ -77,7 +70,6 @@ const SidepanelMenu = () => {
     {
       sectionName: "UCC & Lien",
       sectionNameDesc: "Search by file number assigned to UCC/Federal Liens prior to January 2, 2003.",
-      colorClass: "color6",
       sectionNameAbbreviated: "FN",
       component: SearchByUccFedLienFileNumForm,
       sectionIcon: <UccLienIcon />,
@@ -85,7 +77,6 @@ const SidepanelMenu = () => {
     {
       sectionName: "Reel & Page",
       sectionNameDesc: "Search by microfilm reel/page assigned to documents prior to January 2, 2003",
-      colorClass: "color7",
       sectionNameAbbreviated: "RP",
       component: SearchByReelPageForm,
       sectionIcon: <ReelPageIcon />,
@@ -93,7 +84,6 @@ const SidepanelMenu = () => {
     {
       sectionName: "Form Test Area",
       sectionNameDesc: "This is a test area for custom form styling",
-      colorClass: "color8",
       sectionNameAbbreviated: "TA",
       component: FormTestArea,
       sectionIcon: <FormTestAreaIcon />,
@@ -114,11 +104,6 @@ const SidepanelMenu = () => {
   };
 
   const ActiveFormComponent = sections[activeIndex].component;
-  const activeColorClass = sections[activeIndex].colorClass;
-
-  useEffect(() => {
-    document.documentElement.className = activeColorClass;
-  }, [activeColorClass]);
 
   const setData = (index, data) => {
     setFormStates((prevStates) => {
@@ -182,10 +167,9 @@ const SidepanelMenu = () => {
           <SidepanelMenuIcon />
         </div>
       </nav>
-      <div className={`pageViewer ${activeColorClass}`}>
+      <div className="pageViewer">
         <FormTableContainer
           activeForm={ActiveFormComponent}
-          colorClass={activeColorClass}
           data={formStates[activeIndex].data}
           error={formStates[activeIndex].error}
           setData={(data) => setData(activeIndex, data)}

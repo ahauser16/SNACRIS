@@ -19,10 +19,16 @@ const getRecordTypeName = (recordType) => {
     return recordTypeMapping[recordType] || 'Unknown Record Type';
 };
 
-const ResponsePane = ({ data = { data: [], totalRecords: 0 } }) => {
-    // Extract the record_type from the first record in the data array
-    const recordType = data.data.length > 0 ? data.data[0].record_type : 'N/A';
+const ResponsePane = ({ data = { crossReferencedData: [], partiesResponse: null, masterResponse: null } }) => {
+    // Extract the record_type from the first record in the crossReferencedData array
+    const recordType = data.crossReferencedData?.length > 0 ? data.crossReferencedData[0].record_type : 'N/A';
     const recordTypeName = getRecordTypeName(recordType);
+
+    // Extract metadata from the partiesResponse and masterResponse
+    const partiesResponseStatus = data.partiesResponse ? data.partiesResponse.status : 'N/A';
+    const masterResponseStatus = data.masterResponse ? data.masterResponse.status : 'N/A';
+    const partiesResponseHeaders = data.partiesResponse ? data.partiesResponse.headers : {};
+    const masterResponseHeaders = data.masterResponse ? data.masterResponse.headers : {};
 
     return (
         <div className="response-pane--container">
@@ -32,19 +38,23 @@ const ResponsePane = ({ data = { data: [], totalRecords: 0 } }) => {
                     <li className="api-response-metric">
                         Total Records:
                         <span className="api-response-value">
-                            {data.totalRecords}
+                            {data.crossReferencedData?.length}
                         </span>
                     </li>
                     <li className="api-response-metric">
                         Displayed Records:
                         <span className="api-response-value">
-                            {data.data.length}
+                            {data.crossReferencedData?.length}
                         </span>
                     </li>
-                    {/* <li className="api-response-metric">
-                        API Call Status:
-                        <span className="api-response-value">{data.status}</span>
-                    </li> */}
+                    <li className="api-response-metric">
+                        Parties API Call Status:
+                        <span className="api-response-value">{partiesResponseStatus}</span>
+                    </li>
+                    <li className="api-response-metric">
+                        Master API Call Status:
+                        <span className="api-response-value">{masterResponseStatus}</span>
+                    </li>
                     <li className="api-response-metric">
                         Timestamp:
                         <span className="api-response-value">{new Date().toLocaleString()}</span>

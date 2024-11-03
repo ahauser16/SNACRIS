@@ -50,10 +50,10 @@ const PartyNameSearchHybrid = ({
       </div>
       <div className="form-row form-row--mixed">
         <DocClassSelect
-          value={partyNameHybridSoql.document_class}
+          value={partyNameHybridSoql.doc_type}
           onChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={inputUserErrors.document_class}
+          error={inputUserErrors.doc_type}
         />
       </div>
     </fieldset>
