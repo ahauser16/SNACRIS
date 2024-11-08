@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CountryCodes from "../CountriesCheckboxes/mappedData/CountryCodes.json";
-import { countriesMappedToTimezones } from "../CountriesCheckboxes/mappedData/CountriesMappedToTimezones";
-import TimezoneClock from "../CountriesCheckboxes/TimezoneClock/TimezoneClock";
+import CountryCodes from "../wipComponents/CountriesCheckboxes/mappedData/CountryCodes.json";
+import { countriesMappedToTimezones } from "../wipComponents/CountriesCheckboxes/mappedData/CountriesMappedToTimezones";
+import TimezoneClock from "../wipComponents/CountriesCheckboxes/TimezoneClock/TimezoneClock";
 import InfoIcon from '../InfoIcon/InfoIcon';
 
 const CountrySelect = ({

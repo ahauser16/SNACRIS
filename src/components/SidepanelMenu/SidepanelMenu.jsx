@@ -1,16 +1,16 @@
 // src/components/SidepanelMenu/SidepanelMenu.jsx
 import React, { useState, useEffect } from "react";
 import FormTableContainer from "../FormTableContainer/FormTableContainer";
-import SearchByPartyNameForm from "../SearchByPartyNameForm/SearchByPartyNameForm";
-import SearchByPartyNameHybridForm from "../SearchByPartyNameHybridForm/SearchByPartyNameHybridForm";
-import SearchByAddressForm from "../SearchByAddressForm/SearchByAddressForm";
-import SearchByDocTypeForm from "../SearchByDocTypeForm/SearchByDocTypeForm";
-import SearchByDocIdCrfnForm from "../SearchByDocIdCrfnForm/SearchByDocIdCrfnForm";
-import SearchByTransNumForm from "../SearchByTransNumForm/SearchByTransNumForm";
-import SearchByReelPageForm from "../SearchByReelPageForm/SearchByReelPageForm";
-import SearchByUccFedLienFileNumForm from "../SearchByUccFedLienFileNumForm/SearchByUccFedLienFileNumForm";
+import SearchByPartyNameForm from "../forms/SearchByPartyNameForm/SearchByPartyNameForm.jsx";
+import SearchByPartyNameHybridForm from "../forms/SearchByPartyNameHybridForm/SearchByPartyNameHybridForm";
+import SearchByAddressForm from "../forms/SearchByAddressForm/SearchByAddressForm.jsx";
+import SearchByDocTypeForm from "../forms/SearchByDocTypeForm/SearchByDocTypeForm.jsx";
+import SearchByDocIdCrfnForm from "../forms/SearchByDocIdCrfnForm/SearchByDocIdCrfnForm.jsx";
+import SearchByTransNumForm from "../forms/SearchByTransNumForm/SearchByTransNumForm.jsx";
+import SearchByReelPageForm from "../forms/SearchByReelPageForm/SearchByReelPageForm";
+import SearchByUccFedLienFileNumForm from "../forms/SearchByUccFedLienFileNumForm/SearchByUccFedLienFileNumForm.jsx";
 import FormTestArea from "../CustomFormStyling/FormTestArea.jsx";
-import SidepanelHomescreen from "../Home/SidepanelHomescreen.jsx";
+import SidepanelHomescreen from "./HomeScreen/SidepanelHomescreen.jsx";
 import { SidepanelHomescreenIcon, PartyNameIcon, BBLIcon, DocTypeIcon, DocIdCrfnIcon, TransNumIcon, UccLienIcon, ReelPageIcon, SidepanelMenuIcon, FormTestAreaIcon } from "./SidepanelIcons.jsx";
 
 import "./SidepanelMenu.css";

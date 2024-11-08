@@ -59,8 +59,8 @@ const endQuery = (isString) => {
 
 // Function to build field queries based on field type (string or number)
 const buildSoqlFieldQuery = (key, value) => {
-  const exactMatchStringFields = ['street_name', 'unit', 'street_number', 'state', 'city', 'party_type', 'doc_type', 'document_id'];
-  const exactMatchNumberFields = ['borough', 'block', 'lot', 'recorded_borough', 'reel_pg', 'reel_nbr', 'reel_yr', ];
+  const exactMatchStringFields = ['street_name', 'unit', 'street_number', 'state', 'city', 'party_type', 'doc_type'];
+  const exactMatchNumberFields = ['borough', 'block', 'lot', 'recorded_borough', 'reel_pg', 'reel_nbr', 'reel_yr'];
 
   const isString = exactMatchStringFields.includes(key);
   const isNumber = exactMatchNumberFields.includes(key);

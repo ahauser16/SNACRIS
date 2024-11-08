@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import InfoIcon from '../InfoIcon/InfoIcon';
-import statesData from "../StatesCheckboxes/mappedData/States.json";
+import statesData from "../wipComponents/StatesCheckboxes/mappedData/States.json";
 
 const StatesSelect = ({
   selectedState,
