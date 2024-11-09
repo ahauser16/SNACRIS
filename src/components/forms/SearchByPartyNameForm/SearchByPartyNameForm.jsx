@@ -54,59 +54,6 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset, limit, off
     });
   };
 
-  const handleStateChange = (e) => {
-    const { value, checked, type } = e.target;
-    console.log(`State change - value: ${value}, checked: ${checked}, type: ${type}`);
-
-    if (type === "checkbox") {
-      setPartyNameSoql((prevSoql) => {
-        const newSoql = {
-          ...prevSoql,
-          state: checked
-            ? [...prevSoql.state, value]
-            : prevSoql.state.filter((state) => state !== value),
-        };
-        console.log('Updated so:', newSoql);
-        return uppercaseSoql(newSoql);
-      });
-    } else {
-      setPartyNameSoql((prevSoql) => {
-        const newSoql = {
-          ...prevSoql,
-          state: value ? [value] : [],
-        };
-        console.log('Updated soql:', newSoql);
-        return uppercaseSoql(newSoql);
-      });
-    }
-  };
-
-  const handleCountryChange = (e) => {
-    const { value, checked, type } = e.target;
-    console.log(`Country change - value: ${value}, checked: ${checked}, type: ${type}`);
-    if (type === "checkbox") {
-      setPartyNameSoql((prevSoql) => {
-        const newSoql = {
-          ...prevSoql,
-          country: checked
-            ? [...prevSoql.country, value]
-            : prevSoql.country.filter((country) => country !== value),
-        };
-        console.log('Updated soql:', newSoql);
-        return uppercaseSoql(newSoql);
-      });
-    } else {
-      setPartyNameSoql((prevSoql) => {
-        const newSoql = {
-          ...prevSoql,
-          country: value ? [value] : [],
-        };
-        console.log('Updated soql:', newSoql);
-        return uppercaseSoql(newSoql);
-      });
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -176,8 +123,6 @@ const SearchByPartyNameForm = ({ setData, setError, handleTableReset, limit, off
       <PartyNameSearch
         partyNameSoql={partyNameSoql}
         handleInputChange={handleInputChange}
-        handleStateChange={handleStateChange}
-        handleCountryChange={handleCountryChange}
         handleErrorDisplay={handleErrorDisplay}
         inputUserErrors={inputUserErrors}
       />

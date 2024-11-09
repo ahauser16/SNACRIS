@@ -32,7 +32,7 @@ const PartyTypeSelectHybrid = ({
                     }`}
             >
                 <label htmlFor="party-type-select">
-                    <span>Document Type</span>
+                    <span>Party Type</span>
                     <InfoIcon
                         isHovered={isHovered}
                         setIsHovered={setIsHovered}

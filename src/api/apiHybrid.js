@@ -20,6 +20,11 @@ import API_ENDPOINTS from './apiEndpoints';
 
 const APP_TOKEN = secrets.appToken;
 
+// Function Definition: The RPMqueryBuilder function is defined with parameters soql, endpoint, fields, limit, and offset. Default values are provided for soql (an empty object), limit (10000), and offset (0).
+// Build SoQL Query: The function calls buildSoQLQuery with the soql, fields, limit, and offset parameters to construct the SoQL query string.
+// Construct URL: The function constructs the full URL by appending the SoQL query string to the endpoint.
+// Log URL: The constructed URL is logged to the console for debugging purposes.
+// Return URL: The function returns the constructed URL.
 const RPMqueryBuilder = (soql = {}, endpoint, fields, limit = 10000, offset = 0) => {
   const soqlQuery = buildSoQLQuery(soql, fields, limit, offset);
   const url = `${endpoint}?${soqlQuery}`;
@@ -27,11 +32,17 @@ const RPMqueryBuilder = (soql = {}, endpoint, fields, limit = 10000, offset = 0)
   return url;
 };
 
+// Function Definition: The buildSoQLQuery function is defined with parameters soql, fields, limit, and offset.
+// Filter and Map SoQL Entries: The function processes the soql object:
+// Filter: It filters out entries where the value is empty or consists only of whitespace.
+// Map: It maps each key-value pair to a SoQL query string by calling buildSoqlFieldQuery.
+// Join Clauses: The resulting query strings are joined with ' AND ' to form the complete where clause.
+// Log Query: The raw SoQL query is logged to the console for debugging purposes.
+// Return Query String: The function returns the complete SoQL query string, including the where clause, limit, offset, and order parameters.
 const buildSoQLQuery = (soql, fields, limit, offset) => {
-
   let whereClauses = Object.entries(soql)
     .filter(([key, value]) => value && String(value).trim() !== '')
-    .map(([key, value]) => buildSoqlFieldQuery(key, value))
+    .map(([key, value]) => buildSoqlFieldQuery(key, value, soql))
     .join(' AND ');
 
   console.log('Raw SoQL Query:', whereClauses);
@@ -47,18 +58,19 @@ const escapeSoqlString = (value) => {
   return value;
 };
 
-// Function to ensure the query starts properly with correct syntax
-const startQuery = (key, value, isString) => {
-  return isString ? `${key}="${escapeSoqlString(value)}` : `${key}=${value}`;
-};
-
-// Function to ensure the query ends correctly with proper quotes and escape handling
-const endQuery = (isString) => {
-  return isString ? '"' : '';  // Use double quotes for strings
-};
-
-// Function to build field queries based on field type (string or number)
-const buildSoqlFieldQuery = (key, value) => {
+// Function Definition: The buildSoqlFieldQuery function is defined with parameters key, value, and soql.
+// Exact Match Fields: It defines arrays of fields that require exact matches for strings and numbers.
+// Check Field Type: It checks if the key is a string or number field.
+// Handle document_date: It handles date ranges and exact dates for the document_date field.
+// Handle doc_type: It handles multiple doc_type values using the IN syntax.
+// Handle name_modifier: It handles different name_modifier values:
+// contains: Uses LIKE for partial matches.
+// exact: Uses = for exact matches.
+// business: Uses LIKE for partial matches.
+// name_parts: Constructs separate LIKE queries for first, last, and middle name parts and combines them with AND.
+// Exact Match: It returns exact match queries for string or number fields.
+// Partial Match: It returns partial match queries for other fields.
+const buildSoqlFieldQuery = (key, value, soql) => {
   const exactMatchStringFields = ['street_name', 'unit', 'street_number', 'state', 'city', 'party_type', 'doc_type'];
   const exactMatchNumberFields = ['borough', 'block', 'lot', 'recorded_borough', 'reel_pg', 'reel_nbr', 'reel_yr'];
 
@@ -83,6 +95,30 @@ const buildSoqlFieldQuery = (key, value) => {
     return `doc_type IN (${inClause})`;
   }
 
+  const nameModifier = soql.name_modifier;
+  if (nameModifier) {
+    if (nameModifier === 'contains' && key === 'name') {
+      return `UPPER(name) LIKE UPPER('%${escapeSoqlString(value)}%')`;
+    } else if (nameModifier === 'exact' && key === 'name') {
+      return `UPPER(name) = UPPER('${escapeSoqlString(value)}')`;
+    } else if (nameModifier === 'business' && key === 'name') {
+      return `UPPER(name) LIKE UPPER('%${escapeSoqlString(value)}%')`;
+    } else if (nameModifier === 'name_parts' && key === 'nameParts') {
+      const nameParts = value;
+      const partsQueries = [];
+      if (nameParts.first) {
+        partsQueries.push(`UPPER(name) LIKE UPPER('%${escapeSoqlString(nameParts.first)}%')`);
+      }
+      if (nameParts.last) {
+        partsQueries.push(`UPPER(name) LIKE UPPER('%${escapeSoqlString(nameParts.last)}%')`);
+      }
+      if (nameParts.middle) {
+        partsQueries.push(`UPPER(name) LIKE UPPER('%${escapeSoqlString(nameParts.middle)}%')`);
+      }
+      return partsQueries.join(' AND ');
+    }
+  }
+
   if (isString || isNumber) {
     // Exact match for string or number fields
     return `${key}=${isString ? `"${escapeSoqlString(value)}"` : value}`;
@@ -92,6 +128,12 @@ const buildSoqlFieldQuery = (key, value) => {
   return `${key} LIKE '%${escapeSoqlString(value)}%'`;
 };
 
+//Function Definition: The fetchData function is defined as an asynchronous function with the url parameter.
+// Try Block: It tries to fetch data from the provided URL using axios.get.
+// Set Headers: It sets the request headers, including the X-App-Token.
+// Log Response: It logs the API response to the console.
+// Return Response: It returns the response.
+// Catch Block: It catches and logs any errors that occur during the fetch operation and rethrows the error.
 const fetchData = async (url) => {
   try {
     const response = await axios.get(url, {
@@ -112,7 +154,9 @@ const fetchData = async (url) => {
   }
 };
 
-// Pagination functions
+//Function Definition: The fetchPaginatedData function is defined with parameters soql, endpoint, fields, limit, and offset.
+// Build URL: It calls RPMqueryBuilder to construct the URL with the provided parameters.
+// Fetch Data: It calls fetchData with the constructed URL and returns the result.
 export const fetchPaginatedData = (soql, endpoint, fields, limit, offset) => {
   const url = RPMqueryBuilder(soql, endpoint, fields, limit, offset);
   return fetchData(url);
