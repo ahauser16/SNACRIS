@@ -14,13 +14,40 @@ const SearchByPartyNameHybridForm = ({
   offset,
 }) => {
   const initialFormState = {
-    name: "",
-    nameParts: {
+    nameField: {
+      nameExact: "",
+      nameContains: "",
+      nameBusiness: "",
       first: "",
       last: "",
       middle: "",
+      nameParts: "",
+      nameModifier: "business",
+      exclusion: {
+        searchText: "",
+        exclusionText: ""
+      },
+      multipleSubstrings: {
+        substring1: "",
+        substring2: ""
+      },
+      combinedInclusionExclusion: {
+        inclusionText: "",
+        exclusionText: ""
+      },
+      complexCompound: {
+        mainText: "",
+        compoundText1: "",
+        compoundText2: ""
+      },
+      startsWith: "",
+      endsWith: "",
+      multipleExclusion: {
+        searchText: "",
+        exclusionText1: "",
+        exclusionText2: ""
+      },
     },
-    name_modifier: "contains",
     party_type: "",
     document_date: "",
     document_date_modifier: "rangeSelect",
@@ -29,13 +56,40 @@ const SearchByPartyNameHybridForm = ({
   };
 
   const initialUserErrors = {
-    name: null,
-    nameParts: {
+    nameField: {
+      nameExact: null,
+      nameContains: null,
+      nameBusiness: null,
       first: null,
       last: null,
       middle: null,
+      nameParts: null,
+      nameModifier: null,
+      exclusion: {
+        searchText: null,
+        exclusionText: null
+      },
+      multipleSubstrings: {
+        substring1: null,
+        substring2: null
+      },
+      combinedInclusionExclusion: {
+        inclusionText: null,
+        exclusionText: null
+      },
+      complexCompound: {
+        mainText: null,
+        compoundText1: null,
+        compoundText2: null
+      },
+      startsWith: null,
+      endsWith: null,
+      multipleExclusion: {
+        searchText: null,
+        exclusionText1: null,
+        exclusionText2: null
+      },
     },
-    name_modifier: null,
     party_type: null,
     document_date: null,
     document_date_modifier: null,
@@ -43,7 +97,7 @@ const SearchByPartyNameHybridForm = ({
     doc_type: null,
   };
 
-  const [partyNameHybridSoql, setpartyNameHybridSoql] = useState(initialFormState);
+  const [partyNameHybridSoql, setPartyNameHybridSoql] = useState(initialFormState);
   const [inputUserErrors, setInputUserErrors] = useState(initialUserErrors);
   const [errorMessages, setErrorMessages] = useState([]);
 
@@ -52,17 +106,17 @@ const SearchByPartyNameHybridForm = ({
     setInputUserErrors((prevErrors) => {
       const newErrors = { ...prevErrors };
 
-      if (fieldName.startsWith("nameParts.")) {
+      if (fieldName.startsWith("nameField.")) {
         const part = fieldName.split(".")[1];
-        newErrors.nameParts = {
-          ...newErrors.nameParts,
+        newErrors.nameField = {
+          ...newErrors.nameField,
           [part]: errorMessage,
         };
       } else {
         newErrors[fieldName] = errorMessage;
       }
 
-      const className = fieldName.startsWith("nameParts")
+      const className = fieldName.startsWith("nameField")
         ? `.form-group--${fieldName.replace(".", "-")}`
         : `.form-group--${fieldName}`;
 
@@ -79,7 +133,7 @@ const SearchByPartyNameHybridForm = ({
     const { name, value } = e.target;
     console.log(`Input change - ${name}: ${value}`);
 
-    setpartyNameHybridSoql((prevSoql) => {
+    setPartyNameHybridSoql((prevSoql) => {
       const newSoql = { ...prevSoql };
 
       if (
@@ -87,26 +141,32 @@ const SearchByPartyNameHybridForm = ({
         name === "last-name" ||
         name === "middle-name"
       ) {
-        newSoql.nameParts[name.split("-")[0]] = value;
+        newSoql.nameField[name.split("-")[0]] = value;
+        newSoql.nameField.nameParts = `${newSoql.nameField.first} ${newSoql.nameField.middle} ${newSoql.nameField.last}`.trim();
+      } else if (name.includes(".")) {
+        const [parent, child] = name.split(".");
+        newSoql.nameField[parent][child] = value;
       } else {
-        newSoql[name] = value;
+        newSoql.nameField[name] = value;
       }
 
-      // return uppercaseSoql(newSoql);
       return newSoql;
     });
   };
 
-  // Updated handleModifierChange to handle both name_modifier and document_date_modifier
+  // Updated handleModifierChange to handle both nameModifier and document_date_modifier
   const handleModifierChange = (field, value) => {
     console.log(`Modifier input change - ${field}: ${value}`);
-    setpartyNameHybridSoql((prevSoql) => ({
+    setPartyNameHybridSoql((prevSoql) => ({
       ...prevSoql,
-      [field]: value,
+      nameField: {
+        ...prevSoql.nameField,
+        [field]: value,
+      },
     }));
   };
 
-  const resetForm = handleFormReset(setpartyNameHybridSoql, initialFormState, setInputUserErrors, initialUserErrors, setErrorMessages, handleTableReset);
+  const resetForm = handleFormReset(setPartyNameHybridSoql, initialFormState, setInputUserErrors, initialUserErrors, setErrorMessages, handleTableReset);
 
   return (
     <form

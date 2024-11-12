@@ -7,11 +7,11 @@ const NameInputBusiness = ({ name, onChange, handleErrorDisplay, error }) => {
 
   const validateName = (value) => {
     if (value.length > 70) {
-      handleErrorDisplay("name", "Name must be 70 characters or less.");
+      handleErrorDisplay("nameBusiness", "Name must be 70 characters or less.");
     } else if (!value) {
-      handleErrorDisplay("name", "This field is required for form submission");
+      handleErrorDisplay("nameBusiness", "This field is required for form submission");
     } else {
-      handleErrorDisplay("name", null);
+      handleErrorDisplay("nameBusiness", null);
     }
   };
 
@@ -25,7 +25,7 @@ const NameInputBusiness = ({ name, onChange, handleErrorDisplay, error }) => {
       className={`form-group form-group--name-business ${error ? "field-error" : ""}`}
     >
       <label htmlFor="name-business">
-        <span>Name</span>
+        <span>Business Name</span>
         <InfoIcon
           isHovered={isHovered}
           setIsHovered={setIsHovered}
@@ -35,7 +35,7 @@ const NameInputBusiness = ({ name, onChange, handleErrorDisplay, error }) => {
       <input
         type="text"
         id="name-business"
-        name="name"
+        name="nameBusiness"
         value={name}
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"

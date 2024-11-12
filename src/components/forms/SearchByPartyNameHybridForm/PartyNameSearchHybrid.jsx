@@ -17,10 +17,10 @@ const PartyNameSearchHybrid = ({
     <fieldset>
       <legend>Search By Party Name & Additional Criteria</legend>
       <NameInputHybridContainer
-        partyNameHybridSoql={partyNameHybridSoql}
+        nameField={partyNameHybridSoql.nameField}
         handleInputChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
-        inputUserErrors={inputUserErrors}
+        inputUserErrors={inputUserErrors.nameField}
         handleModifierChange={handleModifierChange}
       />
       <DateInputHybridContainer

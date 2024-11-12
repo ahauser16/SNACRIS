@@ -1,17 +1,17 @@
-// src/components/NameInput/NameInput_Exact.jsx
+// src/components/NameInput/NameInput_Contains.jsx
 import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
-const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
+const NameInputComplexCompound = ({ name, onChange, handleErrorDisplay, error }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const validateName = (value) => {
     if (value.length > 70) {
-      handleErrorDisplay("nameExact", "Name must be 70 characters or less.");
+      handleErrorDisplay("nameInputComplexCompound", "Name must be 70 characters or less.");
     } else if (!value) {
-      handleErrorDisplay("nameExact", "This field is required for form submission");
+      handleErrorDisplay("nameInputComplexCompound", "This field is required for form submission");
     } else {
-      handleErrorDisplay("nameExact", null);
+      handleErrorDisplay("nameInputComplexCompound", null);
     }
   };
 
@@ -22,9 +22,9 @@ const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
 
   return (
     <div
-      className={`form-group form-group--name-exact ${error ? "field-error" : ""}`}
+      className={`form-group form-group--name-complexCompound ${error ? "field-error" : ""}`}
     >
-      <label htmlFor="name-exact">
+      <label htmlFor="name-complexCompound">
         <span>Name</span>
         <InfoIcon
           isHovered={isHovered}
@@ -34,13 +34,13 @@ const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
       </label>
       <input
         type="text"
-        id="name-exact"
-        name="nameExact"
+        id="name-complexCompound"
+        name="nameInputComplexCompound"
         value={name}
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
         aria-describedby="party-name-description"
-        placeholder="Enter exact name"
+        placeholder="Enter partial name"
         maxLength="70"
         required
       />
@@ -51,4 +51,4 @@ const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
   );
 };
 
-export default NameInputExact;
+export default NameInputComplexCompound;

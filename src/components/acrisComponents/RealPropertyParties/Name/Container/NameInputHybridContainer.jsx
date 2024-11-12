@@ -3,7 +3,7 @@ import NameInputHybrid from "../InputComponents/NameInputHybrid";
 import NameInputHybridModifier from "../SearchModifier/NameInputHybridModifier";
 
 const NameInputHybridContainer = ({
-  partyNameHybridSoql,
+  nameField,
   handleInputChange,
   handleErrorDisplay,
   inputUserErrors,
@@ -13,21 +13,18 @@ const NameInputHybridContainer = ({
     <>
       <div className="form-row form-row--mixed">
         <NameInputHybridModifier
-          value={partyNameHybridSoql.name_modifier}
+          value={nameField.nameModifier}
           onChange={(e) =>
-            handleModifierChange("name_modifier", e.target.value)
+            handleModifierChange("nameModifier", e.target.value)
           }
         />
       </div>
       <div className="form-row form-row--mixed">
         <NameInputHybrid
-          nameModifier={partyNameHybridSoql.name_modifier}
-          name={partyNameHybridSoql.name}
-          nameParts={partyNameHybridSoql.nameParts}
+          nameField={nameField}
           handleErrorDisplay={handleErrorDisplay}
           onChange={handleInputChange}
-          error={inputUserErrors.name}
-          namePartsErrors={inputUserErrors.nameParts}
+          error={inputUserErrors}
         />
       </div>
     </>

@@ -1,17 +1,17 @@
-// src/components/NameInput/NameInput_Exact.jsx
+// src/components/NameInput/NameInput_Business.jsx
 import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
-const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
+const NameInputStartsWith = ({ name, onChange, handleErrorDisplay, error }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const validateName = (value) => {
     if (value.length > 70) {
-      handleErrorDisplay("nameExact", "Name must be 70 characters or less.");
+      handleErrorDisplay("nameStartsWith", "Name must be 70 characters or less.");
     } else if (!value) {
-      handleErrorDisplay("nameExact", "This field is required for form submission");
+      handleErrorDisplay("nameStartsWith", "This field is required for form submission");
     } else {
-      handleErrorDisplay("nameExact", null);
+      handleErrorDisplay("nameStartsWith", null);
     }
   };
 
@@ -22,10 +22,10 @@ const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
 
   return (
     <div
-      className={`form-group form-group--name-exact ${error ? "field-error" : ""}`}
+      className={`form-group form-group--name-startsWith ${error ? "field-error" : ""}`}
     >
-      <label htmlFor="name-exact">
-        <span>Name</span>
+      <label htmlFor="name-startsWith">
+        <span>Business Name</span>
         <InfoIcon
           isHovered={isHovered}
           setIsHovered={setIsHovered}
@@ -34,13 +34,13 @@ const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
       </label>
       <input
         type="text"
-        id="name-exact"
-        name="nameExact"
+        id="name-startsWith"
+        name="nameStartsWith"
         value={name}
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
         aria-describedby="party-name-description"
-        placeholder="Enter exact name"
+        placeholder="Enter business name"
         maxLength="70"
         required
       />
@@ -51,4 +51,4 @@ const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
   );
 };
 
-export default NameInputExact;
+export default NameInputStartsWith;

@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
 const NameInputNameParts = ({
-  nameParts,
+  first,
+  last,
+  middle,
   onChange,
   handleErrorDisplay,
   namePartsErrors,
@@ -18,16 +20,16 @@ const NameInputNameParts = ({
   const validateField = (field, value) => {
     if (value.length > 70) {
       handleErrorDisplay(
-        `nameParts.${field}`,
+        `name_field.${field}`,
         `${field} Name must be 70 characters or less.`
       );
     } else if (!value) {
       handleErrorDisplay(
-        `nameParts.${field}`,
+        `name_field.${field}`,
         `${field} Name is required for form submission.`
       );
     } else {
-      handleErrorDisplay(`nameParts.${field}`, null);
+      handleErrorDisplay(`name_field.${field}`, null);
     }
   };
 
@@ -55,7 +57,7 @@ const NameInputNameParts = ({
           type="text"
           id="first-name"
           name="first-name"
-          value={nameParts.first}
+          value={first}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="party-name-description"
@@ -82,7 +84,7 @@ const NameInputNameParts = ({
           type="text"
           id="last-name"
           name="last-name"
-          value={nameParts.last}
+          value={last}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="party-name-description"
@@ -109,7 +111,7 @@ const NameInputNameParts = ({
           type="text"
           id="middle-name"
           name="middle-name"
-          value={nameParts.middle}
+          value={middle}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="party-name-description"

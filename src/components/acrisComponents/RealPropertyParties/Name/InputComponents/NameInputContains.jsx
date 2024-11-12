@@ -7,11 +7,11 @@ const NameInputContains = ({ name, onChange, handleErrorDisplay, error }) => {
 
   const validateName = (value) => {
     if (value.length > 70) {
-      handleErrorDisplay("name", "Name must be 70 characters or less.");
+      handleErrorDisplay("nameContains", "Name must be 70 characters or less.");
     } else if (!value) {
-      handleErrorDisplay("name", "This field is required for form submission");
+      handleErrorDisplay("nameContains", "This field is required for form submission");
     } else {
-      handleErrorDisplay("name", null);
+      handleErrorDisplay("nameContains", null);
     }
   };
 
@@ -35,7 +35,7 @@ const NameInputContains = ({ name, onChange, handleErrorDisplay, error }) => {
       <input
         type="text"
         id="name-contains"
-        name="name"
+        name="nameContains"
         value={name}
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"

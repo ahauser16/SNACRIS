@@ -18,7 +18,10 @@ const StatesSelect = ({
   };
 
   return (
-    <div className="form-group form-group--width-auto" style={{ '--field-width': '10ch' }}>
+    <div
+      className="form-group form-group--width-auto"
+      style={{ '--field-width': '10ch' }}
+    >
       <label htmlFor="states-select">
         <span>State</span>
         {/* <InfoIcon
