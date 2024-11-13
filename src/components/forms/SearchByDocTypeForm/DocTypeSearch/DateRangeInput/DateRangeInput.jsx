@@ -1,31 +1,30 @@
 // src/components/DocTypeSearch/DateRangeInput/DateRangeInput.jsx
 import React from 'react';
-import './DateRangeInput.css';
 import moment from 'moment';
 
 function DateRangeInput({
-  value,
-  onChange,
+  startDateFS,
+  startDateES,
+  endDateFS,
+  endDateES,
+  handleInputChange,
   handleErrorDisplay,
-  error
 }) {
   const handleStartDateChange = (e) => {
     const startDate = e.target.value;
-    const endDate = value.split(' - ')[1] || '';
+    const endDate = endDateFS || '';
     const newValue = `${startDate} - ${endDate}`;
     validateUserInput(newValue);
-    onChange({ target: { name: 'document_date', value: newValue } });
+    handleInputChange({ target: { name: 'document_date', value: newValue } });
   };
 
   const handleEndDateChange = (e) => {
     const endDate = e.target.value;
-    const startDate = value.split(' - ')[0] || '';
+    const startDate = startDateFS || '';
     const newValue = `${startDate} - ${endDate}`;
     validateUserInput(newValue);
-    onChange({ target: { name: 'document_date', value: newValue } });
+    handleInputChange({ target: { name: 'document_date', value: newValue } });
   };
-
-  const [startDate, endDate] = value.split(' - ');
 
   const validateUserInput = (value) => {
     const [startDate, endDate] = value.split(' - ');
@@ -58,10 +57,11 @@ function DateRangeInput({
           type="date"
           id="date-range-start"
           name="date_range_start"
-          value={startDate || ''}
+          value={startDateFS || ''}
           onChange={handleStartDateChange}
           className="date-range-input--input"
         />
+        <span className="error-msg-display">{startDateES}</span>
       </div>
       <div className="form-group">
         <label htmlFor="date-range-end" className="date-range-input--label">
@@ -71,11 +71,11 @@ function DateRangeInput({
           type="date"
           id="date-range-end"
           name="date_range_end"
-          value={endDate || ''}
+          value={endDateFS || ''}
           onChange={handleEndDateChange}
           className="date-range-input--input"
         />
-        <span className="error-msg-display">{error}</span>
+        <span className="error-msg-display">{endDateES}</span>
       </div>
     </>
   );

@@ -4,25 +4,24 @@ import NameInputHybridModifier from "../SearchModifier/NameInputHybridModifier";
 
 const NameInputHybridContainer = ({
   nameFieldFS,
+  nameFieldES,
   handleInputChange,
   handleErrorDisplay,
-  nameFieldES,
   handleModifierChange,
 }) => {
   return (
     <fieldset>
       <legend>Search Type</legend>
       <NameInputHybridModifier
-        value={nameFieldFS.nameModifierFS}
-        onChange={(e) =>
-          handleModifierChange("nameModifier", e.target.value)
-        }
+        handleModifierChange={handleModifierChange}
+        nameModifierFS={nameFieldFS.nameModifierFS}
+        nameModifierES={nameFieldES.nameModifierES}
       />
       <NameInputHybrid
         nameFieldFS={nameFieldFS}
-        handleErrorDisplay={handleErrorDisplay}
         nameFieldES={nameFieldES}
-        onChange={handleInputChange}
+        handleErrorDisplay={handleErrorDisplay}
+        handleInputChange={handleInputChange}
       />
     </fieldset>
   );

@@ -13,125 +13,118 @@ import NameInputMultipleExclusion from "./NameInputMultipleExclusion";
 
 const NameInputHybrid = ({
   nameFieldFS,
-  onChange,
-  handleErrorDisplay,
   nameFieldES,
+  handleInputChange,
+  handleErrorDisplay,
 }) => {
-
-  const {
-    nameModifierFS,
-    nameExactFS,
-    nameContainsFS,
-    nameBusinessFS,
-    firstFS,
-    lastFS,
-    middleFS,
-    exclusionFS,
-    multipleSubstringsFS,
-    inclusionExclusionFS,
-    complexCompoundFS,
-    startsWithFS,
-    endsWithFS,
-    multipleExclusionFS,
-  } = nameFieldFS;
-
   return (
     <fieldset>
-      {nameModifierFS === "contains" && (
+      {nameFieldFS.nameModifierFS === "contains" && (
         <NameInputContains
-          nameContains={nameContainsFS}
-          onChange={onChange}
+          nameContainsFS={nameFieldFS.nameContainsFS}
+          nameContainsES={nameFieldES.nameContainsES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={nameFieldES.nameContainsES}
         />
       )}
-      {nameModifierFS === "exact" && (
+      {nameFieldFS.nameModifierFS === "exact" && (
         <NameInputExact
-          name={nameExactFS}
-          onChange={onChange}
+          nameExactFS={nameFieldFS.nameExactFS}
+          nameExactES={nameFieldES.nameExactES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={nameFieldES.nameExactES}
         />
       )}
-      {nameModifierFS === "nameParts" && (
+      {nameFieldFS.nameModifierFS === "nameParts" && (
         <NameInputNameParts
-          first={firstFS}
-          last={lastFS}
-          middle={middleFS}
-          onChange={onChange}
+          firstFS={nameFieldFS.namePartsFS.firstFS}
+          firstES={nameFieldES.namePartsES.firstES}
+          lastFS={nameFieldFS.namePartsFS.lastFS}
+          lastES={nameFieldES.namePartsES.lastES}
+          middleFS={nameFieldFS.namePartsFS.middleFS}
+          middleES={nameFieldES.namePartsES.middleES}
+          fullNameFS={nameFieldFS.namePartsFS.fullNameFS}
+          fullNameES={nameFieldES.namePartsES.fullNameES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={nameFieldES}
         />
       )}
-      {nameModifierFS === "business" && (
+      {nameFieldFS.nameModifierFS === "business" && (
         <NameInputBusiness
-          nameBusinessSoql={nameBusinessFS}
-          onChange={onChange}
+          nameBusinessFS={nameFieldFS.nameBusinessFS}
+          nameBusinessES={nameFieldES.nameBusinessES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={nameFieldES.nameBusinessES}
         />
       )}
-      {nameModifierFS === "exclusion" && (
+      {nameFieldFS.nameModifierFS === "exclusion" && (
         <NameInputExclusion
-          searchText={exclusionFS.searchTextFS}
-          exclusionText={exclusionFS.exclusionTextFS}
-          onChange={onChange}
+          searchTextFS={nameFieldFS.exclusionFS.searchTextFS}
+          searchTextES={nameFieldES.exclusionES.searchTextES}
+          exclusionTextFS={nameFieldFS.exclusionFS.exclusionTextFS}
+          exclusionTextES={nameFieldES.exclusionES.exclusionTextES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={nameFieldES.exclusionES}
         />
       )}
-      {nameModifierFS === "multipleSubstrings" && (
+      {nameFieldFS.nameModifierFS === "multipleSubstrings" && (
         <NameInputMultipleSubstrings
-          substring1={multipleSubstringsFS.substring1FS}
-          substring2={multipleSubstringsFS.substring2FS}
-          onChange={onChange}
+          substring1FS={nameFieldFS.multipleSubstringsFS.substring1FS}
+          substring1ES={nameFieldES.multipleSubstringsES.substring1ES}
+          substring2FS={nameFieldFS.multipleSubstringsFS.substring2FS}
+          substring2ES={nameFieldES.multipleSubstringsES.substring2ES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          errors={nameFieldES.multipleSubstringsES}
         />
       )}
-      {nameModifierFS === "inclusionExclusion" && (
+      {nameFieldFS.nameModifierFS === "inclusionExclusion" && (
         <NameInputInclusionExclusion
-          inclusionText={inclusionExclusionFS.inclusionTextFS}
-          exclusionText={inclusionExclusionFS.exclusionTextFS}
-          onChange={onChange}
+          inclusionTextFS={nameFieldFS.inclusionExclusionFS.inclusionTextFS}
+          inclusionTextES={nameFieldES.inclusionExclusionES.inclusionTextES}
+          exclusionTextFS={nameFieldFS.inclusionExclusionFS.exclusionTextFS}
+          exclusionTextES={nameFieldES.inclusionExclusionES.exclusionTextES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          errors={nameFieldES.inclusionExclusionES}
         />
       )}
-      {nameModifierFS === "complexCompound" && (
+      {nameFieldFS.nameModifierFS === "complexCompound" && (
         <NameInputComplexCompound
-          mainText={complexCompoundFS.mainTextFS}
-          compoundText1={complexCompoundFS.compoundText1FS}
-          compoundText2={complexCompoundFS.compoundText2FS}
-          onChange={onChange}
+          mainTextFS={nameFieldFS.complexCompoundFS.mainTextFS}
+          mainTextES={nameFieldES.complexCompoundES.mainTextES}
+          compoundText1FS={nameFieldFS.complexCompoundFS.compoundText1FS}
+          compoundText1ES={nameFieldES.complexCompoundES.compoundText1ES}
+          compoundText2FS={nameFieldFS.complexCompoundFS.compoundText2FS}
+          compoundText2ES={nameFieldES.complexCompoundES.compoundText2ES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          errors={nameFieldES.complexCompoundES}
         />
       )}
-      {nameModifierFS === "startsWith" && (
+      {nameFieldFS.nameModifierFS === "startsWith" && (
         <NameInputStartsWith
-          name={startsWithFS}
-          onChange={onChange}
+          startsWithFS={nameFieldFS.startsWithFS}
+          startsWithES={nameFieldES.startsWithES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={nameFieldES.startsWithES}
         />
       )}
-      {nameModifierFS === "endsWith" && (
+      {nameFieldFS.nameModifierFS === "endsWith" && (
         <NameInputEndsWith
-          endsWith={endsWithFS}
-          onChange={onChange}
+          endsWithFS={nameFieldFS.endsWithFS}
+          endsWithES={nameFieldES.endsWithES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={nameFieldES.endsWithES}
         />
       )}
-      {nameModifierFS === "multipleExclusion" && (
+      {nameFieldFS.nameModifierFS === "multipleExclusion" && (
         <NameInputMultipleExclusion
-          searchText={multipleExclusionFS.searchTextFS}
-          exclusionText1={multipleExclusionFS.exclusionText1FS}
-          exclusionText2={multipleExclusionFS.exclusionText2FS}
-          onChange={onChange}
+          searchTextFS={nameFieldFS.multipleExclusionFS.searchTextFS}
+          searchTextES={nameFieldES.multipleExclusionES.searchTextES}
+          exclusionText1FS={nameFieldFS.multipleExclusionFS.exclusionText1FS}
+          exclusionText1ES={nameFieldES.multipleExclusionES.exclusionText1ES}
+          exclusionText2FS={nameFieldFS.multipleExclusionFS.exclusionText2FS}
+          exclusionText2ES={nameFieldES.multipleExclusionES.exclusionText2ES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          errors={nameFieldES.multipleExclusionES}
         />
       )}
     </fieldset>

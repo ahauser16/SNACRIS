@@ -1,4 +1,4 @@
-//src/components/forms/utils/handlePartyNameHybridFormSubmit.js
+// src/components/forms/utils/handlePartyNameHybridFormSubmit.js
 import { fetchRealPropertyPartiesData, fetchRealPropertyMasterData } from "../../../api/apiHybrid";
 import { parseApiResponse } from "./parseApiResponse";
 import { analyzeApiResponseObjects } from "./analyzeApiResponseObjects";
@@ -22,8 +22,8 @@ export const handlePartyNameHybridFormSubmit = async (
   try {
     // First API request to fetchRealPropertyPartiesData
     const partiesSoql = {
-      name: partyNameHybridFormState.name,
-      party_type: partyNameHybridFormState.party_type
+      name: partyNameHybridFormState.nameFieldFS.nameBusinessFS,
+      party_type: partyNameHybridFormState.party_typeFS
     };
     const partiesResponse = await fetchRealPropertyPartiesData(partiesSoql, limit, offset);
     console.log('Parties API response:', partiesResponse);
@@ -46,9 +46,9 @@ export const handlePartyNameHybridFormSubmit = async (
 
     // Prepare the second API request
     const masterSoql = {
-      recorded_borough: partyNameHybridFormState.recorded_borough,
-      document_date: partyNameHybridFormState.document_date,
-      doc_type: partyNameHybridFormState.doc_type // This will be handled in the API
+      recorded_borough: partyNameHybridFormState.recorded_boroughFS,
+      document_date: partyNameHybridFormState.document_dateFS,
+      doc_type: partyNameHybridFormState.doc_typeFS // This will be handled in the API
     };
 
     // Second API request to fetchRealPropertyMasterData

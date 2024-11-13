@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
 const NameInputMultipleSubstrings = ({
-  substring1,
-  substring2,
-  onChange,
+  substring1FS,
+  substring1ES,
+  substring2FS,
+  substring2ES,
+  handleInputChange,
   handleErrorDisplay,
-  error
 }) => {
   const [isHoveredSubstring1, setIsHoveredSubstring1] = useState(false);
   const [isHoveredSubstring2, setIsHoveredSubstring2] = useState(false);
@@ -25,13 +26,13 @@ const NameInputMultipleSubstrings = ({
   const handleValidationPlusDataTransferToSoql = (e) => {
     const { name, value } = e.target;
     validateName(name, value);
-    onChange(e);
+    handleInputChange(e);
   };
 
   return (
     <div className="form-row form-row--mixed">
       <div
-        className={`form-group form-group--width-auto form-group--name-multipleSubstrings ${error.substring1 ? "field-error" : ""}`}
+        className={`form-group form-group--width-auto form-group--name-multipleSubstrings ${substring1ES ? "field-error" : ""}`}
         style={{ '--field-width': '25ch' }}
       >
         <label htmlFor="name-search-substring1">
@@ -46,7 +47,7 @@ const NameInputMultipleSubstrings = ({
           type="text"
           id="name-search-substring1"
           name="multipleSubstrings.substring1"
-          value={substring1}
+          value={substring1FS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="name-search-substring1-description"
@@ -56,11 +57,11 @@ const NameInputMultipleSubstrings = ({
           required
         />
         <span className="field-description" id="name-search-substring1-description">
-          {error.substring1}
+          {substring1ES}
         </span>
       </div>
       <div
-        className={`form-group form-group--width-auto form-group--name-multipleSubstrings ${error.substring2 ? "field-error" : ""}`}
+        className={`form-group form-group--width-auto form-group--name-multipleSubstrings ${substring2ES ? "field-error" : ""}`}
         style={{ '--field-width': '25ch' }}
       >
         <label htmlFor="name-search-substring2">
@@ -75,7 +76,7 @@ const NameInputMultipleSubstrings = ({
           type="text"
           id="name-search-substring2"
           name="multipleSubstrings.substring2"
-          value={substring2}
+          value={substring2FS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="name-search-substring2-description"
@@ -85,7 +86,7 @@ const NameInputMultipleSubstrings = ({
           required
         />
         <span className="field-description" id="name-search-substring2-description">
-          {error.substring2}
+          {substring2ES}
         </span>
       </div>
     </div>

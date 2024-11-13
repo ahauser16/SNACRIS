@@ -3,12 +3,16 @@ import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
 const NameInputNameParts = ({
-  first,
-  last,
-  middle,
-  onChange,
+  firstFS,
+  firstES,
+  lastFS,
+  lastES,
+  middleFS,
+  middleES,
+  fullNameFS,
+  fullNameES,
+  handleInputChange,
   handleErrorDisplay,
-  namePartsErrors,
 }) => {
   const [isHoveredFirst, setIsHoveredFirst] = useState(false);
   const [isHoveredMiddle, setIsHoveredMiddle] = useState(false);
@@ -38,13 +42,13 @@ const NameInputNameParts = ({
   const handleValidationPlusDataTransferToSoql = (e) => {
     const { name, value } = e.target;
     validateField(name.split("-")[0], value);
-    onChange(e);
+    handleInputChange(e);
   };
 
   return (
     <div className="form-row form-row--mixed">
       <div
-        className={`form-group form-group--width-auto form-group--nameParts-first ${namePartsErrors.first ? "field-error" : ""
+        className={`form-group form-group--width-auto form-group--nameParts-first ${firstES ? "field-error" : ""
           }`}
         style={{ '--field-width': '25ch' }}
       >
@@ -60,7 +64,7 @@ const NameInputNameParts = ({
           type="text"
           id="first-name"
           name="first-name"
-          value={first}
+          value={firstFS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="party-name-description"
@@ -69,11 +73,11 @@ const NameInputNameParts = ({
           aria-required="true"
           required
         />
-        <span className="field-description" id="first-name-description">{namePartsErrors.first}</span>
+        <span className="field-description" id="first-name-description">{firstES}</span>
       </div>
 
       <div
-        className={`form-group form-group--width-auto form-group--nameParts-last ${namePartsErrors.last ? "field-error" : ""
+        className={`form-group form-group--width-auto form-group--nameParts-last ${lastES ? "field-error" : ""
           }`}
         style={{ '--field-width': '25ch' }}
       >
@@ -89,7 +93,7 @@ const NameInputNameParts = ({
           type="text"
           id="last-name"
           name="last-name"
-          value={last}
+          value={lastFS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="last-name-description"
@@ -98,11 +102,11 @@ const NameInputNameParts = ({
           aria-required="true"
           required
         />
-        <span className="field-description" id="last-name-description">{namePartsErrors.last}</span>
+        <span className="field-description" id="last-name-description">{lastES}</span>
       </div>
 
       <div
-        className={`form-group form-group--width-auto form-group--nameParts-middle ${namePartsErrors.middle ? "field-error" : ""
+        className={`form-group form-group--width-auto form-group--nameParts-middle ${middleES ? "field-error" : ""
           }`}
         style={{ '--field-width': '25ch' }}
       >
@@ -118,14 +122,14 @@ const NameInputNameParts = ({
           type="text"
           id="middle-name"
           name="middle-name"
-          value={middle}
+          value={middleFS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="middle-name-description"
           placeholder="Middle name"
           maxLength="70"
         />
-        <span className="field-description" id="middle-name-description">{namePartsErrors.middle}</span>
+        <span className="field-description" id="middle-name-description">{middleES}</span>
       </div>
     </div>
   );

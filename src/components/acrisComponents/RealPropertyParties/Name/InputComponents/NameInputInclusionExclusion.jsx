@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
 const NameInputInclusionExclusion = ({
-  inclusionText,
-  exclusionText,
-  onChange,
+  inclusionTextFS,
+  inclusionTextES,
+  exclusionTextFS,
+  exclusionTextES,
+  handleInputChange,
   handleErrorDisplay,
-  error
 }) => {
   const [isHoveredInclusionText, setIsHoveredInclusionText] = useState(false);
   const [isHoveredExclusionText, setIsHoveredExclusionText] = useState(false);
@@ -25,13 +26,13 @@ const NameInputInclusionExclusion = ({
   const handleValidationPlusDataTransferToSoql = (e) => {
     const { name, value } = e.target;
     validateName(name, value);
-    onChange(e);
+    handleInputChange(e);
   };
 
   return (
     <div className="form-row form-row--mixed">
       <div
-        className={`form-group form-group--width-auto form-group--name-inclusionExclusion ${error.inclusionText ? "field-error" : ""}`}
+        className={`form-group form-group--width-auto form-group--name-inclusionExclusion ${inclusionTextES ? "field-error" : ""}`}
         style={{ '--field-width': '25ch' }}
       >
         <label htmlFor="name-inclusion-search-text">
@@ -46,7 +47,7 @@ const NameInputInclusionExclusion = ({
           type="text"
           id="name-inclusion-search-text"
           name="inclusionExclusion.inclusionText"
-          value={inclusionText}
+          value={inclusionTextFS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="name-inclusion-search-text-description"
@@ -56,11 +57,11 @@ const NameInputInclusionExclusion = ({
           required
         />
         <span className="field-description" id="name-inclusion-search-text-description">
-          {error.inclusionText}
+          {inclusionTextES}
         </span>
       </div>
       <div
-        className={`form-group form-group--width-auto form-group--name-inclusionExclusion ${error.exclusionText ? "field-error" : ""}`}
+        className={`form-group form-group--width-auto form-group--name-inclusionExclusion ${exclusionTextES ? "field-error" : ""}`}
         style={{ '--field-width': '25ch' }}
       >
         <label htmlFor="name-exclusion-search-text">
@@ -75,7 +76,7 @@ const NameInputInclusionExclusion = ({
           type="text"
           id="name-exclusion-search-text"
           name="inclusionExclusion.exclusionText"
-          value={exclusionText}
+          value={exclusionTextFS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="name-exclusion-search-text-description"
@@ -85,7 +86,7 @@ const NameInputInclusionExclusion = ({
           required
         />
         <span className="field-description" id="name-exclusion-search-text-description">
-          {error.exclusionText}
+          {exclusionTextES}
         </span>
       </div>
     </div>

@@ -1,53 +1,53 @@
 // src/components/DocTypeSearch/DateExactInput/DateExactInput.jsx
 import React from 'react';
-import './DateExactInput.css';
 import moment from 'moment';
 
-const DateExactInput = ({ 
-  value, 
-  onChange, 
-  handleErrorDisplay, 
-  error }) => {
+const DateExactInput = ({
+  exactDateFS,
+  exactDateES,
+  onChange,
+  handleErrorDisplay,
+}) => {
 
   const validateUserInput = (value) => {
     console.log('Validating date input:', value);
     if (!value) {
-      handleErrorDisplay('document_date', 'Please select a date.');
+      handleErrorDisplay('exactDateES', 'Please select a date.');
       return;
     }
 
     if (!moment(value, 'YYYY-MM-DD', true).isValid()) {
-      handleErrorDisplay('document_date', 'Invalid date format. Please use YYYY-MM-DD.');
+      handleErrorDisplay('exactDateES', 'Invalid date format. Please use YYYY-MM-DD.');
       return;
     }
 
-    handleErrorDisplay('document_date', null);
+    handleErrorDisplay('exactDateES', null);
   };
 
   const handleValidationPlusDataTransferToSoql = (e) => {
     validateUserInput(e.target.value);
-    onChange(e); // Keep the original onChange for state management
+    onChange(e); 
   };
 
   return (
     <div
-      className={`form-group form-group--width-auto form-group--date-range ${error ? 'field-error' : ''}`}
+      className={`form-group form-group--width-auto form-group--date-range ${exactDateES ? 'field-error' : ''}`}
       style={{ '--field-width': '15ch' }}>
-      <label htmlFor="date-exact-input" className="date-exact-input--label">
+      <label htmlFor="document-date-exact-input" className="document-date-exact-input--label">
         Select Exact Date:
       </label>
       <input
         type="date"
-        id="date-exact-input"
-        name="document_date"
-        value={value}
+        id="document-date-exact-input"
+        name="document-date-exact-input"
+        value={exactDateFS}
         onChange={handleValidationPlusDataTransferToSoql}
-        aria-describedby="document-date-exact-description"
+        aria-describedby="document-date-exact-input-description"
       />
       <span
         className="field-description"
-        id="document-date-exact-description">
-        {error}
+        id="document-date-exact-input-description">
+        {exactDateES}
       </span>
     </div>
   );

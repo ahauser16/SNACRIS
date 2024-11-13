@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
 const NameInputEndsWith = ({
-  name,
-  onChange,
+  endsWithFS,
+  endsWithES,
+  handleInputChange,
   handleErrorDisplay,
-  error
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -22,13 +22,13 @@ const NameInputEndsWith = ({
 
   const handleValidationPlusDataTransferToSoql = (e) => {
     validateName(e.target.value);
-    onChange(e);
+    handleInputChange(e);
   };
 
   return (
     <div className="form-row">
       <div
-        className={`form-group form-group--name-ends-with ${error ? "field-error" : ""}`}
+        className={`form-group form-group--name-ends-with ${endsWithES ? "field-error" : ""}`}
       >
         <label htmlFor="name-ends-with">
           <span>Name Ends With</span>
@@ -42,7 +42,7 @@ const NameInputEndsWith = ({
           type="text"
           id="name-ends-with"
           name="endsWith"
-          value={name}
+          value={endsWithFS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="name-ends-with-description"
@@ -52,7 +52,7 @@ const NameInputEndsWith = ({
           required
         />
         <span className="field-description" id="name-ends-with-description">
-          {error}
+          {endsWithES}
         </span>
       </div>
     </div>

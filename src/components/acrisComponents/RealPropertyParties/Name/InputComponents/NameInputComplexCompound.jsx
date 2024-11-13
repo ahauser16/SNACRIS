@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
 const NameInputComplexCompound = ({
-  mainText,
-  compoundText1,
-  compoundText2,
-  onChange,
+  mainTextFS,
+  mainTextES,
+  compoundText1FS,
+  compoundText1ES,
+  compoundText2FS,
+  compoundText2ES,
+  handleInputChange,
   handleErrorDisplay,
-  error
 }) => {
   const [isHoveredMainText, setIsHoveredMainText] = useState(false);
   const [isHoveredCompoundText1, setIsHoveredCompoundText1] = useState(false);
@@ -27,14 +29,14 @@ const NameInputComplexCompound = ({
   const handleValidationPlusDataTransferToSoql = (e) => {
     const { name, value } = e.target;
     validateName(name, value);
-    onChange(e);
+    handleInputChange(e);
   };
 
   return (
     <>
       <div className="form-row form-row--mixed">
         <div
-          className={`form-group form-group--width-auto form-group--name-complexCompound ${error.mainText ? "field-error" : ""}`}
+          className={`form-group form-group--width-auto form-group--name-complexCompound ${mainTextES ? "field-error" : ""}`}
           style={{ '--field-width': '25ch' }}
         >
           <label htmlFor="name-main-search-text">
@@ -49,7 +51,7 @@ const NameInputComplexCompound = ({
             type="text"
             id="name-main-search-text"
             name="complexCompound.mainText"
-            value={mainText}
+            value={mainTextFS}
             onChange={handleValidationPlusDataTransferToSoql}
             className="form-field"
             aria-describedby="name-main-search-text-description"
@@ -61,11 +63,11 @@ const NameInputComplexCompound = ({
           <span
             className="field-description" id="name-main-search-text-description"
           >
-            {error.mainText}
+            {mainTextES}
           </span>
         </div>
         <div
-          className={`form-group form-group--width-auto form-group--name-complexCompound ${error.compoundText1 ? "field-error" : ""}`}
+          className={`form-group form-group--width-auto form-group--name-complexCompound ${compoundText1ES ? "field-error" : ""}`}
           style={{ '--field-width': '25ch' }}
         >
           <label htmlFor="name-compound-one-search-text">
@@ -80,7 +82,7 @@ const NameInputComplexCompound = ({
             type="text"
             id="name-compound-one-search-text"
             name="complexCompound.compoundText1"
-            value={compoundText1}
+            value={compoundText1FS}
             onChange={handleValidationPlusDataTransferToSoql}
             className="form-field"
             aria-describedby="name-compound-one-search-text-description"
@@ -90,11 +92,11 @@ const NameInputComplexCompound = ({
             required
           />
           <span className="field-description" id="name-compound-one-search-text-description">
-            {error.compoundText1}
+            {compoundText1ES}
           </span>
         </div>
         <div
-          className={`form-group form-group--width-auto form-group--name-complexCompound ${error.compoundText2 ? "field-error" : ""}`}
+          className={`form-group form-group--width-auto form-group--name-complexCompound ${compoundText2ES ? "field-error" : ""}`}
           style={{ '--field-width': '25ch' }}
         >
           <label htmlFor="name-compound-two-search-text">
@@ -109,7 +111,7 @@ const NameInputComplexCompound = ({
             type="text"
             id="name-compound-two-search-text"
             name="complexCompound.compoundText2"
-            value={compoundText2}
+            value={compoundText2FS}
             onChange={handleValidationPlusDataTransferToSoql}
             className="form-field"
             aria-describedby="name-compound-two-search-text-description"
@@ -119,7 +121,7 @@ const NameInputComplexCompound = ({
             required
           />
           <span className="field-description" id="name-compound-two-search-text-description">
-            {error.compoundText2}
+            {compoundText2ES}
           </span>
         </div>
       </div>

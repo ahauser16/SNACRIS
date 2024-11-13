@@ -6,7 +6,7 @@ import RecordedBoroughSelectHybrid from "../SearchByAddressForm/AddressSearch/Re
 import DocClassSelectHybrid from "../SearchByPartyNameForm/PartyNameSearch/DocClassSelect/DocClassSelectHybrid";
 
 const PartyNameSearchHybrid = ({
-  partyNameHybridSoql,
+  partyNameHybridFormDataState,
   handleInputChange,
   handleErrorDisplay,
   inputUserErrors,
@@ -16,22 +16,22 @@ const PartyNameSearchHybrid = ({
     <fieldset>
       <legend>Search By Party Name & Additional Criteria</legend>
       <NameInputHybridContainer
-        nameFieldFS={partyNameHybridSoql.nameFieldFS}
+        nameFieldFS={partyNameHybridFormDataState.nameFieldFS}
+        nameFieldES={inputUserErrors.nameFieldES}
         handleInputChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
-        nameFieldES={inputUserErrors.nameFieldES}
         handleModifierChange={handleModifierChange}
       />
       <DateInputHybridContainer
-        partyNameHybridSoql={partyNameHybridSoql}
+        documentDateFieldFS={partyNameHybridFormDataState.documentDateFieldFS}
+        documentDateFieldES={inputUserErrors.documentDateFieldES}
         handleInputChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
-        inputUserErrors={inputUserErrors}
         handleModifierChange={handleModifierChange}
       />
-      <div className="form-row form-row--mixed">
+      {/* <div className="form-row form-row--mixed">
         <PartyTypeSelectHybrid
-          value={partyNameHybridSoql.party_typeFS}
+          value={partyNameHybridFormDataState.party_typeFS}
           onChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
           error={inputUserErrors.party_typeES}
@@ -39,7 +39,7 @@ const PartyNameSearchHybrid = ({
       </div>
       <div className="form-row form-row--mixed">
         <RecordedBoroughSelectHybrid
-          value={partyNameHybridSoql.recorded_boroughFS}
+          value={partyNameHybridFormDataState.recorded_boroughFS}
           onChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
           error={inputUserErrors.recorded_boroughES}
@@ -47,12 +47,12 @@ const PartyNameSearchHybrid = ({
       </div>
       <div className="form-row form-row--mixed">
         <DocClassSelectHybrid
-          value={partyNameHybridSoql.doc_typeFS}
+          value={partyNameHybridFormDataState.doc_typeFS}
           onChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
           error={inputUserErrors.doc_typeES}
         />
-      </div>
+      </div> */}
     </fieldset>
   );
 };

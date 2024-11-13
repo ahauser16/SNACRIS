@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
 const NameInputStartsWith = ({
-  name,
-  onChange,
+  startsWithFS, 
+  startsWithES, 
+  handleInputChange,
   handleErrorDisplay,
-  error
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -22,13 +22,13 @@ const NameInputStartsWith = ({
 
   const handleValidationPlusDataTransferToSoql = (e) => {
     validateName(e.target.value);
-    onChange(e);
+    handleInputChange(e);
   };
 
   return (
     <div className="form-row">
       <div
-        className={`form-group form-group--name-starts-with ${error ? "field-error" : ""}`}
+        className={`form-group form-group--name-starts-with ${startsWithES ? "field-error" : ""}`}
       >
         <label htmlFor="name-starts-with">
           <span>Name Starts With</span>
@@ -42,7 +42,7 @@ const NameInputStartsWith = ({
           type="text"
           id="name-starts-with"
           name="startsWith"
-          value={name}
+          value={startsWithFS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="name-starts-with-description"
@@ -52,7 +52,7 @@ const NameInputStartsWith = ({
           required
         />
         <span className="field-description" id="name-starts-with-description">
-          {error}
+          {startsWithES}
         </span>
       </div>
     </div>

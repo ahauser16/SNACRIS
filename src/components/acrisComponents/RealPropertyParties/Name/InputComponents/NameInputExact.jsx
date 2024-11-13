@@ -2,27 +2,32 @@
 import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
-const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
+const NameInputExact = ({
+  nameExactFS,
+  nameExactES,
+  handleInputChange,
+  handleErrorDisplay,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const validateName = (value) => {
     if (value.length > 70) {
-      handleErrorDisplay("nameExact", "Name must be 70 characters or less.");
+      handleErrorDisplay("nameExactES", "Name must be 70 characters or less.");
     } else if (!value) {
-      handleErrorDisplay("nameExact", "This field is required for form submission");
+      handleErrorDisplay("nameExactES", "This field is required for form submission");
     } else {
-      handleErrorDisplay("nameExact", null);
+      handleErrorDisplay("nameExactES", null);
     }
   };
 
   const handleValidationPlusDataTransferToSoql = (e) => {
     validateName(e.target.value);
-    onChange(e);
+    handleInputChange(e);
   };
 
   return (
     <div
-      className={`form-group form-group--name-exact ${error ? "field-error" : ""}`}
+      className={`form-group form-group--name-exact ${nameExactES ? "field-error" : ""}`}
     >
       <label htmlFor="name-exact">
         <span>Exact Name</span>
@@ -36,7 +41,7 @@ const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
         type="text"
         id="name-exact"
         name="nameExact"
-        value={name}
+        value={nameExactFS}
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
         aria-describedby="name-exact-description"
@@ -46,7 +51,7 @@ const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
         required
       />
       <span className="field-description" id="name-exact-description">
-        {error}
+        {nameExactES}
       </span>
     </div>
   );

@@ -1,55 +1,42 @@
 // src/components/DocTypeSearch/DateSelect/DateInputHybridModifier.jsx
 import React from "react";
 
-const DateInputHybridModifier = ({ value, onChange }) => {
+const DateInputHybridModifier = ({
+  documentDateModifierFS,
+  documentDateModifierES,
+  handleModifierChange,
+}) => {
+
+  const handleChange = (e) => {
+    handleModifierChange("documentDateModifierFS", e.target.value);
+  };
+
   return (
-    <fieldset className="form-group form-group--modifier">
-      <legend htmlFor="document_date_modifier">Select Date Modifier</legend>
-      <label htmlFor="date_modifier_rangeSelect" className="form-control radio">
-        <span className="form-control__input radio__input">
-          <input
-            type="radio"
-            id="date_modifier_rangeSelect"
-            name="document_date_modifier"
-            value="rangeSelect"
-            checked={value === "rangeSelect"}
-            onChange={onChange}
-          />
-          <span className="input__control"></span>
-        </span>
-        <span className="text-wrapper">Date Range Select</span>
+    <div
+      className="form-group form-group--width-auto"
+      style={{ '--field-width': '20ch' }}
+    >
+      <label htmlFor="date-select-modifier">
+        <span>Select a Date Search Type</span>
       </label>
-
-      <label htmlFor="date_modifier_exact" className="form-control radio">
-        <span className="form-control__input radio__input">
-          <input
-            type="radio"
-            id="date_modifier_exact"
-            name="document_date_modifier"
-            value="exact"
-            checked={value === "exact"}
-            onChange={onChange}
-          />
-          <span className="input__control"></span>
-        </span>
-        <span className="text-wrapper">Exact Date</span>
-      </label>
-
-      <label htmlFor="date_modifier_rangeInput" className="form-control radio">
-        <span className="form-control__input radio__input">
-          <input
-            id="date_modifier_rangeInput"
-            type="radio"
-            name="document_date_modifier"
-            value="rangeInput"
-            checked={value === "rangeInput"}
-            onChange={onChange}
-          />
-          <span className="input__control"></span>
-        </span>
-        <span className="text-wrapper">Date Range Input</span>
-      </label>
-    </fieldset>
+      <div className="form-field select">
+        <select
+          id="date-select-modifier"
+          name="date-select-modifier"
+          value={documentDateModifierFS}
+          onChange={handleChange}
+          aria-describedby="date-select-modifier-description"
+        >
+          <option value="dateRangeSelect">Select Date Range</option>
+          <option value="exactDate">Exact Date</option>
+          <option value="dateRangeCustom">Custom Date Range</option>
+        </select>
+        <span class="focus"></span>
+      </div>
+      <span id="date-select-modifier-description" className="field-description">
+        {documentDateModifierES}
+      </span>
+    </div>
   );
 };
 

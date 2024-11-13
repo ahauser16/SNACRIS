@@ -1,27 +1,32 @@
 import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
-const NameInputBusiness = ({ nameBusinessSoql, onChange, handleErrorDisplay, error }) => {
+const NameInputBusiness = ({ 
+  nameBusinessFS, 
+  nameBusinessES, 
+  handleInputChange, 
+  handleErrorDisplay, 
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const validateName = (value) => {
     if (value.length > 70) {
-      handleErrorDisplay("nameFieldES.nameBusinessES", "Name must be 70 characters or less.");
+      handleErrorDisplay("nameBusinessES", "Name must be 70 characters or less.");
     } else if (!value) {
-      handleErrorDisplay("nameFieldES.nameBusinessES", "This field is required for form submission");
+      handleErrorDisplay("nameBusinessES", "This field is required for form submission");
     } else {
-      handleErrorDisplay("nameFieldES.nameBusinessES", null);
+      handleErrorDisplay("nameBusinessES", null);
     }
   };
 
   const handleValidationPlusDataTransferToSoql = (e) => {
     validateName(e.target.value);
-    onChange(e);
+    handleInputChange(e);
   };
 
   return (
     <div
-      className={`form-group form-group--name-business ${error ? "field-error" : ""}`}
+      className={`form-group form-group--name-business ${nameBusinessES ? "field-error" : ""}`}
     >
       <label htmlFor="name-business">
         <span>Business Name</span>
@@ -35,7 +40,7 @@ const NameInputBusiness = ({ nameBusinessSoql, onChange, handleErrorDisplay, err
         type="text"
         id="name-business"
         name="nameBusiness"
-        value={nameBusinessSoql}
+        value={nameBusinessFS}
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
         aria-describedby="name-business-description"
@@ -45,7 +50,7 @@ const NameInputBusiness = ({ nameBusinessSoql, onChange, handleErrorDisplay, err
         required
       />
       <span className="field-description" id="name-business-description">
-        {error}
+        {nameBusinessES}
       </span>
     </div>
   );

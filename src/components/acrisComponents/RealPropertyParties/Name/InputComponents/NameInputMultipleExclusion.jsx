@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
 const NameInputMultipleExclusion = ({
-  searchText,
-  exclusionText1,
-  exclusionText2,
-  onChange,
+  searchTextFS,
+  searchTextES,
+  exclusionText1FS,
+  exclusionText1ES,
+  exclusionText2FS,
+  exclusionText2ES,
+  handleInputChange,
   handleErrorDisplay,
-  error
 }) => {
   const [isHoveredSearch, setIsHoveredSearch] = useState(false);
   const [isHoveredExclusion1, setIsHoveredExclusion1] = useState(false);
@@ -27,13 +29,13 @@ const NameInputMultipleExclusion = ({
   const handleValidationPlusDataTransferToSoql = (e) => {
     const { name, value } = e.target;
     validateName(name, value);
-    onChange(e);
+    handleInputChange(e);
   };
 
   return (
     <div className="form-row form-row--mixed">
       <div
-        className={`form-group form-group--width-auto form-group--name-multipleExclusion ${error.searchText ? "field-error" : ""}`}
+        className={`form-group form-group--width-auto form-group--name-multipleExclusion ${searchTextES ? "field-error" : ""}`}
         style={{ '--field-width': '30ch' }}
       >
         <label htmlFor="name-search-text">
@@ -48,7 +50,7 @@ const NameInputMultipleExclusion = ({
           type="text"
           id="name-search-text"
           name="multipleExclusion.searchText"
-          value={searchText}
+          value={searchTextFS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="multiple-exclusion-name-search-text-description"
@@ -58,13 +60,13 @@ const NameInputMultipleExclusion = ({
           required
         />
         <span className="field-description" id="multiple-exclusion-name-search-text-description">
-          {error.searchText}
+          {searchTextES}
         </span>
       </div>
       <div
-        className={`form-group form-group--width-auto form-group--name-multipleExclusion ${error.exclusionText1 ? "field-error" : ""}`}
+        className={`form-group form-group--width-auto form-group--name-multipleExclusion ${exclusionText1ES ? "field-error" : ""}`}
         style={{ '--field-width': '25ch' }}
-        
+
       >
         <label htmlFor="exclusion-text1">
           <span>Exclusion Text 1</span>
@@ -78,7 +80,7 @@ const NameInputMultipleExclusion = ({
           type="text"
           id="exclusion-text1"
           name="multipleExclusion.exclusionText1"
-          value={exclusionText1}
+          value={exclusionText1FS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="multiple-exclusion-exclusion-text1-description"
@@ -88,11 +90,11 @@ const NameInputMultipleExclusion = ({
           required
         />
         <span className="field-description" id="multiple-exclusion-exclusion-text1-description">
-          {error.exclusionText1}
+          {exclusionText1ES}
         </span>
       </div>
       <div
-        className={`form-group form-group--width-auto form-group--name-multipleExclusion ${error.exclusionText2 ? "field-error" : ""}`}
+        className={`form-group form-group--width-auto form-group--name-multipleExclusion ${exclusionText2ES ? "field-error" : ""}`}
         style={{ '--field-width': '25ch' }}
       >
         <label htmlFor="exclusion-text2">
@@ -107,7 +109,7 @@ const NameInputMultipleExclusion = ({
           type="text"
           id="exclusion-text2"
           name="multipleExclusion.exclusionText2"
-          value={exclusionText2}
+          value={exclusionText2FS}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
           aria-describedby="multiple-exclusion-exclusion-text2-description"
@@ -117,7 +119,7 @@ const NameInputMultipleExclusion = ({
           required
         />
         <span className="field-description" id="multiple-exclusion-exclusion-text2-description">
-          {error.exclusionText2}
+          {exclusionText2ES}
         </span>
       </div>
     </div>

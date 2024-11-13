@@ -18,10 +18,12 @@ const SearchByPartyNameHybridForm = ({
       nameExactFS: "",
       nameContainsFS: "",
       nameBusinessFS: "",
-      firstFS: "",
-      lastFS: "",
-      middleFS: "",
-      namePartsFS: "",
+      namePartsFS: {
+        firstFS: "",
+        lastFS: "",
+        middleFS: "",
+        fullNameFS: "",
+      },
       nameModifierFS: "business",
       exclusionFS: {
         searchTextFS: "",
@@ -48,11 +50,22 @@ const SearchByPartyNameHybridForm = ({
         exclusionText2FS: ""
       },
     },
-    party_typeFS: "",
-    document_dateFS: "",
-    document_date_modifierFS: "rangeSelect",
-    recorded_boroughFS: "",
-    doc_typeFS: [],
+    documentDateFieldFS: {
+      documentDateFS: "",
+      documentDateModifierFS: "dateRangeSelect", // Default value,
+      dateRangeSelectFS: {
+        startDateFS: "",
+        endDateFS: "",
+      },
+      exactDateFS: "",
+      dateRangeCustomFS: {
+        startDateFS: "",
+        endDateFS: "",
+      },
+    },
+    partyTypeFS: "",
+    recordedBoroughFS: "",
+    docTypeFS: [],
   };
 
   const initialUserErrors = {
@@ -60,10 +73,12 @@ const SearchByPartyNameHybridForm = ({
       nameExactES: null,
       nameContainsES: null,
       nameBusinessES: null,
-      firstES: null,
-      lastES: null,
-      middleES: null,
-      namePartsES: null,
+      namePartsES: {
+        firstES: null,
+        lastES: null,
+        middleES: null,
+        fullNameES: null,
+      },
       nameModifierES: null,
       exclusionES: {
         searchTextES: null,
@@ -90,14 +105,25 @@ const SearchByPartyNameHybridForm = ({
         exclusionText2ES: null
       },
     },
-    party_typeES: null,
-    document_dateES: null,
-    document_date_modifierES: null,
-    recorded_boroughES: null,
-    doc_typeES: null,
+    documentDateFieldES: {
+      documentDateES: null,
+      documentDateModifierES: null,
+      dateRangeSelectES: {
+        startDateES: null,
+        endDateES: null,
+      },
+      exactDateES: null,
+      dateRangeCustomES: {
+        startDateES: null,
+        endDateES: null,
+      },
+    },
+    partyTypeES: null,
+    recordedBoroughES: null,
+    docTypeES: null,
   };
 
-  const [partyNameHybridSoql, setPartyNameHybridSoql] = useState(initialFormState);
+  const [partyNameHybridFormDataState, setPartyNameHybridFormDataState] = useState(initialFormState);
   const [inputUserErrors, setInputUserErrors] = useState(initialUserErrors);
   const [errorMessages, setErrorMessages] = useState([]);
 
@@ -105,19 +131,19 @@ const SearchByPartyNameHybridForm = ({
     const { name, value } = e.target;
     console.log(`Input change - ${name}: ${value}`);
 
-    setPartyNameHybridSoql((prevSoql) => {
+    setPartyNameHybridFormDataState((prevSoql) => {
       const newSoql = { ...prevSoql };
 
-      if (
-        name === "first-name" ||
-        name === "last-name" ||
-        name === "middle-name"
-      ) {
+      if (name === "first-name" || name === "last-name" || name === "middle-name") {
         newSoql.nameFieldFS[name.split("-")[0] + "FS"] = value;
         newSoql.nameFieldFS.namePartsFS = `${newSoql.nameFieldFS.firstFS} ${newSoql.nameFieldFS.middleFS} ${newSoql.nameFieldFS.lastFS}`.trim();
       } else if (name.includes(".")) {
         const [parent, child] = name.split(".");
         newSoql.nameFieldFS[parent + "FS"][child + "FS"] = value;
+      } else if (name === "document_date") {
+        const [startDate, endDate] = value.split(" - ");
+        newSoql.documentDateFieldFS.dateRangeSelectFS.startDateFS = startDate;
+        newSoql.documentDateFieldFS.dateRangeSelectFS.endDateFS = endDate;
       } else {
         newSoql.nameFieldFS[name + "FS"] = value;
       }
@@ -128,24 +154,37 @@ const SearchByPartyNameHybridForm = ({
 
   const handleModifierChange = (field, value) => {
     console.log(`Modifier input change - ${field}: ${value}`);
-    setPartyNameHybridSoql((prevSoql) => ({
-      ...prevSoql,
-      nameFieldFS: {
-        ...prevSoql.nameFieldFS,
-        [field + "FS"]: value,
-      },
-    }));
+    setPartyNameHybridFormDataState((prevSoql) => {
+      if (field === "nameModifierFS") {
+        return {
+          ...prevSoql,
+          nameFieldFS: {
+            ...prevSoql.nameFieldFS,
+            [field]: value,
+          },
+        };
+      } else if (field === "documentDateModifierFS") {
+        return {
+          ...prevSoql,
+          documentDateFieldFS: {
+            ...prevSoql.documentDateFieldFS,
+            [field]: value,
+          },
+        };
+      }
+      return prevSoql;
+    });
   };
 
-  const resetForm = handleFormReset(setPartyNameHybridSoql, initialFormState, setInputUserErrors, initialUserErrors, setErrorMessages, handleTableReset);
+  const resetForm = handleFormReset(setPartyNameHybridFormDataState, initialFormState, setInputUserErrors, initialUserErrors, setErrorMessages, handleTableReset);
 
   return (
     <form
       className="custom-form--container"
-      onSubmit={(e) => handlePartyNameHybridFormSubmit(e, partyNameHybridSoql, setInputUserErrors, setErrorMessages, setData, setError, limit, offset, handleErrorDisplay)}
+      onSubmit={(e) => handlePartyNameHybridFormSubmit(e, partyNameHybridFormDataState, setInputUserErrors, setErrorMessages, setData, setError, limit, offset, handleErrorDisplay)}
     >
       <PartyNameSearchHybrid
-        partyNameHybridSoql={partyNameHybridSoql}
+        partyNameHybridFormDataState={partyNameHybridFormDataState}
         handleInputChange={handleInputChange}
         handleErrorDisplay={(fieldName, errorMessage) => handleErrorDisplay(fieldName, errorMessage, setInputUserErrors)}
         inputUserErrors={inputUserErrors}

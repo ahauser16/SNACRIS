@@ -5,36 +5,39 @@ import DateRangeSelect from "../DateRangeSelect/DateRangeSelect";
 import DateExactInput from "../DateExactInput/DateExactInput";
 
 const DateInputHybrid = ({
-  dateModifier,
-  document_date,
-  onChange,
+  documentDateFieldFS,
+  documentDateFieldES,
+  handleInputChange,
   handleErrorDisplay,
-  inputUserErrors,
 }) => {
   return (
     <div className="form-row form-row--mixed">
-      {dateModifier === "rangeSelect" && (
+      {documentDateFieldFS.documentDateModifierFS === "dateRangeSelect" && (
         <DateRangeSelect
-          value={document_date}
-          onChange={onChange}
+          startDateFS={documentDateFieldFS.dateRangeSelectFS.startDateFS}
+          startDateES={documentDateFieldES.dateRangeSelectES.startDateES}
+          endDateFS={documentDateFieldFS.dateRangeSelectFS.endDateFS}
+          endDateES={documentDateFieldES.dateRangeSelectES.endDateES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          inputUserErrors={inputUserErrors.document_date}
         />
       )}
-      {dateModifier === "exact" && (
+      {documentDateFieldFS.documentDateModifierFS === "exactDate" && (
         <DateExactInput
-          value={document_date}
-          onChange={onChange}
+          exactDateFS={documentDateFieldFS.exactDateFS}
+          exactDateES={documentDateFieldES.exactDateES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          inputUserErrors={inputUserErrors.document_date}
         />
       )}
-      {dateModifier === "rangeInput" && (
+      {documentDateFieldFS.documentDateModifierFS === "dateRangeCustom" && (
         <DateRangeInput
-          value={document_date}
-          onChange={onChange}
+          startDateFS={documentDateFieldFS.dateRangeCustomFS.startDateFS}
+          startDateES={documentDateFieldES.dateRangeCustomES.startDateES}
+          endDateFS={documentDateFieldFS.dateRangeCustomFS.endDateFS}
+          endDateES={documentDateFieldES.dateRangeCustomES.endDateES}
+          handleInputChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          inputUserErrors={inputUserErrors.document_date}
         />
       )}
     </div>

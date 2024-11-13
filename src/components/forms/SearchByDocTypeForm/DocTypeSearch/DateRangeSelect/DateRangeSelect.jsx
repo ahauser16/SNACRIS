@@ -1,5 +1,5 @@
+// src/components/DocTypeSearch/DateRangeSelect/DateRangeSelect.jsx
 import React from 'react';
-import './DateRangeSelect.css';
 import moment from 'moment';
 
 const getDateRange = (days) => {
@@ -9,12 +9,13 @@ const getDateRange = (days) => {
 };
 
 function DateRangeSelect({
-  value,
-  onChange,
+  startDateFS,
+  startDateES,
+  endDateFS,
+  endDateES,
+  handleInputChange,
   handleErrorDisplay,
-  error
 }) {
-
   const options = [
     { label: 'In the last week', value: getDateRange(7) },
     { label: 'In the last month', value: getDateRange(30) },
@@ -45,13 +46,13 @@ function DateRangeSelect({
 
   const handleValidationPlusDataTransferToSoql = (e) => {
     validateUserInput(e.target.value);
-    onChange(e); // Keep the original onChange for state management
+    handleInputChange({ target: { name: 'document_date', value: e.target.value } }); // Update state with the selected value
   };
 
   return (
     <div
-      className={`form-group form-group--width-auto form-group--date-range ${error ? 'field-error' : ''}`}
-      style={{ '--field-width': '15ch' }}>
+      className={`form-group form-group--width-auto form-group--date-range ${startDateES || endDateES ? 'field-error' : ''}`}
+      style={{ '--field-width': '20ch' }}>
       <label htmlFor="date-range-select">
         Date Range
       </label>
@@ -59,7 +60,7 @@ function DateRangeSelect({
         <select
           id="date-range-select"
           name="document_date"
-          value={value}
+          value={`${startDateFS} - ${endDateFS}`}
           onChange={handleValidationPlusDataTransferToSoql}
           aria-describedby="document-date-range-description"
         >
@@ -75,7 +76,7 @@ function DateRangeSelect({
       <span
         className="field-description"
         id="document-date-range-description">
-        {error}
+        {startDateES || endDateES}
       </span>
     </div>
   );

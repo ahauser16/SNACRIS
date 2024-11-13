@@ -3,20 +3,20 @@ import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
 const NameInputContains = ({
-  name,
+  nameContainsFS,
+  nameContainsES,
   onChange,
   handleErrorDisplay,
-  error
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const validateName = (value) => {
     if (value.length > 70) {
-      handleErrorDisplay("nameContains", "Name must be 70 characters or less.");
+      handleErrorDisplay("nameContainsES", "Name must be 70 characters or less.");
     } else if (!value) {
-      handleErrorDisplay("nameContains", "This field is required for form submission");
+      handleErrorDisplay("nameContainsES", "This field is required for form submission");
     } else {
-      handleErrorDisplay("nameContains", null);
+      handleErrorDisplay("nameContainsES", null);
     }
   };
 
@@ -27,7 +27,7 @@ const NameInputContains = ({
 
   return (
     <div
-      className={`form-group form-group--name-contains ${error ? "field-error" : ""}`}
+      className={`form-group form-group--name-contains ${nameContainsES ? "field-error" : ""}`}
     >
       <label htmlFor="name-contains">
         <span>Name</span>
@@ -41,7 +41,7 @@ const NameInputContains = ({
         type="text"
         id="name-contains"
         name="nameContains"
-        value={name}
+        value={nameContainsFS}
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
         aria-describedby="party-name-description"
@@ -51,7 +51,7 @@ const NameInputContains = ({
         required
       />
       <span className="field-description" id="name-contains-description">
-        {error}
+        {nameContainsES}
       </span>
     </div>
   );
