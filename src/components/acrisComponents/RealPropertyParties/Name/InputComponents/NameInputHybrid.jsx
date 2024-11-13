@@ -1,4 +1,3 @@
-// src/components/NameInput/NameInputHybrid.jsx
 import React from 'react';
 import NameInputContains from "./NameInputContains";
 import NameInputExact from "./NameInputExact";
@@ -6,138 +5,136 @@ import NameInputNameParts from "./NameInputNameParts";
 import NameInputBusiness from "./NameInputBusiness";
 import NameInputExclusion from "./NameInputExclusion";
 import NameInputMultipleSubstrings from "./NameInputMultipleSubstrings";
-import NameInputCombinedInclusionExclusion from "./NameInputCombinedInclusionExclusion";
+import NameInputInclusionExclusion from "./NameInputInclusionExclusion";
 import NameInputComplexCompound from "./NameInputComplexCompound";
 import NameInputStartsWith from "./NameInputStartsWith";
 import NameInputEndsWith from "./NameInputEndsWith";
 import NameInputMultipleExclusion from "./NameInputMultipleExclusion";
 
 const NameInputHybrid = ({
-  nameField,
+  nameFieldFS,
   onChange,
   handleErrorDisplay,
-  error,
+  nameFieldES,
 }) => {
 
   const {
-    nameModifier,
-    nameExact,
-    nameContains,
-    nameBusiness,
-    first,
-    last,
-    middle,
-    exclusion,
-    multipleSubstrings,
-    combinedInclusionExclusion,
-    complexCompound,
-    startsWith,
-    endsWith,
-    multipleExclusion,
-  } = nameField;
+    nameModifierFS,
+    nameExactFS,
+    nameContainsFS,
+    nameBusinessFS,
+    firstFS,
+    lastFS,
+    middleFS,
+    exclusionFS,
+    multipleSubstringsFS,
+    inclusionExclusionFS,
+    complexCompoundFS,
+    startsWithFS,
+    endsWithFS,
+    multipleExclusionFS,
+  } = nameFieldFS;
 
   return (
-    <>
-      {nameModifier === "contains" && (
+    <fieldset>
+      {nameModifierFS === "contains" && (
         <NameInputContains
-          name={nameContains}
+          nameContains={nameContainsFS}
           onChange={onChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={error.nameContains}
+          error={nameFieldES.nameContainsES}
         />
       )}
-      {nameModifier === "exact" && (
+      {nameModifierFS === "exact" && (
         <NameInputExact
-          name={nameExact}
+          name={nameExactFS}
           onChange={onChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={error.nameExact}
+          error={nameFieldES.nameExactES}
         />
       )}
-      {nameModifier === "nameParts" && (
-        <>
-          <NameInputNameParts
-            first={first}
-            last={last}
-            middle={middle}
-            onChange={onChange}
-            handleErrorDisplay={handleErrorDisplay}
-            namePartsErrors={error}
-          />
-        </>
+      {nameModifierFS === "nameParts" && (
+        <NameInputNameParts
+          first={firstFS}
+          last={lastFS}
+          middle={middleFS}
+          onChange={onChange}
+          handleErrorDisplay={handleErrorDisplay}
+          error={nameFieldES}
+        />
       )}
-      {nameModifier === "business" && (
+      {nameModifierFS === "business" && (
         <NameInputBusiness
-          name={nameBusiness}
+          nameBusinessSoql={nameBusinessFS}
           onChange={onChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={error.nameBusiness}
+          error={nameFieldES.nameBusinessES}
         />
       )}
-      {nameModifier === "exclusion" && (
+      {nameModifierFS === "exclusion" && (
         <NameInputExclusion
-          searchText={exclusion.searchText}
-          exclusionText={exclusion.exclusionText}
+          searchText={exclusionFS.searchTextFS}
+          exclusionText={exclusionFS.exclusionTextFS}
           onChange={onChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={error.exclusion}
+          error={nameFieldES.exclusionES}
         />
       )}
-      {nameModifier === "multipleSubstrings" && (
+      {nameModifierFS === "multipleSubstrings" && (
         <NameInputMultipleSubstrings
-          substring1={multipleSubstrings.substring1}
-          substring2={multipleSubstrings.substring2}
+          substring1={multipleSubstringsFS.substring1FS}
+          substring2={multipleSubstringsFS.substring2FS}
           onChange={onChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={error.multipleSubstrings}
+          errors={nameFieldES.multipleSubstringsES}
         />
       )}
-      {nameModifier === "combinedInclusionExclusion" && (
-        <NameInputCombinedInclusionExclusion
-          inclusionText={combinedInclusionExclusion.inclusionText}
-          exclusionText={combinedInclusionExclusion.exclusionText}
+      {nameModifierFS === "inclusionExclusion" && (
+        <NameInputInclusionExclusion
+          inclusionText={inclusionExclusionFS.inclusionTextFS}
+          exclusionText={inclusionExclusionFS.exclusionTextFS}
           onChange={onChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={error.combinedInclusionExclusion}
+          errors={nameFieldES.inclusionExclusionES}
         />
       )}
-      {nameModifier === "complexCompound" && (
+      {nameModifierFS === "complexCompound" && (
         <NameInputComplexCompound
-          mainText={complexCompound.mainText}
-          compoundText1={complexCompound.compoundText1}
-          compoundText2={complexCompound.compoundText2}
+          mainText={complexCompoundFS.mainTextFS}
+          compoundText1={complexCompoundFS.compoundText1FS}
+          compoundText2={complexCompoundFS.compoundText2FS}
           onChange={onChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={error.complexCompound}
+          errors={nameFieldES.complexCompoundES}
         />
       )}
-      {nameModifier === "startsWith" && (
+      {nameModifierFS === "startsWith" && (
         <NameInputStartsWith
-          name={startsWith}
+          name={startsWithFS}
           onChange={onChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={error.startsWith}
+          error={nameFieldES.startsWithES}
         />
       )}
-      {nameModifier === "endsWith" && (
+      {nameModifierFS === "endsWith" && (
         <NameInputEndsWith
-          name={endsWith}
+          endsWith={endsWithFS}
           onChange={onChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={error.endsWith}
+          error={nameFieldES.endsWithES}
         />
       )}
-      {nameModifier === "multipleExclusion" && (
+      {nameModifierFS === "multipleExclusion" && (
         <NameInputMultipleExclusion
-          searchText={multipleExclusion.searchText}
-          exclusionText1={multipleExclusion.exclusionText1}
-          exclusionText2={multipleExclusion.exclusionText2}
+          searchText={multipleExclusionFS.searchTextFS}
+          exclusionText1={multipleExclusionFS.exclusionText1FS}
+          exclusionText2={multipleExclusionFS.exclusionText2FS}
           onChange={onChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={error.multipleExclusion}
+          errors={nameFieldES.multipleExclusionES}
         />
       )}
-    </>
+    </fieldset>
   );
 };
 

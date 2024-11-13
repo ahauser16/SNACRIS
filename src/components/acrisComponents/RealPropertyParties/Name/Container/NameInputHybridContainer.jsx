@@ -3,31 +3,28 @@ import NameInputHybrid from "../InputComponents/NameInputHybrid";
 import NameInputHybridModifier from "../SearchModifier/NameInputHybridModifier";
 
 const NameInputHybridContainer = ({
-  nameField,
+  nameFieldFS,
   handleInputChange,
   handleErrorDisplay,
-  inputUserErrors,
+  nameFieldES,
   handleModifierChange,
 }) => {
   return (
-    <>
-      <div className="form-row form-row--mixed">
-        <NameInputHybridModifier
-          value={nameField.nameModifier}
-          onChange={(e) =>
-            handleModifierChange("nameModifier", e.target.value)
-          }
-        />
-      </div>
-      <div className="form-row form-row--mixed">
-        <NameInputHybrid
-          nameField={nameField}
-          handleErrorDisplay={handleErrorDisplay}
-          onChange={handleInputChange}
-          error={inputUserErrors}
-        />
-      </div>
-    </>
+    <fieldset>
+      <legend>Search Type</legend>
+      <NameInputHybridModifier
+        value={nameFieldFS.nameModifierFS}
+        onChange={(e) =>
+          handleModifierChange("nameModifier", e.target.value)
+        }
+      />
+      <NameInputHybrid
+        nameFieldFS={nameFieldFS}
+        handleErrorDisplay={handleErrorDisplay}
+        nameFieldES={nameFieldES}
+        onChange={handleInputChange}
+      />
+    </fieldset>
   );
 };
 

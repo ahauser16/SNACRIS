@@ -1,4 +1,3 @@
-// src/components/PartyNameSearch/PartyNameSearchHybrid.jsx
 import React from "react";
 import NameInputHybridContainer from "../../acrisComponents/RealPropertyParties/Name/Container/NameInputHybridContainer";
 import DateInputHybridContainer from "../SearchByDocTypeForm/DocTypeSearch/DateSelect/DateInputHybridContainer";
@@ -17,10 +16,10 @@ const PartyNameSearchHybrid = ({
     <fieldset>
       <legend>Search By Party Name & Additional Criteria</legend>
       <NameInputHybridContainer
-        nameField={partyNameHybridSoql.nameField}
+        nameFieldFS={partyNameHybridSoql.nameFieldFS}
         handleInputChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
-        inputUserErrors={inputUserErrors.nameField}
+        nameFieldES={inputUserErrors.nameFieldES}
         handleModifierChange={handleModifierChange}
       />
       <DateInputHybridContainer
@@ -32,26 +31,26 @@ const PartyNameSearchHybrid = ({
       />
       <div className="form-row form-row--mixed">
         <PartyTypeSelectHybrid
-          value={partyNameHybridSoql.party_type}
+          value={partyNameHybridSoql.party_typeFS}
           onChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={inputUserErrors.party_type}
+          error={inputUserErrors.party_typeES}
         />
       </div>
       <div className="form-row form-row--mixed">
         <RecordedBoroughSelectHybrid
-          value={partyNameHybridSoql.recorded_borough}
+          value={partyNameHybridSoql.recorded_boroughFS}
           onChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={inputUserErrors.recorded_borough}
+          error={inputUserErrors.recorded_boroughES}
         />
       </div>
       <div className="form-row form-row--mixed">
         <DocClassSelectHybrid
-          value={partyNameHybridSoql.doc_type}
+          value={partyNameHybridSoql.doc_typeFS}
           onChange={handleInputChange}
           handleErrorDisplay={handleErrorDisplay}
-          error={inputUserErrors.doc_type}
+          error={inputUserErrors.doc_typeES}
         />
       </div>
     </fieldset>

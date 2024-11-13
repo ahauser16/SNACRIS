@@ -23,9 +23,12 @@ const NameInputExclusion = ({ searchText, exclusionText, onChange, handleErrorDi
   };
 
   return (
-    <div className="form-group form-group--name-exclusion">
-      <div className={`form-group ${error.searchText ? "field-error" : ""}`}>
-        <label htmlFor="search-text">
+    <div className="form-row form-row--mixed">
+      <div
+        className={`form-group form-group--width-auto form-group--name-exclusion ${error.searchText ? "field-error" : ""}`}
+        style={{ '--field-width': '25ch' }}
+      >
+        <label htmlFor="name-search-text">
           <span>Name Search</span>
           <InfoIcon
             isHovered={isHoveredSearch}
@@ -35,22 +38,26 @@ const NameInputExclusion = ({ searchText, exclusionText, onChange, handleErrorDi
         </label>
         <input
           type="text"
-          id="search-text"
+          id="name-search-text"
           name="exclusion.searchText"
           value={searchText}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
-          aria-describedby="name-includes-description"
+          aria-describedby="name-search-text-description"
           placeholder="Enter Name"
           maxLength="70"
+          aria-required="true"
           required
         />
-        <span className="field-description" id="name-includes-description">
+        <span className="field-description" id="name-search-text-description">
           {error.searchText}
         </span>
       </div>
-      <div className={`form-group ${error.exclusionText ? "field-error" : ""}`}>
-        <label htmlFor="exclusion-text">
+      <div
+        className={`form-group form-group--width-auto form-group--name-exclusion ${error.exclusionText ? "field-error" : ""}`}
+        style={{ '--field-width': '25ch' }}
+      >
+        <label htmlFor="name-exclusion-text">
           <span>Exclusion Text</span>
           <InfoIcon
             isHovered={isHoveredExclusion}
@@ -60,17 +67,18 @@ const NameInputExclusion = ({ searchText, exclusionText, onChange, handleErrorDi
         </label>
         <input
           type="text"
-          id="exclusion-text"
+          id="name-exclusion-text"
           name="exclusion.exclusionText"
           value={exclusionText}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
-          aria-describedby="name-exclusion-description"
+          aria-describedby="name-exclusion-text-description"
           placeholder="Enter exclusion text"
           maxLength="70"
+          aria-required="true"
           required
         />
-        <span className="field-description" id="name-exclusion-description">
+        <span className="field-description" id="name-exclusion-text-description">
           {error.exclusionText}
         </span>
       </div>

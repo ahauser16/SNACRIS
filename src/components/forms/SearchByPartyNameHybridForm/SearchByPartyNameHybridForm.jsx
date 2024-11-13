@@ -1,10 +1,10 @@
-// src/components/SearchByPartyNameHybridForm/SearchByPartyNameHybridForm.jsx
 import React, { useState } from "react";
 import PartyNameSearchHybrid from "./PartyNameSearchHybrid";
 import FormControls from "../FormControls/FormControls";
 import { handleFormReset } from '../utils/handleFormReset';
 import { handlePartyNameHybridFormSubmit } from '../utils/handlePartyNameHybridFormSubmit';
 import ErrorMessageDisplay from '../ErrorMessageDisplay/ErrorMessageDisplay';
+import handleErrorDisplay from '../utils/HandleErrorDisplay/HandleErrorDisplay';
 
 const SearchByPartyNameHybridForm = ({
   setData,
@@ -14,120 +14,92 @@ const SearchByPartyNameHybridForm = ({
   offset,
 }) => {
   const initialFormState = {
-    nameField: {
-      nameExact: "",
-      nameContains: "",
-      nameBusiness: "",
-      first: "",
-      last: "",
-      middle: "",
-      nameParts: "",
-      nameModifier: "business",
-      exclusion: {
-        searchText: "",
-        exclusionText: ""
+    nameFieldFS: {
+      nameExactFS: "",
+      nameContainsFS: "",
+      nameBusinessFS: "",
+      firstFS: "",
+      lastFS: "",
+      middleFS: "",
+      namePartsFS: "",
+      nameModifierFS: "business",
+      exclusionFS: {
+        searchTextFS: "",
+        exclusionTextFS: ""
       },
-      multipleSubstrings: {
-        substring1: "",
-        substring2: ""
+      multipleSubstringsFS: {
+        substring1FS: "",
+        substring2FS: ""
       },
-      combinedInclusionExclusion: {
-        inclusionText: "",
-        exclusionText: ""
+      inclusionExclusionFS: {
+        inclusionTextFS: "",
+        exclusionTextFS: ""
       },
-      complexCompound: {
-        mainText: "",
-        compoundText1: "",
-        compoundText2: ""
+      complexCompoundFS: {
+        mainTextFS: "",
+        compoundText1FS: "",
+        compoundText2FS: ""
       },
-      startsWith: "",
-      endsWith: "",
-      multipleExclusion: {
-        searchText: "",
-        exclusionText1: "",
-        exclusionText2: ""
+      startsWithFS: "",
+      endsWithFS: "",
+      multipleExclusionFS: {
+        searchTextFS: "",
+        exclusionText1FS: "",
+        exclusionText2FS: ""
       },
     },
-    party_type: "",
-    document_date: "",
-    document_date_modifier: "rangeSelect",
-    recorded_borough: "",
-    doc_type: [],
+    party_typeFS: "",
+    document_dateFS: "",
+    document_date_modifierFS: "rangeSelect",
+    recorded_boroughFS: "",
+    doc_typeFS: [],
   };
 
   const initialUserErrors = {
-    nameField: {
-      nameExact: null,
-      nameContains: null,
-      nameBusiness: null,
-      first: null,
-      last: null,
-      middle: null,
-      nameParts: null,
-      nameModifier: null,
-      exclusion: {
-        searchText: null,
-        exclusionText: null
+    nameFieldES: {
+      nameExactES: null,
+      nameContainsES: null,
+      nameBusinessES: null,
+      firstES: null,
+      lastES: null,
+      middleES: null,
+      namePartsES: null,
+      nameModifierES: null,
+      exclusionES: {
+        searchTextES: null,
+        exclusionTextES: null
       },
-      multipleSubstrings: {
-        substring1: null,
-        substring2: null
+      multipleSubstringsES: {
+        substring1ES: null,
+        substring2ES: null
       },
-      combinedInclusionExclusion: {
-        inclusionText: null,
-        exclusionText: null
+      inclusionExclusionES: {
+        inclusionTextES: null,
+        exclusionTextES: null
       },
-      complexCompound: {
-        mainText: null,
-        compoundText1: null,
-        compoundText2: null
+      complexCompoundES: {
+        mainTextES: null,
+        compoundText1ES: null,
+        compoundText2ES: null
       },
-      startsWith: null,
-      endsWith: null,
-      multipleExclusion: {
-        searchText: null,
-        exclusionText1: null,
-        exclusionText2: null
+      startsWithES: null,
+      endsWithES: null,
+      multipleExclusionES: {
+        searchTextES: null,
+        exclusionText1ES: null,
+        exclusionText2ES: null
       },
     },
-    party_type: null,
-    document_date: null,
-    document_date_modifier: null,
-    recorded_borough: null,
-    doc_type: null,
+    party_typeES: null,
+    document_dateES: null,
+    document_date_modifierES: null,
+    recorded_boroughES: null,
+    doc_typeES: null,
   };
 
   const [partyNameHybridSoql, setPartyNameHybridSoql] = useState(initialFormState);
   const [inputUserErrors, setInputUserErrors] = useState(initialUserErrors);
   const [errorMessages, setErrorMessages] = useState([]);
-
-  const handleErrorDisplay = (fieldName, errorMessage) => {
-    console.log(`Error in ${fieldName}: ${errorMessage}`);
-    setInputUserErrors((prevErrors) => {
-      const newErrors = { ...prevErrors };
-
-      if (fieldName.startsWith("nameField.")) {
-        const part = fieldName.split(".")[1];
-        newErrors.nameField = {
-          ...newErrors.nameField,
-          [part]: errorMessage,
-        };
-      } else {
-        newErrors[fieldName] = errorMessage;
-      }
-
-      const className = fieldName.startsWith("nameField")
-        ? `.form-group--${fieldName.replace(".", "-")}`
-        : `.form-group--${fieldName}`;
-
-      const formGroupElement = document.querySelector(className);
-      if (formGroupElement) {
-        formGroupElement.classList.toggle("field-error", !!errorMessage);
-      }
-
-      return newErrors;
-    });
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -141,27 +113,26 @@ const SearchByPartyNameHybridForm = ({
         name === "last-name" ||
         name === "middle-name"
       ) {
-        newSoql.nameField[name.split("-")[0]] = value;
-        newSoql.nameField.nameParts = `${newSoql.nameField.first} ${newSoql.nameField.middle} ${newSoql.nameField.last}`.trim();
+        newSoql.nameFieldFS[name.split("-")[0] + "FS"] = value;
+        newSoql.nameFieldFS.namePartsFS = `${newSoql.nameFieldFS.firstFS} ${newSoql.nameFieldFS.middleFS} ${newSoql.nameFieldFS.lastFS}`.trim();
       } else if (name.includes(".")) {
         const [parent, child] = name.split(".");
-        newSoql.nameField[parent][child] = value;
+        newSoql.nameFieldFS[parent + "FS"][child + "FS"] = value;
       } else {
-        newSoql.nameField[name] = value;
+        newSoql.nameFieldFS[name + "FS"] = value;
       }
 
       return newSoql;
     });
   };
 
-  // Updated handleModifierChange to handle both nameModifier and document_date_modifier
   const handleModifierChange = (field, value) => {
     console.log(`Modifier input change - ${field}: ${value}`);
     setPartyNameHybridSoql((prevSoql) => ({
       ...prevSoql,
-      nameField: {
-        ...prevSoql.nameField,
-        [field]: value,
+      nameFieldFS: {
+        ...prevSoql.nameFieldFS,
+        [field + "FS"]: value,
       },
     }));
   };
@@ -176,7 +147,7 @@ const SearchByPartyNameHybridForm = ({
       <PartyNameSearchHybrid
         partyNameHybridSoql={partyNameHybridSoql}
         handleInputChange={handleInputChange}
-        handleErrorDisplay={handleErrorDisplay}
+        handleErrorDisplay={(fieldName, errorMessage) => handleErrorDisplay(fieldName, errorMessage, setInputUserErrors)}
         inputUserErrors={inputUserErrors}
         handleModifierChange={handleModifierChange}
       />

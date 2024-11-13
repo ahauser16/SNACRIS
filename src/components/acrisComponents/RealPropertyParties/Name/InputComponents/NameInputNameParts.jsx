@@ -10,7 +10,9 @@ const NameInputNameParts = ({
   handleErrorDisplay,
   namePartsErrors,
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHoveredFirst, setIsHoveredFirst] = useState(false);
+  const [isHoveredMiddle, setIsHoveredMiddle] = useState(false);
+  const [isHoveredLast, setIsHoveredLast] = useState(false);
 
   const hoverMessageFirst = "First Name must be 70 characters or less and is required for form submission.";
   const hoverMessageLast = "Last Name must be 70 characters or less and is required for form submission.";
@@ -40,16 +42,17 @@ const NameInputNameParts = ({
   };
 
   return (
-    <>
+    <div className="form-row form-row--mixed">
       <div
-        className={`form-group form-group--nameParts-first ${namePartsErrors.first ? "field-error" : ""
+        className={`form-group form-group--width-auto form-group--nameParts-first ${namePartsErrors.first ? "field-error" : ""
           }`}
+        style={{ '--field-width': '25ch' }}
       >
         <label htmlFor="first-name">
           <span>First Name</span>
           <InfoIcon
-            isHovered={isHovered}
-            setIsHovered={setIsHovered}
+            isHovered={isHoveredFirst}
+            setIsHovered={setIsHoveredFirst}
             hoverMessage={hoverMessageFirst}
           />
         </label>
@@ -63,20 +66,22 @@ const NameInputNameParts = ({
           aria-describedby="party-name-description"
           placeholder="First name"
           maxLength="70"
+          aria-required="true"
           required
         />
-        <span className="field-description">{namePartsErrors.first}</span>
+        <span className="field-description" id="first-name-description">{namePartsErrors.first}</span>
       </div>
 
       <div
-        className={`form-group form-group--nameParts-last ${namePartsErrors.last ? "field-error" : ""
+        className={`form-group form-group--width-auto form-group--nameParts-last ${namePartsErrors.last ? "field-error" : ""
           }`}
+        style={{ '--field-width': '25ch' }}
       >
         <label htmlFor="last-name">
           <span>Last Name</span>
           <InfoIcon
-            isHovered={isHovered}
-            setIsHovered={setIsHovered}
+            isHovered={isHoveredLast}
+            setIsHovered={setIsHoveredLast}
             hoverMessage={hoverMessageLast}
           />
         </label>
@@ -87,23 +92,25 @@ const NameInputNameParts = ({
           value={last}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
-          aria-describedby="party-name-description"
+          aria-describedby="last-name-description"
           placeholder="Last name"
           maxLength="70"
+          aria-required="true"
           required
         />
-        <span className="field-description">{namePartsErrors.last}</span>
+        <span className="field-description" id="last-name-description">{namePartsErrors.last}</span>
       </div>
 
       <div
-        className={`form-group form-group--nameParts-middle ${namePartsErrors.middle ? "field-error" : ""
+        className={`form-group form-group--width-auto form-group--nameParts-middle ${namePartsErrors.middle ? "field-error" : ""
           }`}
+        style={{ '--field-width': '25ch' }}
       >
         <label htmlFor="middle-name">
           <span>Middle Name</span>
           <InfoIcon
-            isHovered={isHovered}
-            setIsHovered={setIsHovered}
+            isHovered={isHoveredMiddle}
+            setIsHovered={setIsHoveredMiddle}
             hoverMessage={hoverMessageMiddle}
           />
         </label>
@@ -114,13 +121,13 @@ const NameInputNameParts = ({
           value={middle}
           onChange={handleValidationPlusDataTransferToSoql}
           className="form-field"
-          aria-describedby="party-name-description"
+          aria-describedby="middle-name-description"
           placeholder="Middle name"
           maxLength="70"
         />
-        <span className="field-description">{namePartsErrors.middle}</span>
+        <span className="field-description" id="middle-name-description">{namePartsErrors.middle}</span>
       </div>
-    </>
+    </div>
   );
 };
 

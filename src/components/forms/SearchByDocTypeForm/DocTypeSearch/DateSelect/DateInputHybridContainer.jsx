@@ -4,7 +4,7 @@ import DateInputHybridModifier from "./DateInputHybridModifier";
 import DateInputHybrid from "./DateInputHybrid";
 
 const DateInputHybridContainer = ({
-  partyNameHybridSoql,
+  partyNameHybridFormState,
   handleInputChange,
   handleErrorDisplay,
   inputUserErrors,
@@ -13,14 +13,14 @@ const DateInputHybridContainer = ({
   return (
     <>
       <DateInputHybridModifier
-        value={partyNameHybridSoql.document_date_modifier}
+        value={partyNameHybridFormState.document_date_modifier}
         onChange={(e) =>
           handleModifierChange("document_date_modifier", e.target.value)
         }
       />
       <DateInputHybrid
-        dateModifier={partyNameHybridSoql.document_date_modifier}
-        document_date={partyNameHybridSoql.document_date}
+        dateModifier={partyNameHybridFormState.document_date_modifier}
+        document_date={partyNameHybridFormState.document_date}
         onChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
         inputUserErrors={inputUserErrors}

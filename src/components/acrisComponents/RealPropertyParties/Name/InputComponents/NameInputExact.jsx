@@ -25,7 +25,7 @@ const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
       className={`form-group form-group--name-exact ${error ? "field-error" : ""}`}
     >
       <label htmlFor="name-exact">
-        <span>Name</span>
+        <span>Exact Name</span>
         <InfoIcon
           isHovered={isHovered}
           setIsHovered={setIsHovered}
@@ -39,12 +39,13 @@ const NameInputExact = ({ name, onChange, handleErrorDisplay, error }) => {
         value={name}
         onChange={handleValidationPlusDataTransferToSoql}
         className="form-field"
-        aria-describedby="party-name-description"
+        aria-describedby="name-exact-description"
         placeholder="Enter exact name"
         maxLength="70"
+        aria-required="true"
         required
       />
-      <span className="field-description" id="party-name-description">
+      <span className="field-description" id="name-exact-description">
         {error}
       </span>
     </div>

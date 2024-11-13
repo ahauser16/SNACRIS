@@ -2,7 +2,12 @@
 import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
-const NameInputContains = ({ name, onChange, handleErrorDisplay, error }) => {
+const NameInputContains = ({
+  name,
+  onChange,
+  handleErrorDisplay,
+  error
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const validateName = (value) => {
@@ -42,9 +47,10 @@ const NameInputContains = ({ name, onChange, handleErrorDisplay, error }) => {
         aria-describedby="party-name-description"
         placeholder="Enter partial name"
         maxLength="70"
+        aria-required="true"
         required
       />
-      <span className="field-description" id="party-name-description">
+      <span className="field-description" id="name-contains-description">
         {error}
       </span>
     </div>

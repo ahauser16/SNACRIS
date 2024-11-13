@@ -2,51 +2,92 @@
 import React, { useState } from "react";
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
-const NameInputMultipleSubstrings = ({ name, onChange, handleErrorDisplay, error }) => {
-  const [isHovered, setIsHovered] = useState(false);
+const NameInputMultipleSubstrings = ({
+  substring1,
+  substring2,
+  onChange,
+  handleErrorDisplay,
+  error
+}) => {
+  const [isHoveredSubstring1, setIsHoveredSubstring1] = useState(false);
+  const [isHoveredSubstring2, setIsHoveredSubstring2] = useState(false);
 
-  const validateName = (value) => {
+  const validateName = (name, value) => {
     if (value.length > 70) {
-      handleErrorDisplay("nameMultipleSubstrings", "Name must be 70 characters or less.");
+      handleErrorDisplay(name, "This search term must be 70 characters or less.");
     } else if (!value) {
-      handleErrorDisplay("nameMultipleSubstrings", "This field is required for form submission");
+      handleErrorDisplay(name, "This search term is required for form submission");
     } else {
-      handleErrorDisplay("nameMultipleSubstrings", null);
+      handleErrorDisplay(name, null);
     }
   };
 
   const handleValidationPlusDataTransferToSoql = (e) => {
-    validateName(e.target.value);
+    const { name, value } = e.target;
+    validateName(name, value);
     onChange(e);
   };
 
   return (
-    <div
-      className={`form-group form-group--name-multipleSubstrings ${error ? "field-error" : ""}`}
-    >
-      <label htmlFor="name-multipleSubstrings">
-        <span>Name</span>
-        <InfoIcon
-          isHovered={isHovered}
-          setIsHovered={setIsHovered}
-          hoverMessage="Name must be 70 characters or less and is required for form submission."
+    <div className="form-row form-row--mixed">
+      <div
+        className={`form-group form-group--width-auto form-group--name-multipleSubstrings ${error.substring1 ? "field-error" : ""}`}
+        style={{ '--field-width': '25ch' }}
+      >
+        <label htmlFor="name-search-substring1">
+          <span>Search Term One</span>
+          <InfoIcon
+            isHovered={isHoveredSubstring1}
+            setIsHovered={setIsHoveredSubstring1}
+            hoverMessage="Search term must be 70 characters or less and is required for form submission."
+          />
+        </label>
+        <input
+          type="text"
+          id="name-search-substring1"
+          name="multipleSubstrings.substring1"
+          value={substring1}
+          onChange={handleValidationPlusDataTransferToSoql}
+          className="form-field"
+          aria-describedby="name-search-substring1-description"
+          placeholder="Enter 1st search term"
+          maxLength="70"
+          aria-required="true"
+          required
         />
-      </label>
-      <input
-        type="text"
-        id="name-multipleSubstrings"
-        name="nameMultipleSubstrings"
-        value={name}
-        onChange={handleValidationPlusDataTransferToSoql}
-        className="form-field"
-        aria-describedby="party-name-description"
-        placeholder="Enter partial name"
-        maxLength="70"
-        required
-      />
-      <span className="field-description" id="party-name-description">
-        {error}
-      </span>
+        <span className="field-description" id="name-search-substring1-description">
+          {error.substring1}
+        </span>
+      </div>
+      <div
+        className={`form-group form-group--width-auto form-group--name-multipleSubstrings ${error.substring2 ? "field-error" : ""}`}
+        style={{ '--field-width': '25ch' }}
+      >
+        <label htmlFor="name-search-substring2">
+          <span>Search Term Two</span>
+          <InfoIcon
+            isHovered={isHoveredSubstring2}
+            setIsHovered={setIsHoveredSubstring2}
+            hoverMessage="Search term must be 70 characters or less and is required for form submission."
+          />
+        </label>
+        <input
+          type="text"
+          id="name-search-substring2"
+          name="multipleSubstrings.substring2"
+          value={substring2}
+          onChange={handleValidationPlusDataTransferToSoql}
+          className="form-field"
+          aria-describedby="name-search-substring2-description"
+          placeholder="Enter 2nd search term"
+          maxLength="70"
+          aria-required="true"
+          required
+        />
+        <span className="field-description" id="name-search-substring2-description">
+          {error.substring2}
+        </span>
+      </div>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { handleErrorsDuringSubmission } from "../../Utils/handleErrorsDuringForm
 
 export const handlePartyNameHybridFormSubmit = async (
   e,
-  partyNameHybridSoql,
+  partyNameHybridFormState,
   setInputUserErrors,
   setErrorMessages,
   setData,
@@ -17,13 +17,13 @@ export const handlePartyNameHybridFormSubmit = async (
 ) => {
   e.preventDefault();
 
-  console.log("Submitting with SoQL:", partyNameHybridSoql);
+  console.log("Submitting with SoQL:", partyNameHybridFormState);
 
   try {
     // First API request to fetchRealPropertyPartiesData
     const partiesSoql = {
-      name: partyNameHybridSoql.name,
-      party_type: partyNameHybridSoql.party_type
+      name: partyNameHybridFormState.name,
+      party_type: partyNameHybridFormState.party_type
     };
     const partiesResponse = await fetchRealPropertyPartiesData(partiesSoql, limit, offset);
     console.log('Parties API response:', partiesResponse);
@@ -46,9 +46,9 @@ export const handlePartyNameHybridFormSubmit = async (
 
     // Prepare the second API request
     const masterSoql = {
-      recorded_borough: partyNameHybridSoql.recorded_borough,
-      document_date: partyNameHybridSoql.document_date,
-      doc_type: partyNameHybridSoql.doc_type // This will be handled in the API
+      recorded_borough: partyNameHybridFormState.recorded_borough,
+      document_date: partyNameHybridFormState.document_date,
+      doc_type: partyNameHybridFormState.doc_type // This will be handled in the API
     };
 
     // Second API request to fetchRealPropertyMasterData
