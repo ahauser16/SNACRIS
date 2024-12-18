@@ -1,7 +1,7 @@
 import React from "react";
 import NameInputHybridContainer from "../../acrisComponents/RealPropertyParties/Name/Container/NameInputHybridContainer";
-import DateInputHybridContainer from "../SearchByDocTypeForm/DocTypeSearch/DateSelect/DateInputHybridContainer";
-import PartyTypeSelectHybrid from "../SearchByPartyNameForm/PartyNameSearch/PartyTypeSelect/PartyTypeSelectHybrid";
+import DateInputHybridContainer from "../../acrisComponents/RealPropertyMaster/DocumentDate/Container/DateInputHybridContainer";
+import PartyTypeHybridContainer from "../../acrisComponents/RealPropertyParties/PartyType/Container/PartyTypeHybridContainer";
 import RecordedBoroughSelectHybrid from "../SearchByAddressForm/AddressSearch/RecordedBoroughSelect/RecordedBoroughSelectHybrid";
 import DocClassSelectHybrid from "../SearchByPartyNameForm/PartyNameSearch/DocClassSelect/DocClassSelectHybrid";
 
@@ -25,6 +25,13 @@ const PartyNameSearchHybrid = ({
       <DateInputHybridContainer
         documentDateFieldFS={partyNameHybridFormDataState.documentDateFieldFS}
         documentDateFieldES={inputUserErrors.documentDateFieldES}
+        handleInputChange={handleInputChange}
+        handleErrorDisplay={handleErrorDisplay}
+        handleModifierChange={handleModifierChange}
+      />
+      <PartyTypeHybridContainer
+        partyTypeFieldFS={partyNameHybridFormDataState.partyTypeFieldFS}
+        partyTypeFieldES={inputUserErrors.partyTypeFieldES}
         handleInputChange={handleInputChange}
         handleErrorDisplay={handleErrorDisplay}
         handleModifierChange={handleModifierChange}

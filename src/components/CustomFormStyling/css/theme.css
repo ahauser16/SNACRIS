@@ -86,7 +86,7 @@
 /* ACTIVE BELOW */
 --color-primary: var(--blue-400);
 --color-error: #da1b22;
---color-background: #f7f9ff;
+--color-background: hsl(225, 100%, 98%);
 /* mix(#fff, $color-primary, 95%) */
 --color-text: var(--grey-100);
 /* scale-color($color-background, $lightness: -65%) */

@@ -1,11 +1,55 @@
 .center {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center;    /* Center vertically */
-  }
+  display: flex;
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
+}
 
-  .text-wrapper {
-    display: block; /* or inline-block */
-    max-width: 50%; /* Adjust as needed */
-    word-wrap: break-word; /* Ensures long words break to the next line */
+.text-wrapper-50 {
+  display: block;
+  /* or inline-block */
+  max-width: 50%;
+  /* Adjust as needed */
+  word-wrap: break-word;
+  /* Ensures long words break to the next line */
+}
+
+.text-wrapper-95 {
+  display: block;
+  /* or inline-block */
+  max-width: 95%;
+  /* Adjust as needed */
+  word-wrap: break-word;
+  /* Ensures long words break to the next line */
+}
+
+.drop-shadow {
+  box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.col-space-btn {
+  justify-content: space-between;
+}
+
+.gap-33 {
+  gap: .33rem;
+}
+
+.margin-top-33 {
+  margin-top: .33rem;
+}
+
+.margin-bottom-33 {
+  margin-bottom: .33rem;
 }

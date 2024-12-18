@@ -10,8 +10,8 @@ const NameInputHybridContainer = ({
   handleModifierChange,
 }) => {
   return (
-    <fieldset>
-      <legend>Search Type</legend>
+    <fieldset className="drop-shadow">
+      <legend>Party Name Search</legend>
       <NameInputHybridModifier
         handleModifierChange={handleModifierChange}
         nameModifierFS={nameFieldFS.nameModifierFS}

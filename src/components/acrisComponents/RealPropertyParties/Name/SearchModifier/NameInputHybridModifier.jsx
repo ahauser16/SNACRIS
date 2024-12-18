@@ -46,7 +46,7 @@ const NameInputHybridModifier = ({
         <span class="focus"></span>
       </div>
       <p className="search-type-description">
-      {description}
+        <b>Search Description:</b> {description}
       </p>
       <span id="name-select-modifier-description" className="field-description">
         {nameModifierES}

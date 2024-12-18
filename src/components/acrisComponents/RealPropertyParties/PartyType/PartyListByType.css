@@ -1,0 +1,49 @@
+/* redundant code but is here for reference */
+:root {
+    --table-row-even-bg: var(--grey-900);
+    --table-row-odd-bg: var(--grey-800);
+
+    --table-row-border: var(--grey-300);
+    --table-row-font: var(--grey-100);
+}
+
+table {
+    margin: 1em 0;
+    border-collapse: collapse;
+    /*   width: 100%; */
+}
+
+caption {
+    display: flex;
+    text-align: left;
+    font-style: normal;
+    padding: 0.25em 0.5em 0.5em 0.5em;
+}
+
+
+th,
+td {
+    padding: 0.15em 0.15em 0.15em .15em;
+    vertical-align: text-top;
+    text-align: left;
+    margin-top: .25rem;
+    /* text-indent: -0.5em; */
+    word-wrap: break-word; /* Ensure text wraps within the cell */
+    white-space: normal; /* Allow text to wrap to the next line */
+}
+
+th {
+    vertical-align: bottom;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-weight: bold;
+}
+
+
+tr:nth-child(even) {
+    background-color: var(--table-row-even-bg);
+}
+
+tr:nth-child(odd) {
+    background-color: var(--table-row-odd-bg);
+}

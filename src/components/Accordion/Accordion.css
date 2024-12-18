@@ -1,0 +1,60 @@
+.accordion-container {
+    position: relative;
+    border-radius: var(--border-radius);
+    border: 2px solid  var(--yellow-300);
+    max-width: 98%;
+    margin: 0 0 0 0;
+}
+
+.accordion {
+    background-color: var(--blue-1000);
+    color: var(--color-text);
+    cursor: pointer;
+    max-width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: 0.4s;
+    display: flex;
+    align-items: center;
+}
+
+.accordion:hover {
+    background-color: var(--blue-900);
+}
+
+.accordion.active {
+    background-color: var(--blue-1000);
+}
+
+.icon-cheveron-up {
+    width: 2rem;
+    fill: currentColor;
+    margin-left: .5rem;
+    transform: rotate(90deg);
+    transition: transform 0.4s;
+}
+
+.accordion.active .icon-cheveron-up {
+    transform: rotate(180deg);
+}
+
+.panel {
+    max-height: 0;
+    padding: 0;
+    background-color: var(--color-background);
+    overflow: hidden;
+    transition: max-height 0.4s ease-in, max-height 0.4s ease-out;
+}
+
+.panel.open {
+    max-height: 10000px; /* Set a large enough value to accommodate the content */
+    padding: 0;
+}
+
+.icon-cheveron-up .secondary{
+    fill: var(--blue-500);
+}
+

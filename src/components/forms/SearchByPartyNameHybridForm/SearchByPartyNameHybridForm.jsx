@@ -63,7 +63,9 @@ const SearchByPartyNameHybridForm = ({
         endDateFS: "",
       },
     },
-    partyTypeFS: "",
+    partyTypeFieldFS: {
+      partyTypeFS: "",
+    },
     recordedBoroughFS: "",
     docTypeFS: [],
   };
@@ -118,7 +120,9 @@ const SearchByPartyNameHybridForm = ({
         endDateES: null,
       },
     },
-    partyTypeES: null,
+    partyTypeFieldES: {
+      partyTypeES: null,
+    },
     recordedBoroughES: null,
     docTypeES: null,
   };
@@ -144,6 +148,8 @@ const SearchByPartyNameHybridForm = ({
         const [startDate, endDate] = value.split(" - ");
         newSoql.documentDateFieldFS.dateRangeSelectFS.startDateFS = startDate;
         newSoql.documentDateFieldFS.dateRangeSelectFS.endDateFS = endDate;
+      } else if (name === "party_type") {
+        newSoql.partyTypeFieldFS.partyTypeFS = value;
       } else {
         newSoql.nameFieldFS[name + "FS"] = value;
       }

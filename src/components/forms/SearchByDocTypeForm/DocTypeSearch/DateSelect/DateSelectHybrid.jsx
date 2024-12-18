@@ -32,7 +32,7 @@ const DateSelectHybrid = ({
                             />
                             <span className="input__control"> </span>
                         </span>
-                        <span className="text-wrapper">Date Range Select</span>
+                        <span className="text-wrapper-50">Date Range Select</span>
                     </label>
                 </div>
                 <div className="form-group">
@@ -47,7 +47,7 @@ const DateSelectHybrid = ({
                             />
                             <span className="input__control"> </span>
                         </span>
-                        <span className="text-wrapper">Exact Date</span>
+                        <span className="text-wrapper-50">Exact Date</span>
                     </label>
                 </div>
                 <div className="form-group">
@@ -62,7 +62,7 @@ const DateSelectHybrid = ({
                             />
                             <span className="input__control"> </span>
                         </span>
-                        <span className="text-wrapper">Date Range Input</span>
+                        <span className="text-wrapper-50">Date Range Input</span>
                     </label>
                 </div>
             </div>

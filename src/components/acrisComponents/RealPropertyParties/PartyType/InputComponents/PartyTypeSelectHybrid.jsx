@@ -1,38 +1,40 @@
 import React, { useState } from 'react';
 import InfoIcon from '../../../../InfoIcon/InfoIcon';
 
-
-const PartyTypeSelect = ({
-    value,
-    onChange,
-    handleErrorDisplay,
-    error
+const PartyTypeSelectHybrid = ({
+    partyTypeFS,
+    partyTypeES,
+    handleInputChange,
+    handleErrorDisplay
 }) => {
     const [isHovered, setIsHovered] = useState(false);
 
     // Validation function for input fields
     // Example validation, can be extended
     const validateUserInput = (inputValue) => {
-        // if (!inputValue) {
-        //     handleErrorDisplay("Input value cannot be empty"); 
-        // }
+        if (!inputValue) {
+            handleErrorDisplay('party_type', "Input value cannot be empty");
+            return;
+        }
+
+        handleErrorDisplay('party_type', null);
     };
 
     const handleValidationPlusDataTransferToSoql = (e) => {
         validateUserInput(e.target.value);
-        onChange(e); // Keep the original onChange for state management
+        handleInputChange({ target: { name: 'party_type', value: e.target.value } });
     };
 
-    const hoverMessage = 'Party Type is optional for form submission.';
+    const hoverMessage = 'Party Type is optional for form submission.  If left blank, all party types be returned in your search.';
 
     return (
-        <div className="form-row">
+        <div className="form-row form-row--mixed">
             <div
-                className={`form-group form-group--party_type ${error ? "field-error" : ""
-                    }`}
+                className={`form-group form-group--width-auto form-group--party_type ${partyTypeES} ? "field-error" : ""}`}
+                style={{ '--field-width': '30ch' }}
             >
                 <label htmlFor="party-type-select">
-                    <span>Document Type</span>
+                    <span>Select a Party Type</span>
                     <InfoIcon
                         isHovered={isHovered}
                         setIsHovered={setIsHovered}
@@ -43,7 +45,7 @@ const PartyTypeSelect = ({
                     <select
                         id="party-type-select"
                         name="party_type"
-                        value={value.party_type}
+                        value={partyTypeFS}
                         onChange={handleValidationPlusDataTransferToSoql}
                         aria-describedby="party-type-select"
                     >
@@ -51,18 +53,18 @@ const PartyTypeSelect = ({
                         <option value="1">Party 1 (only)</option>
                         <option value="2">Party 2 (only)</option>
                         <option value="3">Party 3/Other (only)</option>
-                        
+
                     </select>
                     <span className="focus"></span>
                 </div>
                 <span
                     className="field-description" id="party-type-select"
                 >
-                    {error}
+                    {partyTypeES}
                 </span>
             </div>
         </div>
     )
 }
 
-export default PartyTypeSelect
+export default PartyTypeSelectHybrid
